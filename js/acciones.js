@@ -1,4 +1,4 @@
-var oUpoflix=new Upoflix();
+oUpoflix=new Upoflix();
 
 cargarDatosPrueba();
 
@@ -19,60 +19,52 @@ function cargarMenuUsuario(){
 	oMenuUsuario=document.querySelector("#menuUsuario");
 	if(oUpoflix.oUsuarioActivo!=null){
 		//usuario registrado
-		crearEnlaceMenuUsuario("Usuario: "+oUpoflix.oUsuarioActivo.sUser);
-		crearEnlaceMenuUsuario("Mis datos");
-
+		crearEnlaceMenuUsuario(oUpoflix.oUsuarioActivo.sUser);
+		document.querySelector("#menuUsuario li:first-child a").addEventListener("click", mostrarDatosUsuario);
 		crearEnlaceMenuUsuario("Mis pelis");
+		document.querySelector("#menuUsuario li:nth-child(2) a").addEventListener("click", mostrarPelisFavoritas);
 		crearEnlaceMenuUsuario("Mis series");
+		document.querySelector("#menuUsuario li:nth-child(3) a").addEventListener("click", mostrarSeriesFavoritas);
 		crearEnlaceMenuUsuario("Salir");
-		var oEnlaceCerrarSesion=document.querySelector("#menuUsuario li:nth-child(5) a");
-		oEnlaceCerrarSesion.addEventListener("click", cerrarSesion);
-
+		document.querySelector("#menuUsuario li:nth-child(4) a").addEventListener("click", cerrarSesion);
 	}else{
 		//usuario no registrado
 		crearEnlaceMenuUsuario("Usuario: No registrado");
 		crearEnlaceMenuUsuario("Crear cuenta");
+		document.querySelector("#menuUsuario li:nth-child(2) a").addEventListener("click", crearCuenta);
 		crearEnlaceMenuUsuario("Entrar");
+		document.querySelector("#menuUsuario li:nth-child(3) a").addEventListener("click", iniciarSesion);
 	}
 }
 
 function cargarMenuNavegacion(){
+	oMenuNavegacion=document.querySelector("#menuNavegacion");
+	crearEnlaceMenuNavegacion("Películas");
+	document.querySelector("#menuNavegacion li:first-child a").addEventListener("click",listarPelis);
+	crearEnlaceMenuNavegacion("Series");
+	document.querySelector("#menuNavegacion li:nth-child(2) a").addEventListener("click",listarSeries);
+	crearEnlaceMenuNavegacion("Todo");
+	document.querySelector("#menuNavegacion li:nth-child(3) a").addEventListener("click",listarTodo);
+	crearEnlaceMenuNavegacion("Buscar");
+	document.querySelector("#menuNavegacion li:nth-child(4) a").addEventListener("click",buscar);
 	//comprobar si es administrador para añadir funciones
-	if(oUpoflix.oUsuarioActivo.sRol=="admin"){
-		//es un administrador
-		/*
-		<!-- Dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbardrop">
-                        Añadir recursos
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">
-                            Películas
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            Series
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            Temporadas
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            Capítulos
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            Puntuación
-                        </a>
-                    </div>
-                </li>
-		*/
+	if(oUpoflix.oUsuarioActivo!=null && oUpoflix.oUsuarioActivo.sRol=="admin"){
+		//funciones de añadir
+		crearEnlaceMenuNavegacion("Añadir recursos");
+		
+		//funciones de borrar
+		crearEnlaceMenuNavegacion("Borrar recursos");
+
+		//funciones de modificar
+		crearEnlaceMenuNavegacion("Modificar recursos");
 	}
 }
 
 function cargarContenidoBienvenida(){
-	var oCapaContenido=document.querySelector("#contenido");
+	oCapaContenido=document.querySelector("#contenido");
 	var oBienvenida = document.createElement("h3");
 	oBienvenida.classList.add("text-warning");
-	oBienvenida.textContent="Binevenido a Upoflix";
+	oBienvenida.textContent="Bienvenido a Upoflix";
     oCapaContenido.appendChild(oBienvenida);
 }
 
@@ -81,10 +73,18 @@ function cerrarSesion(oEvento){
 	oE.preventDefault();
 	var bSalir = confirm("¿Quiere cerrar sesión?");
     if (bSalir){
-		oUpoflix.oUsuarioActivo=null;
-		oMenuUsuario.empty();
-		cargarMenuUsuario();
+		resetear();
 	}
+}
+
+function resetear(){
+	oUpoflix.oUsuarioActivo=null;
+	oMenuUsuario.empty();
+	cargarMenuUsuario();
+	oMenuNavegacion.empty();
+	cargarMenuNavegacion();
+	oCapaContenido.empty();
+	cargarContenidoBienvenida();
 }
 
 function crearEnlaceMenuUsuario(sTexto){
@@ -97,6 +97,17 @@ function crearEnlaceMenuUsuario(sTexto){
 	oEnlace.textContent=sTexto;
     oLista.appendChild(oEnlace);
     oMenuUsuario.appendChild(oLista);
+}
+
+function crearEnlaceMenuNavegacion(sTexto){
+	var oLista = document.createElement("li");
+	oLista.classList.add("nav-item");
+	var oEnlace = document.createElement("a");
+	oEnlace.classList.add("nav-link");
+	oEnlace.href="#";
+	oEnlace.textContent=sTexto;
+    oLista.appendChild(oEnlace);
+    oMenuNavegacion.appendChild(oLista);
 }
 
 HTMLElement.prototype.empty = function() {
