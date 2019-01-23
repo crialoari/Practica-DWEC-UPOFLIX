@@ -66,7 +66,7 @@ function Putuacion(usuario,nota,produccion){
 
 class Upoflix{
     constructor(){
-        oUsuarioActivo=null;
+        this.oUsuarioActivo=null;
         this.aUsuarios=[];
         this.aProducciones=[];
         this.aPersonas=[];
