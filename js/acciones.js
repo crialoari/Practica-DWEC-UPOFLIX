@@ -4,6 +4,10 @@ cargarDatosPrueba();
 
 cargarMenuUsuario();
 
+cargarMenuNavegacion();
+
+cargarContenidoBienvenida();
+
 function cargarDatosPrueba(){
 	var oUsuario=new Usuario("crialoari","Cristina","Alonso","crisaloari@gmail.com","123456",new Date(),"user");
 	var oAdmin=new Usuario("admin","Administrador","Administrador","admin@gmail.com","123456",new Date(),"admin");
@@ -17,6 +21,7 @@ function cargarMenuUsuario(){
 		//usuario registrado
 		crearEnlaceMenuUsuario("Usuario: "+oUpoflix.oUsuarioActivo.sUser);
 		crearEnlaceMenuUsuario("Mis datos");
+
 		crearEnlaceMenuUsuario("Mis pelis");
 		crearEnlaceMenuUsuario("Mis series");
 		crearEnlaceMenuUsuario("Salir");
@@ -31,13 +36,55 @@ function cargarMenuUsuario(){
 	}
 }
 
+function cargarMenuNavegacion(){
+	//comprobar si es administrador para añadir funciones
+	if(oUpoflix.oUsuarioActivo.sRol=="admin"){
+		//es un administrador
+		/*
+		<!-- Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbardrop">
+                        Añadir recursos
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">
+                            Películas
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            Series
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            Temporadas
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            Capítulos
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            Puntuación
+                        </a>
+                    </div>
+                </li>
+		*/
+	}
+}
+
+function cargarContenidoBienvenida(){
+	var oCapaContenido=document.querySelector("#contenido");
+	var oBienvenida = document.createElement("h3");
+	oBienvenida.classList.add("text-warning");
+	oBienvenida.textContent="Binevenido a Upoflix";
+    oCapaContenido.appendChild(oBienvenida);
+}
+
 function cerrarSesion(oEvento){
 	var oE = oEvento || window.event;
 	oE.preventDefault();
-	oUpoflix.oUsuarioActivo=null;
-	oMenuUsuario.empty();
-	cargarMenuUsuario();
-	alert("hi");
+	var bSalir = confirm("¿Quiere cerrar sesión?");
+    if (bSalir){
+		oUpoflix.oUsuarioActivo=null;
+		oMenuUsuario.empty();
+		cargarMenuUsuario();
+	}
 }
 
 function crearEnlaceMenuUsuario(sTexto){
@@ -58,25 +105,3 @@ HTMLElement.prototype.empty = function() {
         that.removeChild(that.lastChild);
     }
 };
-/*
-    oTH = document.createElement("TH");
-    oTH.textContent = "Premio";
-    oFila.appendChild(oTH);
-*/
-
-/*                     <a class="dropdown-item" href="#">
-                            Mis datos
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            Mis películas
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            Mis series
-                        </a>
-                        <div class="dropdown-divider">
-                        </div>
-                        <a class="dropdown-item" href="#">
-                            Cerrar sesión
-                        </a>
-                    </div>
-*/
