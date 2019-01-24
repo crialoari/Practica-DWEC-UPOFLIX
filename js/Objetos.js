@@ -7,7 +7,7 @@ function Usuario(user,nombre,apellido,email,contraseña,fechaRegistro,rol){
     this.dFechaRegistro=fechaRegistro;
     this.aFavoritos=[];
     this.sRol=rol;
-    this.aPuntuaciones=[];
+   
 }
 
 function Produccion(titulo,genero,actores,directores,paises,resumen){
@@ -50,7 +50,7 @@ function Persona(nombre,apellido,pais,nacimiento){
 function Temporada(numTemporada,resumen){
     this.iNumTemporada=numTemporada;
     this.aCapitulos=[];
-    this.aListaCapitulos=listaCapitulos;
+    this.sResumen=resumen;
 }
 
 function Capitulo(numeroCapitulo,resumen){
@@ -58,7 +58,7 @@ function Capitulo(numeroCapitulo,resumen){
     this.sresumen=resumen;
 }
 
-function Putuacion(usuario,nota,produccion){
+function Puntuacion(usuario,nota,produccion){
     this.oUsuario=usuario;
     this.iNota=nota;
     this.oProduccion=produccion;
@@ -188,15 +188,60 @@ class Upoflix{
         return "El favorito ya había sido eliminado.";
     }
 
-    puntuar(puntuacion,titulo){
+    puntuar(nota,titulo){
         oProduccionBuscada=this.buscarProduccion(titulo);
+        oPuntuacion=new Puntuacion(this.oUsuarioActivo,nota,oProduccionBuscada);
         for(var i=0; i<oProduccion.aPuntuaciones.length;i++){
-            if(oProduccionBuscada.aPuntuaciones[i].oProduccion.titulo==titulo && this.oUsuarioActivo.aPuntuaciones[i].oUsuario.sUser==this.oUsuarioActivo.sUser){
-                
+            if(oProduccionBuscada.aPuntuaciones[i].oProduccion.titulo==titulo && this.oProduccionBuscada.aPuntuaciones[i].oUsuario.sUser==this.oUsuarioActivo.sUser){
+                oProduccionBuscada.aPuntuaciones.splice(i,1);
+                oProduccionBuscada.aPuntuaciones.push(oPuntuacion);
+                return "Puntuación cambiada.";
             }
+        }
+        oProduccionBuscada.aPuntuaciones.push(oPuntuacion);
+        return "Puntuación añadida.";
+    }
+
+    añadirTemporada(titulo,numTemporada,resumen){
+        oProduccionBuscada=this.buscarProduccion(titulo);
+        oTemporada=new Temporada(numTemporada,resumen);
+
+        if(oProduccionBuscada instanceof Serie){
+            for(var i=0;i<oProduccionBuscada.aTemporadas.length;i++){
+                if(oProduccionBuscada.aTemporadas[i].iNumTemporada==numTemporada){
+                    return "La temporada ya había sido introducida.";
+                }
+            }
+            oProduccionBuscada.aTemporadas.push(oTemporada);
+            return "La temporada ha sido introducida.";
+        }
+        else{
+            return "Ha introducido una película.";
         }
     }
 
+    añadirCapitulo(titulo,numTemporada,numCapitulo,resumen){
+        oProduccionBuscada=this.buscarProduccion(titulo);
+        oCapitulo=new Capitulo(numCapitulo,resumen);
+        if(oProduccionBuscada instanceof Serie){
+            for(var i=0;i<oProduccionBuscada.aTemporadas.length;i++){
+                if(oProduccionBuscada.aTemporadas[i].iNumTemporada==numTemporada){
+                    for(var p=0;oProduccionBuscada.aTemporadas[i].aCapitulos.length;p++){
+                        if(oProduccionBuscada.aTemporadas[i].aCapitulos[p].iNumCapitulo==numCapitulo){
+                            return "El capítulo ya había sido introducida.";
+                        }
+                    }
+                    oProduccionBuscada.aTemporadas[i].aCapitulos.push(oCapitulo);
+                    return "El capítulo ha sido introducido";
+                }
+            }
+        }
+        else{
+            return "Ha introducido una película.";
+        }
+    }
     
+
+                
     
 }
