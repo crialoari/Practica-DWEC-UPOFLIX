@@ -1,11 +1,7 @@
 oUpoflix=new Upoflix();
-
 cargarDatosPrueba();
-
 cargarMenuUsuario();
-
 cargarMenuNavegacion();
-
 cargarContenidoBienvenida();
 
 function cargarDatosPrueba(){
@@ -31,9 +27,9 @@ function cargarMenuUsuario(){
 		//usuario no registrado
 		crearEnlaceMenuUsuario("Usuario: No registrado");
 		crearEnlaceMenuUsuario("Crear cuenta");
-		document.querySelector("#menuUsuario li:nth-child(2) a").addEventListener("click", crearCuenta);
+		document.querySelector("#menuUsuario li:nth-child(2) a").addEventListener("click", mostrarCrearCuenta);
 		crearEnlaceMenuUsuario("Entrar");
-		document.querySelector("#menuUsuario li:nth-child(3) a").addEventListener("click", iniciarSesion);
+		document.querySelector("#menuUsuario li:nth-child(3) a").addEventListener("click", mostrarIniciarSesion);
 	}
 }
 
@@ -61,30 +57,59 @@ function cargarMenuNavegacion(){
 }
 
 function cargarContenidoBienvenida(){
+	ocultarFormularios();
 	oCapaContenido=document.querySelector("#contenido");
+	var oColumna=document.createElement("div");
+	oColumna.classList.add("col-6");
 	var oBienvenida = document.createElement("h3");
 	oBienvenida.classList.add("text-warning");
 	oBienvenida.textContent="Bienvenido a Upoflix";
-    oCapaContenido.appendChild(oBienvenida);
+	oColumna.appendChild(oBienvenida);
+	oBienvenida = document.createElement("p");
+	oBienvenida.textContent="Párrafo explicativo";
+	oColumna.appendChild(oBienvenida);
+    oCapaContenido.appendChild(oColumna);
 }
 
-function cerrarSesion(oEvento){
-	var oE = oEvento || window.event;
-	oE.preventDefault();
-	var bSalir = confirm("¿Quiere cerrar sesión?");
-    if (bSalir){
-		resetear();
-	}
+function mostrarIniciarSesion(){
+    oCapaContenido.empty();
+    ocultarFormularios();
+    document.querySelector("#capaIniciarSesion>div").classList.remove("d-none");
+    document.querySelector("#capaIniciarSesion input[type=button]").addEventListener("click", iniciarSesion);
 }
 
-function resetear(){
-	oUpoflix.oUsuarioActivo=null;
-	oMenuUsuario.empty();
-	cargarMenuUsuario();
-	oMenuNavegacion.empty();
-	cargarMenuNavegacion();
-	oCapaContenido.empty();
-	cargarContenidoBienvenida();
+function mostrarCrearCuenta(){
+    oCapaContenido.empty();
+    ocultarFormularios();
+    document.querySelector("#capaCrearCuenta>div").classList.remove("d-none");
+    document.querySelector("#capaCrearCuenta input[type=button]").addEventListener("click", crearCuenta);
+}
+
+function ocultarFormularios(){
+	document.querySelector("#capaIniciarSesion>div").classList.add("d-none");
+    limpiarErroresInicioSesion();
+	resetFrmInicioSesion();
+
+	document.querySelector("#capaCrearCuenta>div").classList.add("d-none");
+	limpiarErroresCrearCuenta();
+	resetFrmCrearCuenta();
+}
+
+function resetFrmInicioSesion(){
+	var frmFormulario=document.querySelector("#frmIniciarSesion");
+    frmFormulario.txtUser.value="";
+    frmFormulario.txtPass.value="";
+}
+
+function resetFrmCrearCuenta(){
+	var oInputs=document.querySelectorAll("#capaCrearCuenta input[type=text]");
+    for(var i=0; i<oInputs.length;i++){
+        oInputs[i].value="";
+    }
+    oInputs=document.querySelectorAll("#capaCrearCuenta input[type=password]");
+    for(var i=0; i<oInputs.length;i++){
+        oInputs[i].value="";
+    }
 }
 
 function crearEnlaceMenuUsuario(sTexto){
@@ -108,6 +133,15 @@ function crearEnlaceMenuNavegacion(sTexto){
 	oEnlace.textContent=sTexto;
     oLista.appendChild(oEnlace);
     oMenuNavegacion.appendChild(oLista);
+}
+
+function inicio(){
+	oMenuUsuario.empty();
+	cargarMenuUsuario();
+	oMenuNavegacion.empty();
+	cargarMenuNavegacion();
+	oCapaContenido.empty();
+	cargarContenidoBienvenida();
 }
 
 HTMLElement.prototype.empty = function() {

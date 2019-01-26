@@ -73,7 +73,7 @@ class Upoflix{
     }
 
     iniciarSesion(sUsuario,contraseña){
-        oUsuario=this.buscarUsuario(sUsuario);
+        var oUsuario=this.buscarUsuario(sUsuario);
         if(oUsuario==null){
             return "El usuario no existe.";
         }
