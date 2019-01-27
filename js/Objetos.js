@@ -201,6 +201,22 @@ class Upoflix{
         oProduccionBuscada.aPuntuaciones.push(oPuntuacion);
         return "Puntuación añadida.";
     }
+    puntuarSinUsuarioActivo(user,nota,titulo){
+        oProduccionBuscada=this.buscarProduccion(titulo);
+        oUsuarioBuscado=this.buscarUsuario(user);
+        oPuntuacion=new Puntuacion(oUsuarioBuscado,nota,oProduccionBuscada);
+        for(var i=0; i<oProduccion.aPuntuaciones.length;i++){
+            if(oProduccionBuscada.aPuntuaciones[i].oProduccion.titulo==titulo && oProduccionBuscada.aPuntuaciones[i].oUsuario.sUser==oUsuarioBuscado.sUser){
+                oProduccionBuscada.aPuntuaciones.splice(i,1);
+                oProduccionBuscada.aPuntuaciones.push(oPuntuacion);
+                return "Puntuación cambiada.";
+            }
+        }
+        oProduccionBuscada.aPuntuaciones.push(oPuntuacion);
+        return "Puntuación añadida.";
+    }
+    
+    
 
     añadirTemporada(titulo,numTemporada,resumen){
         oProduccionBuscada=this.buscarProduccion(titulo);
@@ -239,6 +255,13 @@ class Upoflix{
         else{
             return "Ha introducido una película.";
         }
+    }
+    
+    modificarUsuario(nombre,apellido,email,contraseña){
+        this.oUsuarioActivo.sNombre=nombre;
+        this.oUsuarioActivo.sApellido=apellido;
+        this.oUsuarioActivo.sEmail=email;
+        this.oUsuarioActivo.sContraseña=contraseña;
     }
     
 
