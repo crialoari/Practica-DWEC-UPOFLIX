@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>stars</title>
+	<style type="text/css" media="screen">
+	form .stars {
+  background: url("star_empty.png") repeat-x 0 0;
+  width: 100px;
+  margin: 0 auto;
+}
+
+form .stars input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+form .stars input[type="radio"].star-5:checked ~ span { width: 100%; }
+
+form .stars input[type="radio"].star-4:checked ~ span { width: 80%; }
+
+form .stars input[type="radio"].star-3:checked ~ span { width: 60%; }
+
+form .stars input[type="radio"].star-2:checked ~ span { width: 40%; }
+
+form .stars input[type="radio"].star-1:checked ~ span { width: 20%; }
+
+form .stars label {
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: 0!important;
+  padding: 0!important;
+  text-indent: -999em;
+  float: left;
+  position: relative;
+  z-index: 10;
+  background: transparent!important;
+  cursor: pointer;
+}
+
+form .stars label:hover ~ span { background-position: 0 0; }
+
+form .stars label.star-5:hover ~ span { width: 100% !important; }
+
+form .stars label.star-4:hover ~ span { width: 80% !important; }
+
+form .stars label.star-3:hover ~ span { width: 60% !important; }
+
+form .stars label.star-2:hover ~ span { width: 40% !important; }
+
+form .stars label.star-1:hover ~ span { width: 20% !important; }
+
+form .stars span {
+  display: block;
+  width: 0;
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 20px;
+  background: url("star_full.png") repeat-x;
+  -webkit-transition: -webkit-width 0.5s;
+  -moz-transition: -moz-width 0.5s;
+  -ms-transition: -ms-width 0.5s;
+  -o-transition: -o-width 0.5s;
+  transition: width 0.5s;
+}	
+	</style>
+</head>
+<body>
+<form id="ratingsForm">
+  <div class="stars">
+    <input type="radio" name="star" class="star-1" id="star-1" value="1">
+    <label class="star-1" for="star-1">1</label>
+    <input type="radio" name="star" class="star-2" id="star-2" value="2">
+    <label class="star-2" for="star-2">2</label>
+    <input type="radio" name="star" class="star-3" id="star-3" value="3">
+    <label class="star-3" for="star-3">3</label>
+    <input type="radio" name="star" class="star-4" id="star-4" value="4">
+    <label class="star-4" for="star-4">4</label>
+    <input type="radio" name="star" class="star-5" id="star-5" value="5">
+    <label class="star-5" for="star-5">5</label>
+    <span></span>
+  </div>
+</form>
+<script type="text/javascript">
+	document.querySelector("#star-1").addEventListener("click", lel);
+	document.querySelector("#star-2").addEventListener("click", lel);
+	document.querySelector("#star-3").addEventListener("click", lel);
+	document.querySelector("#star-4").addEventListener("click", lel);
+	document.querySelector("#star-5").addEventListener("click", lel);
+	function lel(oEvento){
+		var oE = oEvento || window.event;
+		alert(oE.target.value);
+	}
+</script>
+</body>
+</html>
