@@ -7,21 +7,29 @@ cargarContenidoBienvenida();
 function cargarDatosPrueba(){
 	var oUsuario=new Usuario("crialoari","Cristina","Alonso","crisaloari@gmail.com","c123456C",new Date(),"user");
 	var oAdmin=new Usuario("admin","Administrador","Administrador","admin@gmail.com","c123456C",new Date(),"admin");
-	oUpoflix.oUsuarioActivo=oUsuario;
+
 	oUpoflix.altaUsuario(oUsuario);
 	oUpoflix.altaUsuario(oAdmin);
-	var peli=new Peliculas("multiple","accion",["Ted","Barney"],[],[],"hohohafo",2013,150);
+	
+	oUpoflix.oUsuarioActivo=oAdmin;
+
+	var peli=new Peliculas("múltiple","accion",["Ted","Barney"],[],[],"hohohafo",2013,150);
 	oUpoflix.añadirProduccion(peli);
-	var serie=new Serie("ccavm","comedia",["Ted","Barney"],[],["EEUU"],"kjsdnfds",new Date(),new Date(2020));
-	oUpoflix.añadirProduccion(serie);
 	oUsuario.aFavoritos.push(peli);
 	oAdmin.aFavoritos.push(peli);
+	
 	peli=new Peliculas("glass","accion",[],[],[],"hohohafo",2013,150);
 	oUpoflix.añadirProduccion(peli);
+	
 	peli=new Peliculas("el protegido","accion",[],[],[],"hohosdgsdghafo",2014,150);
 	oUpoflix.añadirProduccion(peli);
 	oUsuario.aFavoritos.push(peli);
 	oAdmin.aFavoritos.push(peli);
+
+	var serie=new Serie("ccavm","comedia",["Ted","Barney"],[],["EEUU"],"kjsdnfds",new Date(),new Date(2020));
+	oUpoflix.añadirProduccion(serie);
+	oUsuario.aFavoritos.push(serie);
+	oAdmin.aFavoritos.push(serie);
 }
 
 function cargarMenuUsuario(){
