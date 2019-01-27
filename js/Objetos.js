@@ -172,7 +172,7 @@ class Upoflix{
             return null;
     }
     añadirFavorito(titulo){
-        oProduccion=this.buscarProduccion(titulo);
+        var oProduccion=this.buscarProduccion(titulo);
 
         this.oUsuarioActivo.aFavoritos.push(oProduccion);
         return "Ha sido añadido a favoritos.";
@@ -180,7 +180,7 @@ class Upoflix{
 
     eliminarFavorito(titulo){
         for(var i=0;i<this.oUsuarioActivo.aFavoritos.length;i++){
-            if(aFavoritos[i].sTitulo==titulo){
+            if(this.oUsuarioActivo.aFavoritos[i].sTitulo==titulo){
                 this.oUsuarioActivo.aFavoritos.splice(i,1);
                 return "Favorito eliminado.";
             }

@@ -1,4 +1,5 @@
 function listarTodo(oEvento){
+	ocultarFormularios();
 	oCapaContenido.empty();
 	var oE = oEvento || window.event;
 	oE.preventDefault();

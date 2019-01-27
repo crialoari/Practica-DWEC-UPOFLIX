@@ -127,6 +127,9 @@ function modificarDatosUsuario(){
     oCheckbox.type="checkbox";
     oCheckbox.name="chkbxAdmin";
     oCheckbox.value="admin";
+    if(oUpoflix.oUsuarioActivo.sRol=="admin"){
+        oCheckbox.checked=true;
+    }
     var oLabel=document.createElement("LABEL");
     oLabel.textContent="Administrador";
     oCelda.appendChild(oCheckbox);
@@ -205,12 +208,14 @@ function validarDatosUsuario(){
         }
         sErrores+="\n-La contraseña es incorrecta.";
     }
+
+    var sRol=(frmFormulario.chkbxAdmin.checked ? "admin" : "user");
     if(!bValido){
         //mostrar errores
         alert(sErrores);
     }else{
         /*HACE FALTA METODO Y CONFIRMACION*/
-        //oUpoflix.modificarUsuario();
+        //oUpoflix.modificarUsuario(sNombre,sApellido,sEmail,sContraseña,sRol);
         mostrarDatosUsuario();
     }
 }
@@ -242,20 +247,6 @@ function mostrarContraseña(){
     if (bMostrar){
     	document.querySelector("input[type=password").type="text";
 	}
-}
-
-function mostrarPelisFavoritas(oEvento){
-	oCapaContenido.empty();
-	var oE = oEvento || window.event;
-	oE.preventDefault();
-	
-}
-
-function mostrarSeriesFavoritas(oEvento){
-	oCapaContenido.empty();
-	var oE = oEvento || window.event;
-	oE.preventDefault();
-	
 }
 
 function crearCuenta(){
