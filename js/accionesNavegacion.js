@@ -53,7 +53,7 @@ function listarPelis(oEvento){
     	oCelda = oFila.insertCell(-1);
     	oCelda.textContent = aPelis[i].sGenero;
     	oCelda = oFila.insertCell(-1);
-    	//oCelda.appendChild(calcularPuntuacion(aPelis[i].sTitulo));
+    	oCelda.appendChild(calcularPuntuacion(aPelis[i]));
     	oCelda = oFila.insertCell(-1);
     	oCelda.appendChild(crearAcciones(aPelis[i]));
 
@@ -198,8 +198,8 @@ function listarSeries(oEvento){
     var oTBody = document.createElement("TBODY");
     oTabla.appendChild(oTBody);
 
-	var aSeriesFav=oUpoflix.aProducciones.filter(Produccion => Produccion instanceof Serie);
-	for(var i=0; i<aSeriesFav.length;i++){
+	var aSeries=oUpoflix.aProducciones.filter(Produccion => Produccion instanceof Serie);
+	for(var i=0; i<aSeries.length;i++){
 		//fila principal
 		oFila = oTBody.insertRow(-1);
     	oCelda = oFila.insertCell(-1);
@@ -209,11 +209,11 @@ function listarSeries(oEvento){
     	oImagen.style.width = "100px";
     	oCelda.appendChild(oImagen);
     	oCelda = oFila.insertCell(-1);
-    	oCelda.textContent = aSeriesFav[i].sTitulo;
+    	oCelda.textContent = aSeries[i].sTitulo;
     	oCelda = oFila.insertCell(-1);
-    	oCelda.textContent = aSeriesFav[i].sGenero;
+    	oCelda.textContent = aSeries[i].sGenero;
     	oCelda = oFila.insertCell(-1);
-    	//oCelda.appendChild(calcularPuntuacion(aSeriesFav[i].sTitulo));
+    	oCelda.appendChild(calcularPuntuacion(aSeries[i]));
     	oCelda = oFila.insertCell(-1);
     	var oBoton=document.createElement("INPUT");
    		oBoton.type="button";
@@ -221,26 +221,26 @@ function listarSeries(oEvento){
     	oBoton.classList.add("btn-sm");
     	oBoton.classList.add("btn-outline-warning");
     	oBoton.classList.add("mr-1");
-    	oBoton.dataset.produccion=aSeriesFav[i].sTitulo;
-    	oBoton.value=aSeriesFav[i].aTemporadas.length;
+    	oBoton.dataset.produccion=aSeries[i].sTitulo;
+    	oBoton.value=aSeries[i].aTemporadas.length;
     	oBoton.addEventListener("click", mostrarTemporadas);
     	oCelda.appendChild(oBoton);
     	oCelda = oFila.insertCell(-1);
-    	oCelda.appendChild(crearAcciones(aSeriesFav[i]));
+    	oCelda.appendChild(crearAcciones(aSeries[i]));
 
     	//fila datos
     	oFila = oTBody.insertRow(-1);
     	oCelda = oFila.insertCell(-1);
     	oCelda.colSpan=5;
     	oCelda.classList.add("col-12");
-		oCelda.appendChild(crearCapaMasDatos(aSeriesFav[i]));
+		oCelda.appendChild(crearCapaMasDatos(aSeries[i]));
 
 		//fila temporadas
 		oFila = oTBody.insertRow(-1);
     	oCelda = oFila.insertCell(-1);
     	oCelda.colSpan=5;
     	oCelda.classList.add("col-12");
-		oCelda.appendChild(crearCapaTemporadas(aSeriesFav[i]));
+		oCelda.appendChild(crearCapaTemporadas(aSeries[i]));
 	}
 
 	oColumnaDatos.appendChild(oTabla);
@@ -267,6 +267,20 @@ function agregarSerieFavNavegacion(oEvento){
 	var sTitulo=oE.target.parentElement.dataset.produccion;
 	alert(oUpoflix.añadirFavorito(sTitulo.replace("-", " ")));
 	listarSeries();
+}
+
+function calcularPuntuacion(oProduccion){
+	var oCapaPuntuacion=document.createElement("div");
+	var oPuntuacion=document.createElement("p");
+	var iPuntuaciones=0;
+	for(var i=0;i<oProduccion.aPuntuaciones.length;i++)
+		iPuntuaciones+=oProduccion.aPuntuaciones[i].iNota;
+	var fPuntuacion=(iPuntuaciones/oProduccion.aPuntuaciones.length).toPrecision(2);
+	oPuntuacion.textContent=(oProduccion.aPuntuaciones.length==0 ? "Sin puntuaciones" : fPuntuacion);
+	var oStar=document.createElement("span");
+	oCapaPuntuacion.appendChild(oPuntuacion);
+    oPuntuacion.appendChild(oStar);
+	return oCapaPuntuacion;
 }
 
 function buscar(oEvento){

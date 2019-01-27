@@ -53,7 +53,7 @@ function mostrarPelisFavoritas(oEvento){
     	oCelda = oFila.insertCell(-1);
     	oCelda.textContent = aPelisFav[i].sGenero;
     	oCelda = oFila.insertCell(-1);
-    	//oCelda.appendChild(crearPuntuar(aPelisFav[i].sTitulo));
+    	oCelda.appendChild(crearPuntuar(aPelisFav[i]));
     	oCelda = oFila.insertCell(-1);
     	oCelda.appendChild(crearAccionesFav(aPelisFav[i].sTitulo));
 
@@ -127,7 +127,7 @@ function mostrarSeriesFavoritas(oEvento){
     	oCelda = oFila.insertCell(-1);
     	oCelda.textContent = aSeriesFav[i].sGenero;
     	oCelda = oFila.insertCell(-1);
-    	oCelda.appendChild(crearPuntuar(aSeriesFav[i].sTitulo));
+    	oCelda.appendChild(crearPuntuar(aSeriesFav[i]));
     	oCelda = oFila.insertCell(-1);
     	var oBoton=document.createElement("INPUT");
    		oBoton.type="button";
@@ -160,20 +160,67 @@ function mostrarSeriesFavoritas(oEvento){
 	oCapaContenido.appendChild(oColumnaDatos);
 }
 
-function crearPuntuar(sTitulo){
+function crearPuntuar(oProduccion){
 	var oCapaPuntuar=document.createElement("div");
-    oCapaPuntuar.dataset.produccion=sTitulo.replace(" ", "-");
+    oCapaPuntuar.classList.add("rating-stars");
+    oCapaPuntuar.dataset.produccion=oProduccion.sTitulo.replace(" ", "-");
 
+    var oStar=document.createElement("span");
+    oStar.title="Malísima";
+    oStar.dataset.value=1;
+    oStar.classList.add("star-1");
+    oStar.addEventListener("click", puntuarProduccion);
+    oCapaPuntuar.appendChild(oStar);
+
+    var oStar=document.createElement("span");
+    oStar.title="Mala";
+    oStar.dataset.value=2;
+    oStar.classList.add("star-2");
+    oStar.addEventListener("click", puntuarProduccion);
+    oCapaPuntuar.appendChild(oStar);
+
+    var oStar=document.createElement("span");
+    oStar.title="Normal";
+    oStar.dataset.value=3;
+    oStar.classList.add("star-3");
+    oStar.addEventListener("click", puntuarProduccion);
+    oCapaPuntuar.appendChild(oStar);
+
+    var oStar=document.createElement("span");
+    oStar.title="Buena";
+    oStar.dataset.value=4;
+    oStar.classList.add("star-4");
+    oStar.addEventListener("click", puntuarProduccion);
+    oCapaPuntuar.appendChild(oStar);
+
+    var oStar=document.createElement("span");
+    oStar.title="Obra maestra";
+    oStar.dataset.value=5;
+    oStar.classList.add("star-5");
+    oStar.addEventListener("click", puntuarProduccion);
+    oCapaPuntuar.appendChild(oStar);
+
+    var oCapaTapar=document.createElement("div");
+    oCapaTapar.classList.add("cover");
+    oCapaPuntuar.appendChild(oCapaTapar);
+
+    for(var i=0;i<oProduccion.aPuntuaciones.length;i++){
+        if(oProduccion.aPuntuaciones[i].oUsuario==oUpoflix.oUsuarioActivo){
+            var ancho=oProduccion.aPuntuaciones[i].iNota*20;
+            oCapaTapar.style.width=ancho+"px";
+        }
+    }
     return oCapaPuntuar;
 }
 
 function puntuarProduccion(oEvento){
 	var oE = oEvento || window.event;
-	var sTitulo=oE.target.parentElement.dataset.produccion;
-	var iNota=oE.target.value;
-	alert(iNota);
-	alert(sTitulo.replace("-", " "));
-	//alert(puntuar(nota,titulo));
+	var sTitulo=oE.target.parentElement.dataset.produccion.replace("-", " ");
+    var iNota=parseInt(oE.target.dataset.value,10);
+    var ancho=iNota*20;
+    var oCapaTapar=oE.target.parentElement.lastElementChild;
+    oCapaTapar.style.width=ancho+"px";
+	alert(oUpoflix.puntuar(iNota,sTitulo));
 }
 
 function crearAccionesFav(sTitulo){
@@ -237,7 +284,7 @@ function crearCapaMasDatos(oProduccion){
 	oCapaDatos.appendChild(oLista);
 
 	var oAnio=document.createElement("p");
-	oAnio.textContent=(oProduccion instanceof Serie ? oProduccion.dFechaInicio.getFullYear() : oProduccion.iAñoEstreno);;
+	oAnio.textContent=(oProduccion instanceof Serie ? oProduccion.dFechaInicio.getFullYear() : oProduccion.iAñoEstreno);
 	oCapaDatos.appendChild(oAnio);
 	return oCapaDatos;
 }

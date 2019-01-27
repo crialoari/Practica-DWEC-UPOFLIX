@@ -189,9 +189,9 @@ class Upoflix{
     }
 
     puntuar(nota,titulo){
-        oProduccionBuscada=this.buscarProduccion(titulo);
-        oPuntuacion=new Puntuacion(this.oUsuarioActivo,nota,oProduccionBuscada);
-        for(var i=0; i<oProduccion.aPuntuaciones.length;i++){
+        var oProduccionBuscada=this.buscarProduccion(titulo);
+        var oPuntuacion=new Puntuacion(this.oUsuarioActivo,nota,oProduccionBuscada);
+        for(var i=0; i<oProduccionBuscada.aPuntuaciones.length;i++){
             if(oProduccionBuscada.aPuntuaciones[i].oProduccion.titulo==titulo && this.oProduccionBuscada.aPuntuaciones[i].oUsuario.sUser==this.oUsuarioActivo.sUser){
                 oProduccionBuscada.aPuntuaciones.splice(i,1);
                 oProduccionBuscada.aPuntuaciones.push(oPuntuacion);
