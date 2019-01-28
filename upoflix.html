@@ -25,9 +25,55 @@
         </nav>
         <div class="container p-3">
             <div class="row" id="contenido"></div>
+
             <div class="row" id="capaBusqueda">
-                <!--busqueda-->
+                <div class="col-6 m-auto d-none">
+                    <h4 class="text-warning">Búsqueda avanzada</h4>
+                    <form id="frmABuscador">
+                    <h6>Tipo de producción</h6>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="radioTipo" id="radioBusqTodo" value="all">
+                        <label class="form-check-label" for="radioBusqTodo">Todos</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+
+                        <input class="form-check-input" type="radio" name="radioTipo" id="radioBusqPeli" value="Pelicula">
+                        <label class="form-check-label" for="radioBusqPeli">Película</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="radioTipo" id="radioBusqSerie" value="Serie">
+                        <label class="form-check-label" for="radioBusqSerie">Serie</label>
+                    </div>
+                    <hr>
+                    <div id="capaCriterios">
+                        <h6>Criterios:</h6>
+                        <div class="form-group" id="capaSelect">
+                            <!--aqui select-->
+                        </div>
+                        <div class="form-group">
+                          <label>Por fecha:</label>
+                          <div class="form-group row">
+                            <label for="busqfechaInicio" class="col-2 col-form-label col-form-label-sm">Inicio:</label>
+                            <div class="col-12 col-sm-4 mb-1">
+                              <input type="date" class="form-control form-control-sm" id="busqfechaInicio" name="busqfechaInicio">
+                            </div>
+                            <label for="busqfechaFin" class="col-2 col-form-label col-form-label-sm">Fin:</label>
+                            <div class="col-12 col-sm-4 mb-1">
+                              <input type="date" class="form-control form-control-sm" id="busqfechaFin" name="busqfechaFin">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="txtPuntuacionMinima">Puntuación mínima (1-5):</label>
+                          <input type="text" class="col-1 form-control form-control-sm" maxlength="1" name="txtPuntuacionMinima" id="txtPuntuacionMinima">
+                        </div>
+                    </div>
+                    <input type="button" class="btn btn-warning" value="Buscar">
+                    </form>
+                </div>
+                <div class="col-8 m-auto" id="capaResultado"></div>
             </div>
+            
             <div class="row" id="capaIniciarSesion">
                 <div class="col-6 m-auto d-none">
                     <h4 class="text-warning">Inicia sesión</h4>

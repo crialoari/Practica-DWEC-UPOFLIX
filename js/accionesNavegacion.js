@@ -310,5 +310,61 @@ function buscar(oEvento){
 	oCapaContenido.empty();
 	var oE = oEvento || window.event;
 	oE.preventDefault();
-	alert("buscar buscar");
+
+	document.querySelector("#capaResultado").empty();
+
+	var frmFormulario=document.querySelector("#frmABuscador");
+	var sTipo=document.querySelector("#frmABuscador input:checked").value;
+	//alert(sTipo);
+	var sGenero=frmFormulario.selectGenero.value
+	//alert(sGenero);
+	var dFechaInicio=(frmFormulario.busqfechaInicio.value=="" ? null : new Date(frmFormulario.busqfechaInicio.value));
+	//alert(dFechaInicio);
+	var dFechaFin=(frmFormulario.busqfechaFin.value=="" ? null : new Date(frmFormulario.busqfechaFin.value));
+	//alert(dFechaFin);
+	var iPuntuacion=(frmFormulario.txtPuntuacionMinima.value=="" ? 1 : parseInt(frmFormulario.txtPuntuacionMinima.value, 10));
+	//alert(iPuntuacion);
+
+	switch (sTipo) {
+		case "all":
+			var aResultadoPelis=buscarPelicula(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
+			document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
+			var aResultadoSeries=buscarSerie(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
+			document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
+			break;
+		case "Pelicula":
+			var aResultado=buscarPelicula(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
+			document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
+			break;
+		case "Serie":
+			var aResultado=buscarSerie(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
+			document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
+			break;
+		default:
+			alert("Error desconocido, vuelve a intentarlo");
+			break;
+	}
+}
+
+function mostrarResultados(){
+return oTable;
+}
+
+function getSelectGenero(){
+	var aGeneros=["Aventuras","Comedia","Drama","Terror","Musical","Ciencia ficción","Bélica","Western","Thriller","Infantil"];
+	var oSelect=document.createElement("select");
+	oSelect.classList.add("custom-select");
+	oSelect.classList.add("custom-select-sm");
+	oSelect.name="selectGenero";
+	var oOption=document.createElement("option");
+	oOption.value="cualquiera";
+	oOption.textContent="Todos los géneros";
+	oSelect.appendChild(oOption);
+	for(var i=0;i<aGeneros.length;i++){
+		oOption=document.createElement("option");
+		oOption.value=aGeneros[i];
+		oOption.textContent=aGeneros[i];
+		oSelect.appendChild(oOption);
+	}
+	return oSelect;
 }
