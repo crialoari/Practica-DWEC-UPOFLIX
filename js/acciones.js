@@ -118,9 +118,18 @@ function mostrarCrearCuenta(){
 function mostrarBuscar(){
     oCapaContenido.empty();
     ocultarFormularios();
-    buscar();
-    /*document.querySelector("#capaBusqueda>div").classList.remove("d-none");
-    document.querySelector("#capaBusqueda input[type=button]").addEventListener("click", buscar);*/
+    //preparar el select generos
+    document.querySelector("#capaSelect").empty();
+    var oLabel=document.createElement("label");
+	oLabel.textContent="Por género:";
+	document.querySelector("#capaSelect").appendChild(oLabel);
+	document.querySelector("#capaSelect").appendChild(getSelectGenero());
+	//preparar capa resultados
+    document.querySelector("#capaResultado").empty();
+	//mostrar capa
+    document.querySelector("#capaBusqueda>div").classList.remove("d-none");
+    document.querySelector("#capaBusqueda input[type=button]").addEventListener("click", buscar);
+    document.querySelector("#txtPuntuacionMinima"),addEventListener("keypress", soloPuntuacion);
 }
 
 function mostrarAñadirRecurso(){
@@ -143,31 +152,15 @@ function mostrarEditarElenco(){
 function ocultarFormularios(){
 	document.querySelector("#capaIniciarSesion>div").classList.add("d-none");
     limpiarErroresInicioSesion();
-	resetFrmInicioSesion();
+	document.querySelector("#frmIniciarSesion").reset();
 
 	document.querySelector("#capaCrearCuenta>div").classList.add("d-none");
 	limpiarErroresCrearCuenta();
-	resetFrmCrearCuenta();
+	document.querySelector("#frmCrearCuenta").reset();
 
-	/*ocultar formulario busqueda*/
-
-}
-
-function resetFrmInicioSesion(){
-	var frmFormulario=document.querySelector("#frmIniciarSesion");
-    frmFormulario.txtUser.value="";
-    frmFormulario.txtPass.value="";
-}
-
-function resetFrmCrearCuenta(){
-	var oInputs=document.querySelectorAll("#capaCrearCuenta input[type=text]");
-    for(var i=0; i<oInputs.length;i++){
-        oInputs[i].value="";
-    }
-    oInputs=document.querySelectorAll("#capaCrearCuenta input[type=password]");
-    for(var i=0; i<oInputs.length;i++){
-        oInputs[i].value="";
-    }
+	document.querySelector("#capaBusqueda>div").classList.add("d-none");
+	document.querySelector("#frmABuscador").reset();
+	document.querySelector("#radioBusqTodo").checked=true;
 }
 
 function crearEnlaceMenuUsuario(sTexto){
@@ -208,3 +201,14 @@ HTMLElement.prototype.empty = function() {
         that.removeChild(that.lastChild);
     }
 };
+
+function soloPuntuacion(elEvento) {
+    var oEvento = elEvento || window.event;
+    var codigoChar = oEvento.charCode || oEvento.keyCode;
+    var caracter = String.fromCharCode(codigoChar);
+    // Cancelar comportamiento predeterminado si no es numero
+    if (caracter == "1" || caracter == "2" || caracter == "3" || caracter == "4" || caracter == "5"){
+    }else{
+        oEvento.preventDefault();
+    }
+}
