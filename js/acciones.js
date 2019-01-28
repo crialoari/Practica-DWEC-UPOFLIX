@@ -13,20 +13,20 @@ function cargarDatosPrueba(){
 	
 	oUpoflix.oUsuarioActivo=oAdmin;
 
-	var peli=new Peliculas("múltiple","accion",["Ted","Barney"],[],[],"hohohafo",2013,150);
+	var peli=new Pelicula("múltiple","accion",["Ted","Barney"],[],"hohohafo","",2013,150);
 	oUpoflix.añadirProduccion(peli);
 	oUsuario.aFavoritos.push(peli);
 	oAdmin.aFavoritos.push(peli);
 	
-	peli=new Peliculas("glass","accion",[],[],[],"hohohafo",2013,150);
+	peli=new Pelicula("glass","accion",[],[],"hohohafo","", 2013,150);
 	oUpoflix.añadirProduccion(peli);
 	
-	peli=new Peliculas("el protegido","accion",[],[],[],"hohosdgsdghafo",2014,150);
+	var peli=new Pelicula("el protegido","accion",["Ted","Barney"],[],"hohohafo","",2014,156);
 	oUpoflix.añadirProduccion(peli);
 	oUsuario.aFavoritos.push(peli);
 	oAdmin.aFavoritos.push(peli);
 
-	var serie=new Serie("ccavm","comedia",["Ted","Barney"],[],["EEUU"],"kjsdnfds",new Date(),new Date(2020));
+	var serie=new Serie("ccavm","comedia",["Ted","Barney"],[],"kjsdnfds","",new Date(),new Date(2020));
 	oUpoflix.añadirProduccion(serie);
 	oUsuario.aFavoritos.push(serie);
 	oAdmin.aFavoritos.push(serie);
@@ -61,20 +61,18 @@ function cargarMenuNavegacion(){
 	document.querySelector("#menuNavegacion li:first-child a").addEventListener("click",listarPelis);
 	crearEnlaceMenuNavegacion("Series");
 	document.querySelector("#menuNavegacion li:nth-child(2) a").addEventListener("click",listarSeries);
-	crearEnlaceMenuNavegacion("Todo");
+	crearEnlaceMenuNavegacion("Listar todo");
 	document.querySelector("#menuNavegacion li:nth-child(3) a").addEventListener("click",listarTodo);
 	crearEnlaceMenuNavegacion("Buscar");
-	document.querySelector("#menuNavegacion li:nth-child(4) a").addEventListener("click",buscar);
+	document.querySelector("#menuNavegacion li:nth-child(4) a").addEventListener("click",mostrarBuscar);
 	//comprobar si es administrador para añadir funciones
 	if(oUpoflix.oUsuarioActivo!=null && oUpoflix.oUsuarioActivo.sRol=="admin"){
-		//funciones de añadir
 		crearEnlaceMenuNavegacion("Añadir recursos");
-		
-		//funciones de borrar
-		crearEnlaceMenuNavegacion("Borrar recursos");
-
-		//funciones de modificar
-		crearEnlaceMenuNavegacion("Modificar recursos");
+		document.querySelector("#menuNavegacion li:nth-child(5) a").addEventListener("click",mostrarAñadirRecurso);
+		crearEnlaceMenuNavegacion("Editar temporadas");
+		document.querySelector("#menuNavegacion li:nth-child(6) a").addEventListener("click",mostrarEditarTemporadas);
+		crearEnlaceMenuNavegacion("Editar elenco");
+		document.querySelector("#menuNavegacion li:nth-child(7) a").addEventListener("click",mostrarEditarElenco);
 	}
 }
 
@@ -82,13 +80,23 @@ function cargarContenidoBienvenida(){
 	ocultarFormularios();
 	oCapaContenido=document.querySelector("#contenido");
 	var oColumna=document.createElement("div");
-	oColumna.classList.add("col-6");
+	oColumna.classList.add("col-4");
+	var oImg=document.createElement("img");
+	oImg.src="images/mando.jpg";
+	oImg.classList.add("img-thumbnail");
+	oImg.classList.add("d-none");
+	oImg.classList.add("d-sm-block");
+	oColumna.appendChild(oImg);
+	oCapaContenido.appendChild(oColumna);
+	oColumna=document.createElement("div");
+	oColumna.classList.add("col-12");
+	oColumna.classList.add("col-sm-5");
 	var oBienvenida = document.createElement("h3");
 	oBienvenida.classList.add("text-warning");
 	oBienvenida.textContent="Bienvenido a Upoflix";
 	oColumna.appendChild(oBienvenida);
 	oBienvenida = document.createElement("p");
-	oBienvenida.textContent="Párrafo explicativo";
+	oBienvenida.textContent="En esta aplicación puedes acceder a todo un archivo documental de películas y series. Consulta información, añádelas a favoritos y puntúalas si estás registrado. ¡El sueño de todo cinéfilo!";
 	oColumna.appendChild(oBienvenida);
     oCapaContenido.appendChild(oColumna);
 }
@@ -107,6 +115,31 @@ function mostrarCrearCuenta(){
     document.querySelector("#capaCrearCuenta input[type=button]").addEventListener("click", crearCuenta);
 }
 
+function mostrarBuscar(){
+    oCapaContenido.empty();
+    ocultarFormularios();
+    buscar();
+    /*document.querySelector("#capaBusqueda>div").classList.remove("d-none");
+    document.querySelector("#capaBusqueda input[type=button]").addEventListener("click", buscar);*/
+}
+
+function mostrarAñadirRecurso(){
+	oCapaContenido.empty();
+    ocultarFormularios();
+    añadirRecurso();
+}
+function mostrarEditarTemporadas(){
+	oCapaContenido.empty();
+    ocultarFormularios();
+    editarTemporadas();
+}
+
+function mostrarEditarElenco(){
+	oCapaContenido.empty();
+    ocultarFormularios();
+    editarElenco();
+}
+
 function ocultarFormularios(){
 	document.querySelector("#capaIniciarSesion>div").classList.add("d-none");
     limpiarErroresInicioSesion();
@@ -115,6 +148,9 @@ function ocultarFormularios(){
 	document.querySelector("#capaCrearCuenta>div").classList.add("d-none");
 	limpiarErroresCrearCuenta();
 	resetFrmCrearCuenta();
+
+	/*ocultar formulario busqueda*/
+
 }
 
 function resetFrmInicioSesion(){

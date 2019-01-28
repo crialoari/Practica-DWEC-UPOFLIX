@@ -38,14 +38,14 @@ function listarPelis(oEvento){
     // TBODY
     var oTBody = document.createElement("TBODY");
     oTabla.appendChild(oTBody);
-	var aPelis=oUpoflix.aProducciones.filter(Produccion => Produccion instanceof Peliculas);
+	var aPelis=oUpoflix.aProducciones.filter(Produccion => Produccion instanceof Pelicula);
 	for(var i=0; i<aPelis.length;i++){
 		//fila principal
 		oFila = oTBody.insertRow(-1);
     	oCelda = oFila.insertCell(-1);
     	oCelda.rowSpan=2;
     	var oImagen=document.createElement("IMG");
-    	oImagen.src="http://es.web.img3.acsta.net/c_215_290/medias/nmedia/18/67/61/84/20063810.jpg";
+    	oImagen.src =(aPelis[i].sUrlImagen=="" ? "images/no-image.jpg" : aPelis[i].sUrlImagen);
     	oImagen.style.width = "100px";
     	oCelda.appendChild(oImagen);
     	oCelda = oFila.insertCell(-1);
@@ -136,22 +136,34 @@ function crearAcciones(oProduccion){
 function eliminarPeli(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	alert(oUpoflix.bajaProduccion(sTitulo.replace("-", " ")));
-	listarPelis();
+	if(oUpoflix.bajaProduccion(sTitulo.replace("-", " "))){
+		alert("Película eliminada de recursos.");
+		listarPelis();
+	}else{
+		alert("Error al eliminar, inténtelo de nuevo.");
+	}
 }
 
 function eliminarPeliFavNavegacion(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	alert(oUpoflix.eliminarFavorito(sTitulo.replace("-", " ")));
-	listarPelis();
+	if(oUpoflix.eliminarFavorito(sTitulo.replace("-", " "))){
+		alert("Película eliminada de favoritos");
+		listarPelis();
+	}else{
+		alert("Error al eliminar, inténtelo de nuevo.");
+	}
 }
 
 function agregarPeliFavNavegacion(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	alert(oUpoflix.añadirFavorito(sTitulo.replace("-", " ")));
-	listarPelis();
+	if(oUpoflix.añadirFavorito(sTitulo.replace("-", " "))){
+		alert("Película agregada a favoritos");
+		listarPelis();
+	}else{
+		alert("Error al agregar, inténtelo de nuevo.");
+	}
 }
 
 function listarSeries(oEvento){
@@ -205,7 +217,7 @@ function listarSeries(oEvento){
     	oCelda = oFila.insertCell(-1);
     	oCelda.rowSpan=3;
     	var oImagen=document.createElement("IMG");
-    	oImagen.src="http://es.web.img3.acsta.net/c_215_290/medias/nmedia/18/67/61/84/20063810.jpg";
+    	oImagen.src =(aSeries[i].sUrlImagen=="" ? "images/no-image.jpg" : aSeries[i].sUrlImagen);
     	oImagen.style.width = "100px";
     	oCelda.appendChild(oImagen);
     	oCelda = oFila.insertCell(-1);
@@ -250,23 +262,34 @@ function listarSeries(oEvento){
 function eliminarSerie(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	alert(sTitulo);
-	alert(oUpoflix.bajaProduccion(sTitulo.replace("-", " ")));
-	listarSeries();
+	if(oUpoflix.bajaProduccion(sTitulo.replace("-", " "))){
+		alert("Serie eliminada de recursos.");
+		listarSeries();
+	}else{
+		alert("Error al eliminar, inténtelo de nuevo.");
+	}
 }
 
 function eliminarSerieFavNavegacion(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	alert(oUpoflix.eliminarFavorito(sTitulo.replace("-", " ")));
-	listarSeries();
+	if(oUpoflix.eliminarFavorito(sTitulo.replace("-", " "))){
+		alert("Serie eliminada de favoritos");
+		listarSeries();
+	}else{
+		alert("Error al eliminar, inténtelo de nuevo.");
+	}
 }
 
 function agregarSerieFavNavegacion(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	alert(oUpoflix.añadirFavorito(sTitulo.replace("-", " ")));
-	listarSeries();
+	if(oUpoflix.añadirFavorito(sTitulo.replace("-", " "))){
+		alert("Serie agregada a favoritos");
+		listarSeries();
+	}else{
+		alert("Error al agregar, inténtelo de nuevo.");
+	}
 }
 
 function calcularPuntuacion(oProduccion){

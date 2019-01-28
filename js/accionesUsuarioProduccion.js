@@ -38,14 +38,14 @@ function mostrarPelisFavoritas(oEvento){
     // TBODY
     var oTBody = document.createElement("TBODY");
     oTabla.appendChild(oTBody);
-	var aPelisFav=oUpoflix.oUsuarioActivo.aFavoritos.filter(Produccion => Produccion instanceof Peliculas);
+	var aPelisFav=oUpoflix.oUsuarioActivo.aFavoritos.filter(Produccion => Produccion instanceof Pelicula);
 	for(var i=0; i<aPelisFav.length;i++){
 		//fila principal
 		oFila = oTBody.insertRow(-1);
     	oCelda = oFila.insertCell(-1);
     	oCelda.rowSpan=2;
-    	var oImagen=document.createElement("IMG");
-    	oImagen.src="http://es.web.img3.acsta.net/c_215_290/medias/nmedia/18/67/61/84/20063810.jpg";
+    	var oImagen = document.createElement("IMG");
+    	oImagen.src =(aPelisFav[i].sUrlImagen=="" ? "images/no-image.jpg" : aPelisFav[i].sUrlImagen);
     	oImagen.style.width = "100px";
     	oCelda.appendChild(oImagen);
     	oCelda = oFila.insertCell(-1);
@@ -55,7 +55,7 @@ function mostrarPelisFavoritas(oEvento){
     	oCelda = oFila.insertCell(-1);
     	oCelda.appendChild(crearPuntuar(aPelisFav[i]));
     	oCelda = oFila.insertCell(-1);
-    	oCelda.appendChild(crearAccionesFav(aPelisFav[i].sTitulo));
+    	oCelda.appendChild(crearAccionesFav(aPelisFav[i]));
 
     	//fila datos
     	oFila = oTBody.insertRow(-1);
@@ -119,7 +119,7 @@ function mostrarSeriesFavoritas(oEvento){
     	oCelda = oFila.insertCell(-1);
     	oCelda.rowSpan=3;
     	var oImagen=document.createElement("IMG");
-    	oImagen.src="http://es.web.img3.acsta.net/c_215_290/medias/nmedia/18/67/61/84/20063810.jpg";
+    	oImagen.src =(aSeriesFav[i].sUrlImagen=="" ? "images/no-image.jpg" : aSeriesFav[i].sUrlImagen);
     	oImagen.style.width = "100px";
     	oCelda.appendChild(oImagen);
     	oCelda = oFila.insertCell(-1);
@@ -140,7 +140,7 @@ function mostrarSeriesFavoritas(oEvento){
     	oBoton.addEventListener("click", mostrarTemporadas);
     	oCelda.appendChild(oBoton);
     	oCelda = oFila.insertCell(-1);
-    	oCelda.appendChild(crearAccionesFav(aSeriesFav[i].sTitulo));
+    	oCelda.appendChild(crearAccionesFav(aSeriesFav[i]));
 
     	//fila datos
     	oFila = oTBody.insertRow(-1);
@@ -220,12 +220,15 @@ function puntuarProduccion(oEvento){
     var ancho=iNota*20;
     var oCapaTapar=oE.target.parentElement.lastElementChild;
     oCapaTapar.style.width=ancho+"px";
-	alert(oUpoflix.puntuar(iNota,sTitulo));
+    if(oUpoflix.puntuar(iNota,sTitulo))
+	   alert("Puntuación añadida.");
+    else
+        alert("Puntuación cambiada.");
 }
 
-function crearAccionesFav(sTitulo){
+function crearAccionesFav(oProduccion){
 	var oFormulario=document.createElement("form");
-    oFormulario.dataset.produccion=sTitulo.replace(" ", "-");
+    oFormulario.dataset.produccion=oProduccion.sTitulo.replace(" ", "-");
 
     var oBoton=document.createElement("INPUT");
     oBoton.type="button";
@@ -244,7 +247,10 @@ function crearAccionesFav(sTitulo){
     oBoton.classList.add("btn-danger");
     oBoton.classList.add("mr-1");
     oBoton.value="❤";
-    oBoton.addEventListener("click", eliminarPeliFavUsuario);
+    if(oProduccion instanceof Serie)
+                oBoton.addEventListener("click", eliminarSerieFavUsuario);
+            else
+                oBoton.addEventListener("click", eliminarPeliFavUsuario);
     oFormulario.appendChild(oBoton);
     return oFormulario;
 }
@@ -270,18 +276,6 @@ function crearCapaMasDatos(oProduccion){
     	oLista.appendChild(director);
     }
     oCapaDatos.appendChild(oLista);
-
-   	oLista=document.createElement("ul");
-    oLista.classList.add("list-inline");
-	for(var j=0; j<oProduccion.aPaises.length;j++){
-    	var pais=document.createElement("li");
-    	pais.classList.add("list-inline-item");
-    	var sTexto=document.createElement("em");
-    	sTexto.textContent=oProduccion.aPaises[j];
-    	pais.appendChild(sTexto);
-    	oLista.appendChild(pais);
-    }
-	oCapaDatos.appendChild(oLista);
 
 	var oAnio=document.createElement("p");
 	oAnio.textContent=(oProduccion instanceof Serie ? oProduccion.dFechaInicio.getFullYear() : oProduccion.iAñoEstreno);
@@ -328,13 +322,21 @@ function mostrarTemporadas(oEvento){
 function eliminarPeliFavUsuario(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	alert(oUpoflix.eliminarFavorito(sTitulo.replace("-", " ")));
-	mostrarPelisFavoritas();
+    if(oUpoflix.eliminarFavorito(sTitulo.replace("-", " "))){
+        alert("Película eliminada de favoritos");
+        mostrarPelisFavoritas();
+    }else{
+        alert("Error al eliminar, inténtelo de nuevo.");
+    }
 }
 
 function eliminarSerieFavUsuario(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	alert(oUpoflix.eliminarFavorito(sTitulo.replace("-", " ")));
-	mostrarSeriesFavoritas();
+	if(oUpoflix.eliminarFavorito(sTitulo.replace("-", " "))){
+        alert("Serie eliminada de favoritos");
+        mostrarSeriesFavoritas();
+    }else{
+        alert("Error al eliminar, inténtelo de nuevo.");
+    }
 }

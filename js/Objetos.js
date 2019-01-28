@@ -57,10 +57,15 @@ function Capitulo(numeroCapitulo,resumen){
     this.sresumen=resumen;
 }
 
-function Puntuacion(usuario,nota,produccion){
+/*function Puntuacion(usuario,nota,produccion){
     this.oUsuario=usuario;
     this.iNota=nota;
     this.oProduccion=produccion;
+}*/
+
+function Puntuacion(usuario,nota){
+    this.oUsuario=usuario;
+    this.iNota=nota;
 }
 
 class Upoflix{
@@ -139,9 +144,9 @@ class Upoflix{
         for(var i=0; i<this.aProducciones.length;i++){
             if(this.aProducciones[i].sTitulo==titulo){
                 for(var j=0;j<this.aUsuarios.length;j++){
-                    for(var k=0;k<this.aUsuarios[i].aFavoritos.length;k++){
-                        if(this.aUsuarios[i].aFavoritos[k].sTitulo==titulo){
-                            this.aUsuarios[i].aFavoritos.splice(k,1);
+                    for(var k=0;k<this.aUsuarios[j].aFavoritos.length;k++){
+                        if(this.aUsuarios[j].aFavoritos[k].sTitulo==titulo){
+                            this.aUsuarios[j].aFavoritos.splice(k,1);
                         }
                     }
                 }
@@ -191,7 +196,6 @@ class Upoflix{
     }
     añadirFavorito(titulo){
         var oProduccion=this.buscarProduccion(titulo);
-
         this.oUsuarioActivo.aFavoritos.push(oProduccion);
         return true;//produccion añadida a favoritos
     }
@@ -208,18 +212,27 @@ class Upoflix{
 
     puntuar(nota,titulo){
         var oProduccionBuscada=this.buscarProduccion(titulo);
-        var oPuntuacion=new Puntuacion(this.oUsuarioActivo,nota,oProduccionBuscada);
-
+        //var oPuntuacion=new Puntuacion(this.oUsuarioActivo,nota,oProduccionBuscada);
+    
         for(var i=0; i<oProduccionBuscada.aPuntuaciones.length;i++){
-            if(oProduccionBuscada.aPuntuaciones[i].oProduccion.sTitulo==titulo && this.oProduccionBuscada.aPuntuaciones[i].oUsuario.sUser==this.oUsuarioActivo.sUser){
+            if(oProduccionBuscada.aPuntuaciones[i].oUsuario==this.oUsuarioActivo){
+                oProduccionBuscada.aPuntuaciones[i].iNota=nota;
+                return false;//cambiada
+            }
+        }
+        var oPuntuacion=new Puntuacion(this.oUsuarioActivo,nota);
+        oProduccionBuscada.aPuntuaciones.push(oPuntuacion);
+        return true;//puntuacion añadida
+
+            /*if(oProduccionBuscada.aPuntuaciones[i].oProduccion.sTitulo==titulo && this.oProduccionBuscada.aPuntuaciones[i].oUsuario.sUser==this.oUsuarioActivo.sUser){
                 oProduccionBuscada.aPuntuaciones[i].iNota=nota;
                 return false;//puntuacion cambiada
             }
         }
         oProduccionBuscada.aPuntuaciones.push(oPuntuacion);
-        return true;//puntuacion añadida
+        return true;//puntuacion añadida*/
     }
-    puntuarSinUsuarioActivo(user,nota,titulo){
+    /*puntuarSinUsuarioActivo(user,nota,titulo){
         var oProduccionBuscada=this.buscarProduccion(titulo);
         var oUsuarioBuscado=this.buscarUsuario(user);
         var oPuntuacion=new Puntuacion(oUsuarioBuscado,nota,oProduccionBuscada);
@@ -231,7 +244,7 @@ class Upoflix{
         }
         oProduccionBuscada.aPuntuaciones.push(oPuntuacion);
         return true;//puntuacion añadida
-    }
+    }*/
     
     añadirTemporada(titulo,numTemporada,resumen){
         var oProduccionBuscada=this.buscarProduccion(titulo);
@@ -294,11 +307,12 @@ class Upoflix{
         }
     }
     
-    modificarUsuario(nombre,apellido,email,contraseña){
+    modificarUsuario(nombre,apellido,email,contraseña,rol){
         this.oUsuarioActivo.sNombre=nombre;
         this.oUsuarioActivo.sApellido=apellido;
         this.oUsuarioActivo.sEmail=email;
         this.oUsuarioActivo.sContraseña=contraseña;
+        this.oUsuarioActivo.sRol=rol;
         return true; //usuario modificado
     }
 
