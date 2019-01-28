@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-sm bg-light navbar-dark">
+  <!-- Brand/logo -->
+  <a class="navbar-brand ml-2 mr-auto" href="#">
+    <img src="images/logo.png" alt="logo" style="height: 50px;">
+  </a>
+  <!-- Links -->
+  <ul class="navbar-nav mr-3">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle text-warning" href="#" id="navbardrop" data-toggle="dropdown">
+        Usuario: No registrado
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">Crear cuenta</a>
+        <a class="dropdown-item" href="#">Entrar</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Mis datos</a>
+        <a class="dropdown-item" href="#">Mis películas</a>
+        <a class="dropdown-item" href="#">Mis series</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Cerrar sesión</a>
+      </div>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <!-- Links -->
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" href="#">Películas</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Series</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Todo</a>
+    </li>
+    <!-- Dropdown -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Añadir recursos</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">Películas</a>
+        <a class="dropdown-item" href="#">Series</a>
+        <a class="dropdown-item" href="#">Temporadas</a>
+        <a class="dropdown-item" href="#">Capítulos</a>
+        <a class="dropdown-item" href="#">Puntuación</a>
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Buscar</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">Por género</a>
+        <a class="dropdown-item" href="#">Por fecha</a>
+        <a class="dropdown-item" href="#">Por puntuación</a>
+      </div>
+    </li>
+  </ul>
+</nav>
+<div class="container p-3" id="contenido">
+  <h3 class="text-warning">Series</h3>
+  <table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Cartel</th>
+      <th scope="col" style="width: 600px;">Título</th>
+      <th scope="col">Género</th>
+      <th scope="col">Puntuación</th>
+      <th scope="col">Temporadas</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="3"><img src="https://www.formulatv.com/images/series/posters/100/133/1_m3.jpg" alt="CCAVM" style="width: 100px;">
+      <td>Cómo conocí a vuestra madre</td>
+      <td>Comedia</td>
+      <td>4.3</td>
+      <td><input type="button" name="mas" value="9" class="btn btn-outline-warning btn-sm"></td>
+      <td><input type="button" name="mas" value="+" class="btn btn-success btn-sm">
+      	<input type="button" name="mas" value="❤" class="btn btn-danger btn-sm">
+        <input type="button" name="mas" value="X" class="btn btn-outline-dark btn-sm"></td>
+    </tr>
+    <tr>
+    	<td colspan="5"><p>Berlín (Alemania), abril del año 1945. El Tercer Reich se tambalea debido al asedio de los rusos por el este y de los americanos por el oeste. Adolf Hitler (Bruno Ganz) se ha refugiado en su búnker personal mientras la ciudad de Berlín se ha convertido en el último campo de batalla de la Segunda Guerra Mundial. Hitler se resiste a dar por perdida la guerra y se atrinchera junto a su mujer</p>
+    		<ul>
+    			<li>Director</li>
+    			<li>Actor</li>
+    			<li>Actor</li>
+    		</ul>
+    		<ul class="list-inline">
+  				<li class="list-inline-item"><em>Alemania</em></li>
+  				<li class="list-inline-item"><em>Francia</em></li>
+			  </ul>
+        <p>2005</p>
+		</td>
+    </tr>
+    <tr>
+    <td colspan="5">
+            <ul>
+              <li>Temporada 1</li>
+              <ul>
+                <li>Capitulo 1: <em>resumen</em></li>
+              </ul>
+              <li>Temporada 2</li>
+              <li>Temporada 3</li>
+            </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+</body>
+</html>

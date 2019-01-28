@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="stars.css">
+    <title>Upoflix</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-sm bg-light navbar-dark" id="cabecera">
+            <a class="navbar-brand ml-2 mr-auto" href="#">
+                <img alt="logo" src="images/logo.png" style="height: 50px;">
+                </img>
+            </a>
+            <ul class="nav mr-3" id="menuUsuario">
+            </ul>
+        </nav>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <!-- Links -->
+            <ul class="navbar-nav" id="menuNavegacion">
+            </ul>
+        </nav>
+        <div class="container p-3">
+            <div class="row" id="contenido"></div>
+            <div class="row" id="capaIniciarSesion">
+                <div class="col-6 m-auto d-none">
+                    <h4 class="text-warning">Inicia sesión</h4>
+                    <form id="frmIniciarSesion">
+                      <div class="form-group">
+                        <label for="txtUser">Usuario:</label>
+                        <input type="text" class="form-control"  maxlength="15" name="txtUser" id="txtUser">
+                      </div>
+                      <div class="form-group">
+                        <label for="txtPass">Contraseña:</label>
+                        <input type="password" class="form-control"  maxlength="15" name="txtPass" id="txtPass">
+                      </div>
+                      <input type="button" class="btn btn-warning" value="Iniciar sesión">
+                    </form>
+                </div>
+            </div>
+            <div class="row" id="capaCrearCuenta">
+                <div class="col-6 m-auto d-none">
+                    <h4 class="text-warning">Crear cuenta</h4>
+                    <form id="frmCrearCuenta">
+                      <div class="form-group">
+                        <label for="txtNUser">Usuario:</label>
+                        <input type="text" class="form-control"  maxlength="15" name="txtNUser" id="txtNUser">
+                      </div>
+                      <div class="form-group">
+                        <label for="txtNNombre">Nombre:</label>
+                        <input type="text" class="form-control"  maxlength="15" name="txtNNombre" id="txtNNombre">
+                      </div>
+                      <div class="form-group">
+                        <label for="txtNApellido">Apellido:</label>
+                        <input type="text" class="form-control"  maxlength="15" name="txtNApellido" id="txtNApellido">
+                      </div>
+                      <div class="form-group">
+                        <label for="txtNEmail">Email:</label>
+                        <input type="text" class="form-control" name="txtNEmail" id="txtNEmail">
+                      </div>
+                      <div class="form-group">
+                        <label for="txtNPassword">Contraseña:</label>
+                        <input type="password" class="form-control" maxlength="15" name="txtNPassword" id="txtNPassword">
+                      </div>
+                      <input type="button" class="btn btn-warning" value="Crear cuenta">
+                    </form>
+                </div>
+            </div>
+        </div>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <!--datatable-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <!--js-->
+    <script type="text/javascript" src="js/Objetos.js"></script>
+    <script type="text/javascript" src="js/datatable.js"></script>
+    <script type="text/javascript" src="js/accionesUsuario.js"></script>
+    <script type="text/javascript" src="js/accionesUsuarioProduccion.js"></script>
+    <script type="text/javascript" src="js/accionesNavegacion.js"></script>
+    <script type="text/javascript" src="js/acciones.js"></script>
+  </body>
+</html>

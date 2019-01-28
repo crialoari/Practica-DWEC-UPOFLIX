@@ -198,7 +198,7 @@ class Upoflix{
 
     eliminarFavorito(titulo){
         for(var i=0;i<this.oUsuarioActivo.aFavoritos.length;i++){
-            if(aFavoritos[i].sTitulo==titulo){
+            if(this.oUsuarioActivo.aFavoritos[i].sTitulo==titulo){
                 this.oUsuarioActivo.aFavoritos.splice(i,1);
                 return true;//favorito eliminado
             }
@@ -209,7 +209,8 @@ class Upoflix{
     puntuar(nota,titulo){
         var oProduccionBuscada=this.buscarProduccion(titulo);
         var oPuntuacion=new Puntuacion(this.oUsuarioActivo,nota,oProduccionBuscada);
-        for(var i=0; i<oProduccion.aPuntuaciones.length;i++){
+
+        for(var i=0; i<oProduccionBuscada.aPuntuaciones.length;i++){
             if(oProduccionBuscada.aPuntuaciones[i].oProduccion.sTitulo==titulo && this.oProduccionBuscada.aPuntuaciones[i].oUsuario.sUser==this.oUsuarioActivo.sUser){
                 oProduccionBuscada.aPuntuaciones[i].iNota=nota;
                 return false;//puntuacion cambiada
