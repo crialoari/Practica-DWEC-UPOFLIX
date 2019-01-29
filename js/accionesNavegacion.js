@@ -1,7 +1,5 @@
-function listarPelis(oEvento){
+function listarPelis(){
 	oCapaContenido.empty();
-	var oE = oEvento || window.event;
-	oE.preventDefault();
 	ocultarFormularios();
 	
 	var oColumnaDatos=document.createElement("div");
@@ -166,10 +164,8 @@ function agregarPeliFavNavegacion(oEvento){
 	}
 }
 
-function listarSeries(oEvento){
+function listarSeries(){
 	oCapaContenido.empty();
-	var oE = oEvento || window.event;
-	oE.preventDefault();
 	ocultarFormularios();
 	
 	var oColumnaDatos=document.createElement("div");
