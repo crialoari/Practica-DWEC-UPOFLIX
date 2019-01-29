@@ -3,8 +3,107 @@ alert("recursos");
 }
 
 function editarTemporadas(){
-alert("temporadas");
+	var oColumnaDatos=document.createElement("div");
+	oColumnaDatos.classList.add("col-8");
+    oColumnaDatos.classList.add("m-auto");
+    var oTexto=document.createElement("h4");
+	oTexto.classList.add("text-warning");
+	oTexto.textContent="Temporadas:";
+	oColumnaDatos.appendChild(oTexto);
+    /*
+    gelou
+    */
+    oCapaContenido.appendChild(oColumnaDatos);
 }
+
+function getCapaAltaPersona(sMetodo){
+	var oCapaAltaPersona=document.createElement("div");
+	oCapaAltaPersona.classList.add("altaPersona");
+	oCapaAltaPersona.classList.add("p-2");
+	var oFormulario=document.createElement("form");
+    oFormulario.classList.add="frmAltaPersona";
+    var capaFrm = document.createElement("div");
+	capaFrm.classList.add("form-group");
+	
+	var oLabel=document.createElement("label");
+	oLabel.textContent="Nombre:";
+	capaFrm.appendChild(oLabel);
+
+	var oInput=document.createElement("INPUT");
+	oInput.type="text";
+	oInput.classList.add("form-control");
+	oInput.name="txtNombre";
+	oInput.maxLength=15;
+    capaFrm.appendChild(oInput);
+
+	oLabel=document.createElement("label");
+	oLabel.textContent="Apellidos:";
+	capaFrm.appendChild(oLabel);
+
+	oInput=document.createElement("INPUT");
+	oInput.type="text";
+	oInput.classList.add("form-control");
+	oInput.name="txtApellido";
+	oInput.maxLength=20;
+	capaFrm.appendChild(oInput);
+
+	var oBoton=document.createElement("INPUT");
+	oBoton.type="button";
+	oBoton.classList.add("btn");
+	oBoton.classList.add("btn-sm");
+	oBoton.classList.add("btn-warning");
+	oBoton.classList.add("mr-1");
+	oBoton.classList.add("mt-1");
+	oBoton.value="Añadir";
+	oBoton.addEventListener("click", sMetodo);
+    capaFrm.appendChild(oBoton);
+
+    oFormulario.appendChild(capaFrm);
+	oCapaAltaPersona.appendChild(oFormulario);
+
+	return oCapaAltaPersona;
+}
+
+function validarAñadirPersona(oFormulario){
+	oFormulario.txtNombre.classList.remove("bg-warning");
+	oFormulario.txtApellido.classList.remove("bg-warning");
+	var sNombre=oFormulario.txtNombre.value.trim();
+	var sApellido=oFormulario.txtApellido.value.trim();
+	var bValido=true;
+	if(sNombre==""){
+		bValido=false;
+		oFormulario.txtNombre.classList.add("bg-warning");
+		oFormulario.txtNombre.focus();
+	}
+	if(sApellido==""){
+		oFormulario.txtApellido.classList.add("bg-warning");
+		if(bValido){
+			bValido=false;
+			oFormulario.txtApellido.focus();
+		}
+	}
+	return bValido;
+}
+
+function añadirPersonaDesdeElenco(oEvento){
+	var oE = oEvento || window.event;
+	var oFormularioPadre=oE.target.parentElement.parentElement;
+	if(validarAñadirPersona(oFormularioPadre)){
+		var sNombre=oFormularioPadre.txtNombre.value.trim();
+		var sApellido=oFormularioPadre.txtApellido.value.trim();
+		var oPersona=new Persona(sNombre,sApellido);
+		if(oUpoflix.altaPersona(oPersona)){
+			alert("Persona añadida.");
+			mostrarEditarElenco();
+		}else{
+			alert("Error, pruebe de nuevo.");
+		}
+		
+	}else{
+		alert("Debe rellenar todos los campos.");
+	}
+}
+
 
 function editarElenco(){
 	var oColumnaDatos=document.createElement("div");
@@ -107,8 +206,24 @@ function editarElenco(){
 		oColumnaDatos.appendChild(capaPersona);
 		oColumnaDatos.appendChild(document.createElement("hr"));
 	}
-
+	/*capa añadir*/
+	var oCapaAltaPersona=document.createElement("div");
+	oCapaAltaPersona.id="capaAltaPerson";
+	var oBoton=document.createElement("INPUT");
+	oBoton.type="button";
+	oBoton.classList.add("btn");
+	oBoton.classList.add("btn-sm");
+	oBoton.classList.add("btn-warning");
+	oBoton.classList.add("mr-1");
+	oBoton.classList.add("mt-1");
+	oBoton.value="Añadir persona";
+	oBoton.addEventListener("click", añadirFormularioAltaPersona);
+	oCapaAltaPersona.appendChild(oBoton);
+	oColumnaDatos.appendChild(oCapaAltaPersona);
     oCapaContenido.appendChild(oColumnaDatos);
+}
+function añadirFormularioAltaPersona(){
+	document.querySelector("#capaAltaPerson").appendChild(getCapaAltaPersona(añadirPersonaDesdeElenco));
 }
 
 function eliminarPersona(oEvento){
@@ -142,17 +257,38 @@ function editarPersona(oEvento){
 function aceptarEditarPersona(oEvento){
 	var oE = oEvento || window.event;
 	var oFormularioPadre=oE.target.parentElement.parentElement;
-	var sNombre=oFormularioPadre.dataset.nombre.replace("-", " ");
-	var sApellido=oFormularioPadre.dataset.apellido.replace("-", " ");
+	oFormularioPadre.txtNombre.classList.remove("bg-warning");
+	oFormularioPadre.txtApellido.classList.remove("bg-warning");
 	var sNuevoNombre=oFormularioPadre.txtNombre.value.trim();
 	var sNuevoApellido=oFormularioPadre.txtApellido.value.trim();
-	var oPersona=oUpoflix.buscarPersona(sNombre,sApellido);
-	if(oPersona==null){
-		alert("Error, pruebe de nuevo");
+	var bValido=true;
+	if(sNuevoNombre==""){
+		bValido=false;
+		oFormularioPadre.txtNombre.classList.add("bg-warning");
+		oFormularioPadre.txtNombre.focus();
+	}
+	if(sNuevoApellido==""){
+		oFormularioPadre.txtApellido.classList.add("bg-warning");
+		if(bValido){
+			bValido=false;
+			oFormularioPadre.txtApellido.focus();
+		}
+	}
+
+	if(!bValido){
+		alert("Por favor rellena todos los campos");	
 	}else{
-		if(oUpoflix.modificarPersona(oPersona,sNuevoNombre,sNuevoApellido))
-		alert("Datos actualizados");
-		mostrarEditarElenco();
+		var sNombre=oFormularioPadre.dataset.nombre.replace("-", " ");
+		var sApellido=oFormularioPadre.dataset.apellido.replace("-", " ");
+		
+		var oPersona=oUpoflix.buscarPersona(sNombre,sApellido);
+		if(oPersona==null){
+			alert("Error, pruebe de nuevo");
+		}else{
+			if(oUpoflix.modificarPersona(oPersona,sNuevoNombre,sNuevoApellido))
+			alert("Datos actualizados");
+			mostrarEditarElenco();
+		}
 	}
 }
 
