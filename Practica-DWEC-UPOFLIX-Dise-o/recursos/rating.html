@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>rating</title>
+
+  <style type="text/css" media="screen">
+
+  span{
+    background-image: url(star_empty.png);
+    width: 20px;
+    height: 20px;
+    z-index: 10;
+    float: left;
+  }
+
+  .rating-stars{
+    width: 100px;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .cover{
+    background-image: url(star_full.png);
+    background-repeat: repeat-x;
+    width: 0;
+    height: 20px;
+  }
+  
+  span.star-1:hover ~ .cover{width: 20px;}
+
+  span.star-2:hover ~ .cover{width: 40px;}
+
+  span.star-3:hover ~ .cover{width: 60px;}
+
+  span.star-4:hover ~ .cover{width: 80px;}
+
+  span.star-5:hover ~ .cover{width: 100px;}
+  </style>
+
+</head>
+<body>
+<div class='rating-stars' data-produccion="titulo">
+      <span title='Malísima' data-value='1' class="star-1"></span>
+      <span title='Mala' data-value='2' class="star-2"></span>
+      <span title='Normal' data-value='3' class="star-3"></span>
+      <span title='Buena' data-value='4' class="star-4"></span>
+      <span title='Obra maestra' data-value='5' class="star-5"></span>
+      <div class="cover"></div>
+</div>
+
+<script type="text/javascript">
+  document.querySelector(".star-1").addEventListener("click", puntuar);
+  document.querySelector(".star-2").addEventListener("click", puntuar);
+  document.querySelector(".star-3").addEventListener("click", puntuar);
+  document.querySelector(".star-4").addEventListener("click", puntuar);
+  document.querySelector(".star-5").addEventListener("click", puntuar);
+
+  function puntuar(oEvento){
+    var oE = oEvento || window.event;
+    var iNota=oE.target.dataset.value;
+    var ancho=iNota*20;
+    var oCapaTapar=oE.target.parentElement.lastElementChild;
+    alert(oCapaTapar.tagName);
+    oCapaTapar.style.width=ancho+"px";
+  }
+</script>
+</body>
+</html>
