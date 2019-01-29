@@ -7,11 +7,21 @@ alert("temporadas");
 }
 
 function editarElenco(){
-	var aElenco=oUpoflix.aPersonas;
 	var oColumnaDatos=document.createElement("div");
 	oColumnaDatos.classList.add("col-8");
     oColumnaDatos.classList.add("m-auto");
-
+	var oTitulo=document.createElement("h4");
+	oTitulo.classList.add("text-warning");
+	oTitulo.textContent="Elenco:";
+	oColumnaDatos.appendChild(oTitulo);
+	var aElenco=oUpoflix.aPersonas;
+	if(aElenco.length==0){
+		oTitulo=document.createElement("h4");
+		oTitulo.classList.add("text-warning");
+		oTitulo.textContent="Elenco:";
+		oColumnaDatos.appendChild(oTitulo);
+		/**/
+	}else
 	for(var i=0; i<aElenco.length;i++){
 		var capaPersona = document.createElement("div");
 		capaPersona.classList.add("col");
@@ -110,11 +120,15 @@ function editarPersona(oEvento){
 
 function eliminarPersona(oEvento){
 	var oE = oEvento || window.event;
-	var oFormularioPadre=oE.target.parentElement;
+	var oFormularioPadre=oE.target.parentElement.parentElement;
 	var sNombre=oFormularioPadre.dataset.nombre.replace("-", " ");
-	var sApellido=oFormularioPadre.dataset.appelido.replace("-", " ");
-	alert(sNombre);
-	alert(sApellido);
+	var sApellido=oFormularioPadre.dataset.apellido.replace("-", " ");
+	if(oUpoflix.bajaPersona(sNombre,sApellido)){
+		alert("Persona borrada.");
+		mostrarEditarElenco();
+	}else{
+		alert("Error al borrar, prueba de nuevo.");
+	}
 }
 
 function aceptarEditarPersona(oEvento){
