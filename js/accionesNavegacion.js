@@ -330,15 +330,27 @@ function buscar(oEvento){
 			var aResultadoPelis=oUpoflix.buscarPelicula(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
 			var aResultadoSeries=oUpoflix.buscarSerie(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
 			var aResultado=aResultadoPelis.concat(aResultadoSeries);
-			document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
+			if(aResultado.length==0){
+				document.querySelector("#capaResultado").textContent="La búsqueda no ha devuelto resultados";
+			}else{
+				document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
+			}
 			break;
 		case "Pelicula":
 			var aResultado=oUpoflix.buscarPelicula(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
-			document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
+			if(aResultado.length==0){
+				document.querySelector("#capaResultado").textContent="La búsqueda no ha devuelto resultados";
+			}else{
+				document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
+			}
 			break;
 		case "Serie":
 			var aResultado=oUpoflix.buscarSerie(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
-			document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
+			if(aResultado.length==0){
+				document.querySelector("#capaResultado").textContent="La búsqueda no ha devuelto resultados";
+			}else{
+				document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
+			}
 			break;
 		default:
 			alert("Error desconocido, vuelve a intentarlo");
@@ -368,6 +380,9 @@ function mostrarResultados(aProducciones){
     oFila.appendChild(oCelda);
     oCelda = document.createElement("TH");
     oCelda.textContent = "Directores";
+    oFila.appendChild(oCelda);
+    oCelda = document.createElement("TH");
+    oCelda.textContent = "Puntuación";
     oFila.appendChild(oCelda);
     oCelda = document.createElement("TH");
     oCelda.textContent = "Año";
@@ -402,6 +417,8 @@ function mostrarResultados(aProducciones){
     	oCelda.appendChild(lista);
     	oCelda = oFila.insertCell(-1);
     	oCelda.textContent = (aProducciones[i] instanceof Serie ? aProducciones[i].dFechaInicio.getFullYear() : oUpoflix.aProducciones[i].iAñoEstreno);;
+    	oCelda = oFila.insertCell(-1);
+    	oCelda.appendChild(calcularPuntuacion(aProducciones[i]));
     }
 
     // CAPTION
@@ -412,7 +429,8 @@ function mostrarResultados(aProducciones){
 }
 
 function getSelectGenero(){
-	var aGeneros=["accion","Aventuras","Comedia","Drama","Terror","Musical","Ciencia ficción","Bélica","Western","Thriller","Infantil"];
+	var aGeneros=["Acción","Aventuras","Comedia","Drama","Terror","Musical","Ciencia ficción","Bélica","Western","Thriller","Infantil"];
+	aGeneros=aGeneros.sort();
 	var oSelect=document.createElement("select");
 	oSelect.classList.add("custom-select");
 	oSelect.classList.add("custom-select-sm");

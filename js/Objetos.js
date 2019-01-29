@@ -56,7 +56,6 @@ function Capitulo(numeroCapitulo,resumen){
     this.sresumen=resumen;
 }
 
-
 function Puntuacion(usuario,nota){
     this.oUsuario=usuario;
     this.iNota=nota;
@@ -206,6 +205,7 @@ class Upoflix{
 
     puntuar(nota,titulo){
         var oProduccionBuscada=this.buscarProduccion(titulo);
+
         var oPuntuacion=new Puntuacion(this.oUsuarioActivo,nota);
         var resultado=true;//puntuacion añadida
         var notaTotal=0;
@@ -215,6 +215,7 @@ class Upoflix{
                 resultado= false;//cambiada
             }
         }
+        var oPuntuacion=new Puntuacion(this.oUsuarioActivo,nota);
         oProduccionBuscada.aPuntuaciones.push(oPuntuacion);
 
         for(var i=0;i<oProduccionBuscada.aPuntuaciones.length;i++){
@@ -222,8 +223,9 @@ class Upoflix{
         }
         oProduccionBuscada.fNotaMedia=(notaTotal/oProduccionBuscada.aPuntuaciones.length).toPrecision(2);
         return resultado;
+
     }
-    puntuarSinUsuarioActivo(user,nota,titulo){
+    /*puntuarSinUsuarioActivo(user,nota,titulo){
         var oProduccionBuscada=this.buscarProduccion(titulo);
         var oUsuarioBuscado=this.buscarUsuario(user);
         var oPuntuacion=new Puntuacion(oUsuarioBuscado,nota);
@@ -235,7 +237,7 @@ class Upoflix{
         }
         oProduccionBuscada.aPuntuaciones.push(oPuntuacion);
         return true;//puntuacion añadida
-    }
+    }*/
     
     añadirTemporada(titulo,numTemporada,resumen){
         var oProduccionBuscada=this.buscarProduccion(titulo);
