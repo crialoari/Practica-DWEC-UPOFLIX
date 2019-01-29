@@ -13,23 +13,26 @@ function cargarDatosPrueba(){
 	
 	oUpoflix.oUsuarioActivo=oAdmin;
 
-	var peli=new Pelicula("múltiple","accion",["Ted","Barney"],[],"hohohafo","",2013,150);
+	var peli=new Pelicula("múltiple","Acción",["Ted","Barney"],[],"hohohafo","",2013,150);
 	oUpoflix.añadirProduccion(peli);
 	oUsuario.aFavoritos.push(peli);
 	oAdmin.aFavoritos.push(peli);
 	
-	peli=new Pelicula("glass","accion",[],[],"hohohafo","", 2013,150);
+	peli=new Pelicula("glass","Acción",[],[],"hohohafo","", 2013,150);
 	oUpoflix.añadirProduccion(peli);
 	
-	var peli=new Pelicula("el protegido","accion",["Ted","Barney"],[],"hohohafo","",2014,156);
+	var peli=new Pelicula("el protegido","Acción",["Ted","Barney"],[],"hohohafo","",2014,156);
 	oUpoflix.añadirProduccion(peli);
 	oUsuario.aFavoritos.push(peli);
 	oAdmin.aFavoritos.push(peli);
 
-	var serie=new Serie("ccavm","comedia",["Ted","Barney"],[],"kjsdnfds","",new Date(),new Date(2020));
+	var serie=new Serie("ccavm","Comedia",["Ted","Barney"],[],"kjsdnfds","",new Date(),new Date(2020));
 	oUpoflix.añadirProduccion(serie);
 	oUsuario.aFavoritos.push(serie);
 	oAdmin.aFavoritos.push(serie);
+
+	var persona=new Persona("Harry James","Potter", new Date());
+	oUpoflix.altaPersona(persona);
 }
 
 function cargarMenuUsuario(){
@@ -207,7 +210,7 @@ function soloPuntuacion(elEvento) {
     var codigoChar = oEvento.charCode || oEvento.keyCode;
     var caracter = String.fromCharCode(codigoChar);
     // Cancelar comportamiento predeterminado si no es numero
-    if (caracter == "1" || caracter == "2" || caracter == "3" || caracter == "4" || caracter == "5"){
+    if (caracter == "0" || caracter == "1" || caracter == "2" || caracter == "3" || caracter == "4" || caracter == "5"){
     }else{
         oEvento.preventDefault();
     }
