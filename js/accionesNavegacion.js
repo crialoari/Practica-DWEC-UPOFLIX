@@ -53,7 +53,7 @@ function listarPelis(oEvento){
     	oCelda = oFila.insertCell(-1);
     	oCelda.textContent = aPelis[i].sGenero;
     	oCelda = oFila.insertCell(-1);
-    	oCelda.appendChild(calcularPuntuacion(aPelis[i]));
+    	oCelda.appendChild(crearPuntuacion(aPelis[i]));
     	oCelda = oFila.insertCell(-1);
     	oCelda.appendChild(crearAcciones(aPelis[i]));
 
@@ -225,7 +225,7 @@ function listarSeries(oEvento){
     	oCelda = oFila.insertCell(-1);
     	oCelda.textContent = aSeries[i].sGenero;
     	oCelda = oFila.insertCell(-1);
-    	oCelda.appendChild(calcularPuntuacion(aSeries[i]));
+    	oCelda.appendChild(crearPuntuacion(aSeries[i]));
     	oCelda = oFila.insertCell(-1);
     	var oBoton=document.createElement("INPUT");
    		oBoton.type="button";
@@ -292,27 +292,22 @@ function agregarSerieFavNavegacion(oEvento){
 	}
 }
 
-function calcularPuntuacion(oProduccion){
+function crearPuntuacion(oProduccion){
 	var oCapaPuntuacion=document.createElement("div");
 	var oPuntuacion=document.createElement("p");
-	var iPuntuaciones=0;
-	for(var i=0;i<oProduccion.aPuntuaciones.length;i++)
-		iPuntuaciones+=oProduccion.aPuntuaciones[i].iNota;
-	var fPuntuacion=(iPuntuaciones/oProduccion.aPuntuaciones.length).toPrecision(2);
-	oPuntuacion.textContent=(oProduccion.aPuntuaciones.length==0 ? "Sin puntuaciones" : fPuntuacion);
+	oPuntuacion.textContent=(oProduccion.fNotaMedia==0 ? "Sin puntuación" : oProduccion.fNotaMedia);
 	var oStar=document.createElement("span");
+	oCapaPuntuacion.appendChild(oStar);
 	oCapaPuntuacion.appendChild(oPuntuacion);
-    oPuntuacion.appendChild(oStar);
 	return oCapaPuntuacion;
 }
 
-function buscar(oEvento){
-	oCapaContenido.empty();
-	var oE = oEvento || window.event;
-	oE.preventDefault();
-
+function buscar(){
 	document.querySelector("#capaResultado").empty();
-
+	var oTitulo=document.createElement("h4");
+	oTitulo.classList.add("text-warning");
+	oTitulo.textContent="Resultados:";
+	document.querySelector("#capaResultado").appendChild(oTitulo);
 	var frmFormulario=document.querySelector("#frmABuscador");
 	var sTipo=document.querySelector("#frmABuscador input:checked").value;
 	//alert(sTipo);
@@ -418,7 +413,7 @@ function mostrarResultados(aProducciones){
     	oCelda = oFila.insertCell(-1);
     	oCelda.textContent = (aProducciones[i] instanceof Serie ? aProducciones[i].dFechaInicio.getFullYear() : oUpoflix.aProducciones[i].iAñoEstreno);;
     	oCelda = oFila.insertCell(-1);
-    	oCelda.appendChild(calcularPuntuacion(aProducciones[i]));
+    	oCelda.appendChild(crearPuntuacion(aProducciones[i]));
     }
 
     // CAPTION

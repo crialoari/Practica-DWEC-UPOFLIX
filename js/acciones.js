@@ -130,6 +130,7 @@ function mostrarBuscar(){
 	document.querySelector("#capaSelect").appendChild(getSelectGenero());
 	//preparar capa resultados
     document.querySelector("#capaResultado").empty();
+    document.querySelector("#capaBusqueda #capaResultado").classList.remove("d-none");
 	//mostrar capa
     document.querySelector("#capaBusqueda>div").classList.remove("d-none");
     document.querySelector("#capaBusqueda input[type=button]").addEventListener("click", buscar);
@@ -141,6 +142,7 @@ function mostrarAñadirRecurso(){
     ocultarFormularios();
     añadirRecurso();
 }
+
 function mostrarEditarTemporadas(){
 	oCapaContenido.empty();
     ocultarFormularios();
@@ -163,6 +165,7 @@ function ocultarFormularios(){
 	document.querySelector("#frmCrearCuenta").reset();
 
 	document.querySelector("#capaBusqueda>div").classList.add("d-none");
+	document.querySelector("#capaBusqueda #capaResultado").classList.add("d-none");
 	document.querySelector("#frmABuscador").reset();
 	document.querySelector("#radioBusqTodo").checked=true;
 }
