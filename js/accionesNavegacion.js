@@ -306,15 +306,10 @@ function buscar(){
 	document.querySelector("#capaResultado").appendChild(oTitulo);
 	var frmFormulario=document.querySelector("#frmABuscador");
 	var sTipo=document.querySelector("#frmABuscador input:checked").value;
-	//alert(sTipo);
 	var sGenero=frmFormulario.selectGenero.value;
-	//alert(sGenero);
 	var dFechaInicio=(frmFormulario.busqfechaInicio.value=="" ? null : new Date(frmFormulario.busqfechaInicio.value));
-	//alert(dFechaInicio);
 	var dFechaFin=(frmFormulario.busqfechaFin.value=="" ? null : new Date(frmFormulario.busqfechaFin.value));
-	//alert(dFechaFin);
 	var iPuntuacion=(frmFormulario.txtPuntuacionMinima.value=="" ? 0 : parseInt(frmFormulario.txtPuntuacionMinima.value, 10));
-	//alert(iPuntuacion);
 
 	switch (sTipo) {
 		case "all":

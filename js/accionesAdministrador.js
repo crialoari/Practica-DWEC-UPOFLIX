@@ -10,10 +10,233 @@ function editarTemporadas(){
 	oTexto.classList.add("text-warning");
 	oTexto.textContent="Temporadas:";
 	oColumnaDatos.appendChild(oTexto);
-    /*
-    gelou
-    */
+	var aSeries=oUpoflix.aProducciones.filter(Produccion => Produccion instanceof Serie);
+	if(aSeries.length==0){
+		oTexto=document.createElement("p");
+		oTexto.textContent="No hay series para modificar temporadas";
+		oColumnaDatos.appendChild(oTexto);
+		var oBoton=document.createElement("INPUT");
+		oBoton.type="button";
+		oBoton.classList.add("btn");
+		oBoton.classList.add("btn-sm");
+		oBoton.classList.add("btn-warning");
+		oBoton.classList.add("mr-1");
+		oBoton.classList.add("mt-1");
+		oBoton.value="Añadir serie";
+		oBoton.addEventListener("click", mostrarAñadirRecurso);
+		oColumnaDatos.appendChild(oBoton);
+	}else{
+		var oFormulario=document.createElement("form");
+		oFormulario.id="frmEditarTemporadas";
+		var oLabel=document.createElement("label");
+		oLabel.textContent="Selecciona serie:";
+		oFormulario.appendChild(oLabel);
+		oFormulario.appendChild(getSelectSeries(aSeries));
+		//capa select temporada
+		var oCapaSelect=document.createElement("div");
+		oCapaSelect.id="capaSelectTemporada";
+		oFormulario.appendChild(oCapaSelect);
+		oCapaSelect.id="capaSelectTemporada";
+		oFormulario.appendChild(oCapaSelect);
+			//capa modificacion
+			var oCapaAdd=document.createElement("div");
+			oCapaAdd.classList.add("col-8");
+			oCapaAdd.classList.add("m-3");
+			oLabel=document.createElement("label");
+			oLabel.textContent="Número:";
+			oCapaAdd.appendChild(oLabel);
+			var oInput=document.createElement("INPUT");
+		    oInput.type="text";
+	    	oInput.classList.add("form-control");
+	    	oInput.name="txtNumeroT";
+	    	oInput.maxLength=3;
+	    	oCapaAdd.appendChild(oInput);
+	    	oLabel=document.createElement("label");
+			oLabel.textContent="Resumen:";
+			oCapaAdd.appendChild(oLabel);
+			oInput=document.createElement("textarea");
+			oInput.classList.add("form-control");
+			oInput.rows=3;
+			oInput.maxLength=140;
+			oInput.name="txtResumenT";
+			oCapaAdd.appendChild(oInput);
+			var oBoton=document.createElement("INPUT");
+			oBoton.type="button";
+			oBoton.classList.add("btn");
+			oBoton.classList.add("btn-sm");
+			oBoton.classList.add("btn-warning");
+			oBoton.classList.add("mr-1");
+			oBoton.classList.add("mt-1");
+			oBoton.value="Modificar";
+			oBoton.addEventListener("click", modificarTemporada);
+			oCapaAdd.appendChild(oBoton);
+			oBoton=document.createElement("INPUT");
+			oBoton.type="button";
+			oBoton.classList.add("btn");
+			oBoton.classList.add("btn-sm");
+			oBoton.classList.add("btn-danger");
+			oBoton.classList.add("mr-1");
+			oBoton.classList.add("mt-1");
+			oBoton.value="Eliminar";
+			oBoton.addEventListener("click", eliminarTemporada);
+			oCapaAdd.appendChild(oBoton);
+			oBoton=document.createElement("INPUT");
+			oBoton.type="button";
+			oBoton.classList.add("btn");
+			oBoton.classList.add("btn-sm");
+			oBoton.classList.add("btn-success");
+			oBoton.classList.add("mr-1");
+			oBoton.classList.add("mt-1");
+			oBoton.value="Nueva";
+			oBoton.addEventListener("click", nuevaTemporada);
+			oCapaAdd.appendChild(oBoton);
+			oBoton=document.createElement("INPUT");
+			oBoton.type="button";
+			oBoton.classList.add("btn");
+			oBoton.classList.add("btn-sm");
+			oBoton.classList.add("btn-success");
+			oBoton.classList.add("d-none");
+			oBoton.classList.add("mr-1");
+			oBoton.classList.add("mt-1");
+			oBoton.value="Añadir";
+			//oBoton.addEventListener("click", añadirTemporada);
+			oCapaAdd.appendChild(oBoton);
+			oFormulario.appendChild(oCapaAdd);
+			
+		//capa select capitulo
+		oCapaSelect=document.createElement("div");
+		oCapaSelect.id="capaSelectCapitulo"
+		oFormulario.appendChild(oCapaSelect);
+
+    	oColumnaDatos.appendChild(oFormulario);
+
+	}
     oCapaContenido.appendChild(oColumnaDatos);
+}
+
+function modificarTemporada(){
+	var oFormulario=document.querySelector("#frmEditarTemporadas");
+	oFormulario.txtNumeroT.classList.remove("bg-warning");
+	oFormulario.txtResumenT.classList.remove("bg-warning");
+	var sSerie=oFormulario.selectSerie.value;
+	var iNumTemporada=parseInt(oFormulario.selectTemporada.value, 10);
+	var iNuevoNumT=parseInt(oFormulario.txtNumeroT.value,10);
+	var sResumen=oFormulario.txtResumenT.value;
+	var bValido=true;
+	if(iNuevoNumT==""){
+		bValido=false;
+		oFormulario.txtNumeroT.classList.add("bg-warning");
+		oFormulario.txtNumeroT.focus();
+	}
+	if(sResumen==""){
+		oFormulario.txtResumenT.classList.add("bg-warning");
+		if(bValido){
+			bValido=false;
+			oFormulario.txtResumenT.focus();
+		}
+	}
+
+	if(!bValido){
+		alert("Por favor rellena todos los campos");	
+	}else{
+		oUpoflix.modificarTemporada(sSerie,iNumTemporada,iNuevoNumT,sResumen);
+		alert("Datos actualizados.");
+		mostrarEditarTemporadas();
+	}
+}
+
+function eliminarTemporada(){
+	var oFormulario=document.querySelector("#frmEditarTemporadas");
+	var sSerie=oFormulario.selectSerie.value;
+	var iNumTemporada=parseInt(oFormulario.selectTemporada.value);
+	if(oUpoflix.borrarTemporada(sSerie,iNumTemporada)){
+		alert("Temporada borrada.");
+		mostrarEditarTemporadas();
+	}else{
+		alert("Error, pruebe de nuevo.");
+	}
+}
+
+function nuevaTemporada(oEvento){
+	var oE = oEvento || window.event;
+	oE.target.nextSibling.classList.remove("d-none");
+	document.querySelector("input[name=txtNumeroT").value="";
+	document.querySelector("textarea[name=txtResumenT").value="";
+	document.querySelector("input[value=Modificar").classList.add("d-none");
+	document.querySelector("input[value=Eliminar").classList.add("d-none");
+}
+
+function getSelectSeries(aSeries){
+	var oSelect=document.createElement("select");
+	oSelect.classList.add("custom-select");
+	oSelect.classList.add("custom-select-sm");
+	oSelect.name="selectSerie";
+	for(var i=0;i<aSeries.length;i++){
+		var oOption=document.createElement("option");
+		oOption.value=aSeries[i].sTitulo;
+		oOption.textContent=aSeries[i].sTitulo;
+		oSelect.appendChild(oOption);
+	}
+	oSelect.addEventListener("change", crearSelectTemporadas);
+	return oSelect;
+}
+
+function crearSelectTemporadas(oEvento){
+	var oE = oEvento || window.event;
+	var oSerie=oUpoflix.buscarProduccion(oE.target.value);
+	var oCapaSelectTemporada=document.querySelector("#capaSelectTemporada");
+	oCapaSelectTemporada.empty();
+	if(oSerie.aTemporadas.length==0){
+		var oTexto=document.createElement("p");
+		oTexto.textContent="No hay temporadas";
+		oCapaSelectTemporada.appendChild(oTexto);
+	}else{
+	var oLabel=document.createElement("label");
+	oLabel.textContent="Selecciona Temporada:";
+	oCapaSelectTemporada.appendChild(oLabel);
+	var oSelect=document.createElement("select");
+	oSelect.dataset.serie=oE.target.value;
+	oSelect.classList.add("custom-select");
+	oSelect.classList.add("custom-select-sm");
+	oSelect.name="selectTemporada";
+	for(var i=0;i<oSerie.aTemporadas.length;i++){
+		var oOption=document.createElement("option");
+		oOption.value=oSerie.aTemporadas[i].iNumTemporada;
+		oOption.textContent="Temporada "+oSerie.aTemporadas[i].iNumTemporada;
+		oSelect.appendChild(oOption);
+	}
+	oSelect.addEventListener("change", crearSelectCapitulos);
+	oCapaSelectTemporada.appendChild(oSelect);
+	}
+}
+
+function crearSelectCapitulos(oEvento){
+	var oE = oEvento || window.event;
+	var sSerie=oE.target.dataset.serie;
+	var iNumTemporada=parseInt(oE.target.value, 10);
+	var oTemporada=oUpoflix.buscarTemporada(sSerie,iNumTemporada);
+	var oCapaSelectCaptitulo=document.querySelector("#capaSelectCapitulo");
+	oCapaSelectCaptitulo.empty();
+	var oLabel=document.createElement("label");
+	oLabel.textContent="Selecciona capítulo:";
+	oCapaSelectCaptitulo.appendChild(oLabel);
+	var oSelect=document.createElement("select");
+	oSelect.classList.add("custom-select");
+	oSelect.classList.add("custom-select-sm");
+	oSelect.name="selectCapitulo";
+	for(var i=0;i<oTemporada.aCapitulos.length;i++){
+		var oOption=document.createElement("option");
+		oOption.value=oSerie.aCapitulos[i].iNumTemporada;
+		oOption.textContent="Capítulo "+oSerie.aCapitulos[i].iNumTemporada;
+		oSelect.appendChild(oOption);
+	}
+	//oSelect.addEventListener("change", editarCapitulo);
+	oCapaSelectCaptitulo.appendChild(oSelect);
+	var oFormulario=oCapaSelectCaptitulo.parentElement;
+	oFormulario.txtNumeroT.value=iNumTemporada;
+	oFormulario.txtResumenT.value=oTemporada.sResumen;
+	document.querySelector("input[value=Modificar").classList.remove("d-none");
+	document.querySelector("input[value=Eliminar").classList.remove("d-none");
 }
 
 function getCapaAltaPersona(sMetodo){

@@ -23,16 +23,23 @@ function cargarDatosPrueba(){
 	oUsuario.aFavoritos.push(peli);
 	oAdmin.aFavoritos.push(peli);
 
-	var serie=new Serie("ccavm","Comedia",["Ted","Barney"],[],"kjsdnfds","",new Date(),new Date(2020));
 
+	var serie=new Serie("ccavm","Comedia",["Ted","Barney"],[],"kjsdnfds","",new Date(),new Date(2020));
+	
 	oUpoflix.añadirProduccion(serie);
 	oUsuario.aFavoritos.push(serie);
 	oAdmin.aFavoritos.push(serie);
+
+	oUpoflix.añadirTemporada("ccavm",1,"este es mi resumen");
+	oUpoflix.añadirTemporada("ccavm",2,"este es mi resumen 2");
 
 	var persona=new Persona("Harry James","Potter", new Date());
 	oUpoflix.altaPersona(persona);
 	var persona=new Persona("Hermione","Granger", new Date());
 	oUpoflix.altaPersona(persona);
+
+	var serie=new Serie("Dexter","Comedia",[persona],[],"kjsdnfds","",new Date(),new Date(2020));
+	oUpoflix.añadirProduccion(serie);
 
 	peli=new Pelicula("glass","Acción",[persona],[],"hohohafo","", 2013,150);
 	oUpoflix.añadirProduccion(peli);
@@ -149,6 +156,9 @@ function mostrarEditarTemporadas(){
 	oCapaContenido.empty();
     ocultarFormularios();
     editarTemporadas();
+    var event = new Event('change');
+    document.querySelector("#frmEditarTemporadas").selectSerie.dispatchEvent(event);
+    //document.querySelector("#frmEditarTemporadas").selectTemporada.dispatchEvent(event);
 }
 
 function mostrarEditarElenco(){

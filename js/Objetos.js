@@ -131,6 +131,25 @@ class Upoflix{
             return null;  
     }
 
+    buscarTemporada(sSerie,iNumTemporada){
+        var oSerie=this.buscarProduccion(sSerie);
+        for(var i=0;i<oSerie.aTemporadas.length;i++){
+            if(oSerie.aTemporadas[i].iNumTemporada==iNumTemporada)
+                return oSerie.aTemporadas[i];
+        }
+    }
+
+    borrarTemporada(sSerie,iNumTemporada){
+        var oSerie=this.buscarProduccion(sSerie);
+        for(var i=0; i<oSerie.aTemporadas.length;i++){
+            if(oSerie.aTemporadas[i].iNumTemporada==iNumTemporada){
+                oSerie.aTemporadas.splice(i,1);
+                return true;//usuario eliminado
+            }
+        }
+        return false;//usuario no encontrado
+    }
+
     bajaUsuario(sUsuario){
         for(var i=0; i<this.aUsuarios.length;i++){
             if(this.aUsuarios[i].sUser==sUsuario){
@@ -338,8 +357,10 @@ class Upoflix{
 
     }
 
-    modificarTemporada(){
-
+    modificarTemporada(sSerie,iNumTemporada,iNuevoNumero,sResumen){
+        var temporada=this.buscarTemporada(sSerie,iNumTemporada);
+        temporada.iNumTemporada=iNuevoNumero;
+        temporada.sResumen=sResumen;
     }
 
 
