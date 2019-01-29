@@ -327,17 +327,17 @@ function buscar(oEvento){
 
 	switch (sTipo) {
 		case "all":
-			var aResultadoPelis=buscarPelicula(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
-			document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
-			var aResultadoSeries=buscarSerie(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
+			var aResultadoPelis=oUpoflix.buscarPelicula(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
+			var aResultadoSeries=oUpoflix.buscarSerie(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
+			var aResultado=aResultadoPelis.concat(aResultadoSeries);
 			document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
 			break;
 		case "Pelicula":
-			var aResultado=buscarPelicula(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
-			document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
+			var aResultado=oUpoflix.buscarPelicula(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
+			document.querySelector("#capaResultado").appendChild(mostrarResultados(oUpoflix.aProducciones));
 			break;
 		case "Serie":
-			var aResultado=buscarSerie(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
+			var aResultado=oUpoflix.buscarSerie(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
 			document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
 			break;
 		default:
@@ -346,12 +346,73 @@ function buscar(oEvento){
 	}
 }
 
-function mostrarResultados(){
-return oTable;
+function mostrarResultados(aProducciones){
+	var oTabla = document.createElement("table");
+    oTabla.classList.add("table");
+    oTabla.classList.add("table-sm");
+    oTabla.classList.add("table-hover");
+    // THEAD
+    var oTHead = oTabla.createTHead();
+    var oFila = oTHead.insertRow(-1);
+    var oCelda = document.createElement("TH");
+    oCelda.textContent = "Título";
+    oFila.appendChild(oCelda);
+    oCelda = document.createElement("TH");
+    oCelda.textContent = "Tipo";
+    oFila.appendChild(oCelda);
+    oCelda = document.createElement("TH");
+    oCelda.textContent = "Género";
+    oFila.appendChild(oCelda);
+    oCelda = document.createElement("TH");
+    oCelda.textContent = "Actores";
+    oFila.appendChild(oCelda);
+    oCelda = document.createElement("TH");
+    oCelda.textContent = "Directores";
+    oFila.appendChild(oCelda);
+    oCelda = document.createElement("TH");
+    oCelda.textContent = "Año";
+    oFila.appendChild(oCelda);
+    // TBODY
+    var oTBody = document.createElement("TBODY");
+    oTabla.appendChild(oTBody);
+    
+	for(var i=0; i<aProducciones.length;i++){
+        oFila = oTBody.insertRow(-1);
+    	oCelda = oFila.insertCell(-1);
+    	oCelda.textContent = aProducciones[i].sTitulo;
+    	oCelda = oFila.insertCell(-1);
+    	oCelda.textContent = (aProducciones[i] instanceof Serie ? "Serie" : "Película");
+    	oCelda = oFila.insertCell(-1);
+    	oCelda.textContent = aProducciones[i].sGenero;
+    	oCelda = oFila.insertCell(-1);
+    	var lista=document.createElement("ul");
+    	for(var j=0; j<aProducciones[i].aActores.length;j++){
+    		var actor=document.createElement("li");
+    		actor.textContent=aProducciones[i].aActores[j];
+    		lista.appendChild(actor);
+    	}
+    	oCelda.appendChild(lista);
+    	oCelda = oFila.insertCell(-1);
+    	lista=document.createElement("ul");
+    	for(var j=0; j<aProducciones[i].aDirectores.length;j++){
+    		var director=document.createElement("li");
+    		director.textContent=aProducciones[i].aDirectores[j];
+    		lista.appendChild(director);
+    	}
+    	oCelda.appendChild(lista);
+    	oCelda = oFila.insertCell(-1);
+    	oCelda.textContent = (aProducciones[i] instanceof Serie ? aProducciones[i].dFechaInicio.getFullYear() : oUpoflix.aProducciones[i].iAñoEstreno);;
+    }
+
+    // CAPTION
+    var oCaption = oTabla.createCaption();
+    oCaption.textContent = "Resultado de la búsqueda";
+
+	return oTabla;
 }
 
 function getSelectGenero(){
-	var aGeneros=["Aventuras","Comedia","Drama","Terror","Musical","Ciencia ficción","Bélica","Western","Thriller","Infantil"];
+	var aGeneros=["accion","Aventuras","Comedia","Drama","Terror","Musical","Ciencia ficción","Bélica","Western","Thriller","Infantil"];
 	var oSelect=document.createElement("select");
 	oSelect.classList.add("custom-select");
 	oSelect.classList.add("custom-select-sm");
