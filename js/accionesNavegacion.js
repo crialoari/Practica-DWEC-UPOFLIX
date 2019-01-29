@@ -316,7 +316,7 @@ function buscar(oEvento){
 	var frmFormulario=document.querySelector("#frmABuscador");
 	var sTipo=document.querySelector("#frmABuscador input:checked").value;
 	//alert(sTipo);
-	var sGenero=frmFormulario.selectGenero.value
+	var sGenero=frmFormulario.selectGenero.value;
 	//alert(sGenero);
 	var dFechaInicio=(frmFormulario.busqfechaInicio.value=="" ? null : new Date(frmFormulario.busqfechaInicio.value));
 	//alert(dFechaInicio);
@@ -417,7 +417,6 @@ function mostrarResultados(aProducciones){
     	oCelda.appendChild(lista);
     	oCelda = oFila.insertCell(-1);
     	oCelda.textContent = (aProducciones[i] instanceof Serie ? aProducciones[i].dFechaInicio.getFullYear() : oUpoflix.aProducciones[i].iAñoEstreno);;
-
     	oCelda = oFila.insertCell(-1);
     	oCelda.appendChild(calcularPuntuacion(aProducciones[i]));
     }

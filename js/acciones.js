@@ -27,6 +27,7 @@ function cargarDatosPrueba(){
 	oAdmin.aFavoritos.push(peli);
 
 	var serie=new Serie("ccavm","Comedia",["Ted","Barney"],[],"kjsdnfds","",new Date(),new Date(2020));
+
 	oUpoflix.añadirProduccion(serie);
 	oUsuario.aFavoritos.push(serie);
 	oAdmin.aFavoritos.push(serie);
