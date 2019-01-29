@@ -113,7 +113,7 @@ class Upoflix{
     }
 
     altaPersona(persona){
-        var array=this.aUsuarios.filter(Persona=>Persona.sNombre==persona.sApellido && Persona.sApellido==persona.sApellido);
+        var array=this.aPersonas.filter(Persona=>Persona.sNombre==persona.sNombre && Persona.sApellido==persona.sApellido);
 
         if(array.length>0)
             return false;//la persona ya estaba
@@ -121,6 +121,14 @@ class Upoflix{
             this.aPersonas.push(persona);
             return true;//persona introducida    
         }
+    }
+
+    buscarPersona(sNombre,sApellido){
+        var array=this.aPersonas.filter(Persona=>Persona.sNombre==sNombre && Persona.sApellido==sApellido);
+        if(array.length>0)
+            return array[0];
+        else
+            return null;  
     }
 
     bajaUsuario(sUsuario){
@@ -309,8 +317,14 @@ class Upoflix{
         return true; //usuario modificado
     }
 
-    modificarPersona(){
-
+    modificarPersona(oPersona,sNNombre,sAApellido){
+        for(var i=0;i<this.aPersonas.length;i++){
+            if(this.aPersonas[i].sNombre==oPersona.sNombre && this.aPersonas[i].sApellido==oPersona.sApellido){
+                this.aPersonas[i].sNombre=sNNombre;
+                this.aPersonas[i].sApellido=sAApellido;
+                return true;
+            }
+        }
     }
 
     modificarPelicula(){

@@ -10,17 +10,15 @@ function editarElenco(){
 	var oColumnaDatos=document.createElement("div");
 	oColumnaDatos.classList.add("col-8");
     oColumnaDatos.classList.add("m-auto");
-	var oTitulo=document.createElement("h4");
-	oTitulo.classList.add("text-warning");
-	oTitulo.textContent="Elenco:";
-	oColumnaDatos.appendChild(oTitulo);
+	var oTexto=document.createElement("h4");
+	oTexto.classList.add("text-warning");
+	oTexto.textContent="Elenco:";
+	oColumnaDatos.appendChild(oTexto);
 	var aElenco=oUpoflix.aPersonas;
 	if(aElenco.length==0){
-		oTitulo=document.createElement("h4");
-		oTitulo.classList.add("text-warning");
-		oTitulo.textContent="Elenco:";
-		oColumnaDatos.appendChild(oTitulo);
-		/**/
+		oTexto=document.createElement("p");
+		oTexto.textContent="No hay personas en la lista.";
+		oColumnaDatos.appendChild(oTexto);
 	}else
 	for(var i=0; i<aElenco.length;i++){
 		var capaPersona = document.createElement("div");
@@ -62,7 +60,7 @@ function editarElenco(){
 		oBoton.type="button";
 		oBoton.classList.add("btn");
 		oBoton.classList.add("btn-sm");
-		oBoton.classList.add("btn-outline-dark");
+		oBoton.classList.add("btn-danger");
 		oBoton.classList.add("mr-1");
 		oBoton.classList.add("mt-1");
 		oBoton.value="X";
@@ -73,7 +71,7 @@ function editarElenco(){
 		oBoton.type="button";
 		oBoton.classList.add("btn");
 		oBoton.classList.add("btn-sm");
-		oBoton.classList.add("btn-outline-dark");
+		oBoton.classList.add("btn-dark");
 		oBoton.classList.add("mr-1");
 		oBoton.classList.add("mt-1");
 		oBoton.value="edit";
@@ -84,10 +82,10 @@ function editarElenco(){
 		oBoton.type="button";
 		oBoton.classList.add("btn");
 		oBoton.classList.add("btn-sm");
-		oBoton.classList.add("btn-outline-warning");
+		oBoton.classList.add("btn-warning");
 		oBoton.classList.add("mr-1");
 		oBoton.classList.add("mt-1");
-		oBoton.classList.add("disabled");
+		oBoton.classList.add("d-none");
 		oBoton.value="listo";
 	   	oBoton.addEventListener("click", aceptarEditarPersona);
 		capaFrm.appendChild(oBoton);
@@ -96,12 +94,12 @@ function editarElenco(){
 		oBoton.type="button";
 		oBoton.classList.add("btn");
 		oBoton.classList.add("btn-sm");
-		oBoton.classList.add("btn-outline-warning");
+		oBoton.classList.add("btn-warning");
 		oBoton.classList.add("mr-1");
 		oBoton.classList.add("mt-1");
-		oBoton.classList.add("disabled");
-		oBoton.value="x";
-	   	oBoton.addEventListener("click", cancelarEditarPersona);
+		oBoton.classList.add("d-none");
+		oBoton.value="cancelar";
+	   	oBoton.addEventListener("click", mostrarEditarElenco);
 		capaFrm.appendChild(oBoton);
 
 	    oFormulario.appendChild(capaFrm);
@@ -111,11 +109,6 @@ function editarElenco(){
 	}
 
     oCapaContenido.appendChild(oColumnaDatos);
-}
-
-
-function editarPersona(oEvento){
-
 }
 
 function eliminarPersona(oEvento){
@@ -131,34 +124,36 @@ function eliminarPersona(oEvento){
 	}
 }
 
+function editarPersona(oEvento){
+	var oE = oEvento || window.event;
+	oE.target.classList.toggle("disabled");
+	oE.target.classList.remove("btn-dark");
+	oE.target.classList.add("btn-outline-dark");
+	oE.target.nextSibling.classList.toggle("d-none");
+	oE.target.nextSibling.nextSibling.classList.toggle("d-none");
+    var oFormularioPadre=oE.target.parentElement.parentElement;
+    var oInputs=oFormularioPadre.querySelectorAll("input[type=text");
+    for(var i=0; i<oInputs.length;i++){
+        oInputs[i].readOnly=false;
+    }
+	oE.target.removeEventListener("click", editarPersona);
+}
+
 function aceptarEditarPersona(oEvento){
 	var oE = oEvento || window.event;
 	var oFormularioPadre=oE.target.parentElement.parentElement;
-	oE.target.nextSibling.classList.toggle("d-none");
-	oE.target.toggle("d-none");
 	var sNombre=oFormularioPadre.dataset.nombre.replace("-", " ");
-	var sApellido=oFormularioPadre.dataset.appelido.replace("-", " ");
-
-
-	var oE = oEvento || window.event;
-	var sTitulo=oE.target.parentElement.dataset.produccion;
-    if(oUpoflix.eliminarFavorito(sTitulo.replace("-", " "))){
-        alert("Película eliminada de favoritos");
-        mostrarPelisFavoritas();
-    }else{
-        alert("Error al eliminar, inténtelo de nuevo.");
-    }
-}
-
-function cancelarEditarPersona(oEvento){
-	var oE = oEvento || window.event;
-	var sTitulo=oE.target.parentElement.dataset.produccion;
-    if(oUpoflix.eliminarFavorito(sTitulo.replace("-", " "))){
-        alert("Película eliminada de favoritos");
-        mostrarPelisFavoritas();
-    }else{
-        alert("Error al eliminar, inténtelo de nuevo.");
-    }
+	var sApellido=oFormularioPadre.dataset.apellido.replace("-", " ");
+	var sNuevoNombre=oFormularioPadre.txtNombre.value.trim();
+	var sNuevoApellido=oFormularioPadre.txtApellido.value.trim();
+	var oPersona=oUpoflix.buscarPersona(sNombre,sApellido);
+	if(oPersona==null){
+		alert("Error, pruebe de nuevo");
+	}else{
+		if(oUpoflix.modificarPersona(oPersona,sNuevoNombre,sNuevoApellido))
+		alert("Datos actualizados");
+		mostrarEditarElenco();
+	}
 }
 
 Date.prototype.toString=function(){

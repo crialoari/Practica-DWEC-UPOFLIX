@@ -18,10 +18,7 @@ function cargarDatosPrueba(){
 	oUsuario.aFavoritos.push(peli);
 	oAdmin.aFavoritos.push(peli);
 	
-	peli=new Pelicula("glass","Acción",[],[],"hohohafo","", 2013,150);
-	oUpoflix.añadirProduccion(peli);
-	
-	var peli=new Pelicula("el protegido","Acción",["Ted","Barney"],[],"hohohafo","",2014,156);
+	peli=new Pelicula("el protegido","Acción",["Ted","Barney"],[],"hohohafo","",2014,156);
 	oUpoflix.añadirProduccion(peli);
 	oUsuario.aFavoritos.push(peli);
 	oAdmin.aFavoritos.push(peli);
@@ -34,6 +31,11 @@ function cargarDatosPrueba(){
 
 	var persona=new Persona("Harry James","Potter", new Date());
 	oUpoflix.altaPersona(persona);
+	var persona=new Persona("Hermione","Granger", new Date());
+	oUpoflix.altaPersona(persona);
+
+	peli=new Pelicula("glass","Acción",[persona],[],"hohohafo","", 2013,150);
+	oUpoflix.añadirProduccion(peli);
 }
 
 function cargarMenuUsuario(){

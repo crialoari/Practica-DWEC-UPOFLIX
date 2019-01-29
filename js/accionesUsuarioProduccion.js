@@ -267,12 +267,12 @@ function crearCapaMasDatos(oProduccion){
     var oLista=document.createElement("ul");
     for(var j=0; j<oProduccion.aActores.length;j++){
     	var actor=document.createElement("li");
-    	actor.textContent=oProduccion.aActores[j];
+    	actor.textContent=oProduccion.aActores[j].sNombre+" "+oProduccion.aActores[j].sApellido;
     	oLista.appendChild(actor);
     }
 	for(var j=0; j<oProduccion.aDirectores.length;j++){
     	var director=document.createElement("li");
-    	director.textContent=oProduccion.aDirectores[j];
+    	director.textContent=oProduccion.aDirectores[j].sNombre+" "+oProduccion.aDirectores[j].sApellido;
     	oLista.appendChild(director);
     }
     oCapaDatos.appendChild(oLista);

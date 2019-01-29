@@ -366,12 +366,7 @@ function mostrarResultados(aProducciones){
     oCelda = document.createElement("TH");
     oCelda.textContent = "Género";
     oFila.appendChild(oCelda);
-    oCelda = document.createElement("TH");
-    oCelda.textContent = "Actores";
-    oFila.appendChild(oCelda);
-    oCelda = document.createElement("TH");
-    oCelda.textContent = "Directores";
-    oFila.appendChild(oCelda);
+    
     oCelda = document.createElement("TH");
     oCelda.textContent = "Puntuación";
     oFila.appendChild(oCelda);
@@ -391,31 +386,12 @@ function mostrarResultados(aProducciones){
     	oCelda = oFila.insertCell(-1);
     	oCelda.textContent = aProducciones[i].sGenero;
     	oCelda = oFila.insertCell(-1);
-    	var lista=document.createElement("ul");
-    	for(var j=0; j<aProducciones[i].aActores.length;j++){
-    		var actor=document.createElement("li");
-    		actor.textContent=aProducciones[i].aActores[j];
-    		lista.appendChild(actor);
-    	}
-    	oCelda.appendChild(lista);
-    	oCelda = oFila.insertCell(-1);
-    	lista=document.createElement("ul");
-    	for(var j=0; j<aProducciones[i].aDirectores.length;j++){
-    		var director=document.createElement("li");
-    		director.textContent=aProducciones[i].aDirectores[j];
-    		lista.appendChild(director);
-    	}
-    	oCelda.appendChild(lista);
+    	oCelda.appendChild(crearPuntuacion(aProducciones[i]));
     	oCelda = oFila.insertCell(-1);
     	oCelda.textContent = (aProducciones[i] instanceof Serie ? aProducciones[i].dFechaInicio.getFullYear() : oUpoflix.aProducciones[i].iAñoEstreno);;
-    	oCelda = oFila.insertCell(-1);
-    	oCelda.appendChild(crearPuntuacion(aProducciones[i]));
+    	//oCelda = oFila.insertCell(-1);
+    	//oCelda.appendChild(crearAcciones(aProducciones[i]));
     }
-
-    // CAPTION
-    var oCaption = oTabla.createCaption();
-    oCaption.textContent = "Resultado de la búsqueda";
-
 	return oTabla;
 }
 
