@@ -16,7 +16,7 @@ function Produccion(titulo,genero,actores,directores,resumen,urlImagen){
     this.aPuntuaciones=[];
     this.aActores=actores;
     this.aDirectores=directores;
-    this.sresumen=resumen;
+    this.sResumen=resumen;
     this.sUrlImagen=urlImagen;
     this.fNotaMedia=0;
 }
@@ -53,7 +53,7 @@ function Temporada(numTemporada,resumen){
 
 function Capitulo(numeroCapitulo,resumen){
     this.iNumCapitulo=numeroCapitulo;
-    this.sresumen=resumen;
+    this.sResumen=resumen;
 }
 
 function Puntuacion(usuario,nota){
@@ -313,23 +313,77 @@ class Upoflix{
         return true; //usuario modificado
     }
 
-    modificarPersona(){
-
+    modificarPersona(oPersona,sNNombre,sAApellido){
+        for(var i=0;i<this.aPersonas.length;i++){
+            if(this.aPersonas[i].sNombre==oPersona.sNombre && this.aPersonas[i].sApellido==oPersona.sApellido){
+                this.aPersonas[i].sNombre=sNNombre;
+                this.aPersonas[i].sApellido=sAApellido;
+                return true;
+            }
+        }
     }
 
-    modificarPelicula(tituloAntiguo,tituloNuevo,img,genero,resumen,aActores,aDirectores,año,duracion){
-
+    modificarPelicula(tituloAntiguo,tituloNuevo,img,genero,resumen,actores,directores,año,duracion){
+        var oPeliculaBuscada=this.buscarProduccion(tituloAntiguo);
+        if(oPeliculaBuscada!=null){
+            oPeliculaBuscada.sTitulo=tituloNuevo;
+            oPeliculaBuscada.sUrlImagen=img;
+            oPeliculaBuscada.sGenero=genero;
+            oPeliculaBuscada.sResumen=resumen;
+            oPeliculaBuscada.aActores=actores;
+            oPeliculaBuscada.aDirectores=directores;
+            oPeliculaBuscada.iAñoEstreno=año;
+            oPeliculaBuscada.iDuracion=duracion;
+            return true; //pelicula modificada
+        }
+        return false;//pelicula no encontrada
     }
-    modificarSerie(tituloAntiguo,tituloNuevo,img,genero,resumen,aActores,aDirectores,fechaInicio,fechaFin){
-
+    modificarSerie(tituloAntiguo,tituloNuevo,img,genero,resumen,actores,directores,fechaInicio,fechaFin){
+        var oSerieBuscada=this.buscarProduccion(tituloAntiguo);
+        if(oSerieBuscada!=null){
+            oSerieBuscada.sTitulo=tituloNuevo;
+            oSerieBuscada.sUrlImagen=img;
+            oSerieBuscada.sGenero=genero;
+            oSerieBuscada.sResumen=resumen;
+            oSerieBuscada.aActores=actores;
+            oSerieBuscada.aDirectores=directores;
+            oSerieBuscada.dFechaInicio=fechaInicio;
+            oSerieBuscada.dFechaFin=fechaFin;
+            return true;//serie modificada
+        }
+        return false;//serie no encontrada
     }
 
     modificarCapitulo(tituloSerie,numTemporada,numAntiguoCapitulo,numNuevoCapitulo,resumen){
-
+        var oSerieBuscada=this.buscarProduccion(tituloSerie);
+        if(oSerieBuscada!=null){
+            for(var i=0;i<oSerieBuscada.aTemporadas.length;i++){
+                if(oSerieBuscada.aTemporadas[i].iNumTemporada==numTemporada){
+                    for(var j=0;j<oSerieBuscada.aTemporadas[i].aCapitulos.length;j++){
+                        if(oSerieBuscada.aTemporadas[i].aCapitulos[j].iNumCapitulo==numAntiguoCapitulo){
+                            oSerieBuscada.aTemporadas[i].aCapitulos[j].iNumCapitulo=numNuevoCapitulo;
+                            oSerieBuscada.aTemporadas[i].aCapitulos[j].sResumen=resumen;
+                            return true;//capitulo modificado
+                        }
+                    }
+                }
+            }
+        }
+        return false;//capitulo no encontrado
     }
 
     modificarTemporada(tituloSerie,numAntiguoTemporada,numNuevoTemporada,resumen){
-
+        var oSerieBuscada=this.buscarProduccion(tituloSerie);
+        if(oSerieBuscada!=null){
+            for(var i=0;i<oSerieBuscada.aTemporadas.length;i++){
+                if(oSerieBuscada.aTemporadas[i].iNumTemporada==numAntiguoTemporada){
+                    oSerieBuscada.aTemporadas[i].iNumTemporada=numNuevoTemporada;
+                    oSerieBuscada.aTemporadas[i].sResumen=resumen;
+                    return true;//temporada modificada
+                }
+            }
+        }
+        return false; //temporada no encontrada
     }
 
 
