@@ -123,7 +123,9 @@ function getCapaModificarTemporada(){
 	oInput.classList.add("form-control");
 	oInput.name="txtNumeroT";
 	oInput.maxLength=3;
+	oInput.addEventListener("keypress", soloNumeros);
 	oCapaAdd.appendChild(oInput);
+	
 	oLabel=document.createElement("label");
 	oLabel.textContent="Resumen:";
 	oCapaAdd.appendChild(oLabel);
@@ -268,7 +270,7 @@ function añadirTemporada(){
 			alert("Datos añadidos.");
 			mostrarEditarTemporadas();
 		}else{
-			alert("Error,pruebe de nuevo.")
+			alert("Ya existía esa temporada.")
 		}
 	}
 }
@@ -308,8 +310,8 @@ function crearSelectCapitulos(oEvento){
 		oSelect.name="selectCapitulo";
 		for(var i=0;i<oTemporada.aCapitulos.length;i++){
 			var oOption=document.createElement("option");
-			oOption.value=oSerie.aCapitulos[i].iNumTemporada;
-			oOption.textContent="Capítulo "+oSerie.aCapitulos[i].iNumTemporada;
+			oOption.value=oTemporada.aCapitulos[i].iNumCapitulo;
+			oOption.textContent="Capítulo "+oTemporada.aCapitulos[i].iNumCapitulo;
 			oSelect.appendChild(oOption);
 		}
 		oSelect.addEventListener("change", cambiarDatosCapitulos);
@@ -328,7 +330,7 @@ function cambiarDatosCapitulos(oEvento){
 	var oCapitulo=oUpoflix.buscarCapitulo(sSerie,iNumTemporada,iNumCapitulo);
 	var oFormulario=document.querySelector("#frmEditarTemporadas");
 	oFormulario.txtNumeroC.value=iNumCapitulo;
-	oFormulario.txtResumenT.value=oCapitulo.sResumen;
+	oFormulario.txtResumenC.value=oCapitulo.sResumen;
 }
 
 function getCapaModificarCapitulo(){
@@ -344,7 +346,9 @@ function getCapaModificarCapitulo(){
 	oInput.classList.add("form-control");
 	oInput.name="txtNumeroC";
 	oInput.maxLength=3;
+	oInput.addEventListener("keypress", soloNumeros);
 	oCapaAdd.appendChild(oInput);
+	
 	oLabel=document.createElement("label");
 	oLabel.textContent="Resumen:";
 	oCapaAdd.appendChild(oLabel);
@@ -387,7 +391,7 @@ function getCapaModificarCapitulo(){
 	oBoton.classList.add("mr-1");
 	oBoton.classList.add("mt-1");
 	oBoton.name="nueva-capitulo"
-	oBoton.value="Nueva";
+	oBoton.value="Nuevo";
 	oBoton.addEventListener("click", nuevoCapitulo);
 	oCapaAdd.appendChild(oBoton);
 	
@@ -413,26 +417,27 @@ function modificarCapitulo(){
 	oFormulario.txtResumenC.classList.remove("bg-warning");
 	var sSerie=oFormulario.selectSerie.value.replace("-", " ");
 	var iNumTemporada=parseInt(oFormulario.selectTemporada.value, 10);
-	var iNuevoNumT=parseInt(oFormulario.txtNumeroT.value,10);
-	var sResumen=oFormulario.txtResumenT.value;
+	var iNumC=parseInt(oFormulario.selectCapitulo.value, 10);
+	var iNuevoNumC=parseInt(oFormulario.txtNumeroC.value,10);
+	var sResumen=oFormulario.txtResumenC.value;
 	var bValido=true;
-	if(isNaN(iNuevoNumT)){
+	if(isNaN(iNuevoNumC)){
 		bValido=false;
-		oFormulario.txtNumeroT.classList.add("bg-warning");
+		oFormulario.txtNumeroC.classList.add("bg-warning");
 		oFormulario.txtNumeroT.focus();
 	}
 	if(sResumen==""){
-		oFormulario.txtResumenT.classList.add("bg-warning");
+		oFormulario.txtResumenC.classList.add("bg-warning");
 		if(bValido){
 			bValido=false;
-			oFormulario.txtResumenT.focus();
+			oFormulario.txtResumenC.focus();
 		}
 	}
 
 	if(!bValido){
 		alert("Por favor rellena todos los campos");	
 	}else{
-		oUpoflix.modificarTemporada(sSerie,iNumTemporada,iNuevoNumT,sResumen);
+		oUpoflix.modificarCapitulo(sSerie,iNumTemporada,iNumC,iNuevoNumC,sResumen);
 		alert("Datos actualizados.");
 		mostrarEditarTemporadas();
 	}
@@ -441,9 +446,10 @@ function modificarCapitulo(){
 function eliminarCapitulo(){
 	var oFormulario=document.querySelector("#frmEditarTemporadas");
 	var sSerie=oFormulario.selectSerie.value;
-	var iNumTemporada=parseInt(oFormulario.selectTemporada.value);
-	if(oUpoflix.borrarTemporada(sSerie,iNumTemporada)){
-		alert("Temporada borrada.");
+	var iNumTemporada=parseInt(oFormulario.selectTemporada.value,10);
+	var iNumCapitulo=parseInt(oFormulario.selectCapitulo.value,10);
+	if(oUpoflix.borrarCapitulo(sSerie,iNumTemporada,iNumCapitulo)){
+		alert("Capítulo borrado.");
 		mostrarEditarTemporadas();
 	}else{
 		alert("Error, pruebe de nuevo.");
@@ -466,7 +472,7 @@ function añadirCapitulo(){
 	oFormulario.txtNumeroC.classList.remove("bg-warning");
 	oFormulario.txtResumenC.classList.remove("bg-warning");
 	var sSerie=oFormulario.selectSerie.value.replace("-", " ");
-	var
+	var iNumTemporada=parseInt(oFormulario.selectTemporada.value,10);
 	var iNumC=parseInt(oFormulario.txtNumeroC.value,10);
 	var sResumen=oFormulario.txtResumenC.value;
 	var bValido=true;
@@ -486,11 +492,11 @@ function añadirCapitulo(){
 	if(!bValido){
 		alert("Por favor rellena todos los campos");	
 	}else{
-		if(oUpoflix.añadirCapitulo(sSerie,numTemporada,numCapitulo,resumen)(sSerie,iNuevoNumT,sResumen)){
+		if(oUpoflix.añadirCapitulo(sSerie,iNumTemporada,iNumC,sResumen)){
 			alert("Datos añadidos.");
 			mostrarEditarTemporadas();
 		}else{
-			alert("Error,pruebe de nuevo.")
+			alert("Ya existía el capítulo.")
 		}
 	}
 }
@@ -575,7 +581,7 @@ function añadirPersonaDesdeElenco(oEvento){
 			alert("Persona añadida.");
 			mostrarEditarElenco();
 		}else{
-			alert("Error, pruebe de nuevo.");
+			alert("Ya existía esa persona.");
 		}
 		
 	}else{
@@ -777,4 +783,16 @@ Date.prototype.toString=function(){
 	var anio=this.getFullYear();
 	var sCadena=anio+"-"+mes+"-"+dia;
 	return sCadena;
+}
+
+function soloNumeros(elEvento) {
+    var oEvento = elEvento || window.event;
+    var codigoChar = oEvento.charCode || oEvento.keyCode;
+    var caracter = String.fromCharCode(codigoChar);
+    // Cancelar comportamiento predeterminado si no es numero
+    if (caracter == "0" || caracter == "1" || caracter == "2" || caracter == "3" || caracter == "4" || caracter == "5" ||
+                caracter == "6" || caracter == "7" || caracter == "8" || caracter == "9"){
+    }else{
+        oEvento.preventDefault();
+    }
 }
