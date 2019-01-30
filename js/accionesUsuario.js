@@ -1,5 +1,6 @@
 function mostrarDatosUsuario(){
 	oCapaContenido.empty();
+    ocultarFormularios();
 	var oUsuario=oUpoflix.oUsuarioActivo;
 	//capa de datos
 	var oColumnaDatos=document.createElement("div");

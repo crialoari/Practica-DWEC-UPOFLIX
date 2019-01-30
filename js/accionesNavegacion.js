@@ -380,7 +380,7 @@ function mostrarResultados(aProducciones){
     	oCelda = oFila.insertCell(-1);
     	oCelda.appendChild(crearPuntuacion(aProducciones[i]));
     	oCelda = oFila.insertCell(-1);
-    	oCelda.textContent = (aProducciones[i] instanceof Serie ? aProducciones[i].dFechaInicio.getFullYear() : oUpoflix.aProducciones[i].iAñoEstreno);;
+    	oCelda.textContent = (aProducciones[i] instanceof Serie ? aProducciones[i].dFechaInicio.getFullYear() : aProducciones[i].iAñoEstreno);
     	//oCelda = oFila.insertCell(-1);
     	//oCelda.appendChild(crearAcciones(aProducciones[i]));
     }

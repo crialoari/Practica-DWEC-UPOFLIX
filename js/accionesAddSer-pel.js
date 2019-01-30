@@ -52,7 +52,7 @@ function añadirProduccion(){
 
     var aActoresNuevos=[];
 	//recoger actores nuevos
-	var aAñadirPersona=document.querySelectorAll(".nuevo-actor");
+	var aAñadirPersona=document.querySelectorAll("#capaActores .nuevo-actor");
     for(var i=0;i<aAñadirPersona.length;i++){
     	var sNombre=aAñadirPersona[i].querySelector("input[name=txtNombre").value.trim();
     	var sApellido=aAñadirPersona[i].querySelector("input[name=txtApellido").value.trim();
@@ -79,7 +79,7 @@ function añadirProduccion(){
     }
 	//recoger actores existentes
 	var aActoresExistentes=[];
-	aAñadirPersona=document.querySelectorAll(".elegir-actor select");
+	aAñadirPersona=document.querySelectorAll("#capaActores .elegir-actor select");
     for(var i=0;i<aAñadirPersona.length;i++){
     	var actor = aAñadirPersona[i].value.split("_");
     	var sNombre=actor[0].replace("-"," ");
@@ -90,7 +90,7 @@ function añadirProduccion(){
 
 	//recoger directores existentes
 	var aDirectoresExistentes=[];
-	aAñadirPersona=document.querySelectorAll(".elegir-director select");
+	aAñadirPersona=document.querySelectorAll("#capaDirectores .elegir-director select");
     for(var i=0;i<aAñadirPersona.length;i++){
     	var director = aAñadirPersona[i].value.split("_");
     	var sNombre=director[0].replace("-"," ");
@@ -100,7 +100,7 @@ function añadirProduccion(){
     }
 	//recoger directores nuevos
 	var aDirectoresNuevos=[];
-	aAñadirPersona=document.querySelectorAll(".nuevo-director");
+	aAñadirPersona=document.querySelectorAll("#capaDirectores .nuevo-director");
     for(var i=0;i<aAñadirPersona.length;i++){
     	var sNombre=aAñadirPersona[i].querySelector("input[name=txtNombre").value.trim();
     	var sApellido=aAñadirPersona[i].querySelector("input[name=txtApellido").value.trim();
@@ -205,7 +205,6 @@ function añadirProduccion(){
 	}else{
 		alert(sErrores);
 	}
-	
 }
 
 function limpiarErroresAñadir(){
@@ -299,7 +298,6 @@ function añadirPersonaNuevaDirector(){
 	oInput.setAttribute("maxlength","20");
 	//input nombre
 	oInput.setAttribute("name","txtNombre");
-	oInput.setAttribute("id","txtNombre");
 	oInput.setAttribute("placeholder","Nombre");
 	oCapaColumna.appendChild(oInput);
 	oCapaFormulario.appendChild(oCapaColumna);
@@ -312,7 +310,6 @@ function añadirPersonaNuevaDirector(){
 	oInput.classList.add("form-control-sm");
 	oInput.setAttribute("maxlength","20");
 	oInput.setAttribute("name","txtApellido");
-	oInput.setAttribute("id","txtApellido");
 	oInput.setAttribute("placeholder","Apellido");
 	oCapaColumna.appendChild(oInput);
 	oCapaFormulario.appendChild(oCapaColumna);
@@ -386,7 +383,6 @@ function añadirPersonaExistenteDirector(){
 	oCapaFormulario.appendChild(oColumna);
 	oCapa.appendChild(oCapaFormulario);
 	document.getElementById("capaDirectores").appendChild(oCapa);
-
 }
 
 function eliminarCapa(oEvento){

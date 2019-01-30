@@ -41,7 +41,7 @@ function cargarDatosPrueba(){
 	var serie=new Serie("Dexter","Comedia",[persona],[],"kjsdnfds","",new Date(),new Date(2020));
 	oUpoflix.añadirProduccion(serie);
 
-	peli=new Pelicula("glass","Acción",[persona],[],"hohohafo","",2013,150);
+	peli=new Pelicula("glass","Acción",["Ted","Barney"],[],"hohohafo","",2014,156);
 	oUpoflix.añadirProduccion(peli);
 }
 
@@ -151,19 +151,19 @@ function mostrarAñadirRecurso(){
     ocultarFormularios();
     if(document.querySelector("#genero select")!=null)
     	document.querySelector("#genero select").remove();
-    var aAñadirPersona=document.querySelectorAll(".elegir-actor");
+    var aAñadirPersona=document.querySelectorAll("#capaAddProduccion .elegir-actor");
     for(var i=0;i<aAñadirPersona.length;i++){
     	aAñadirPersona[i].remove();
     }
-    aAñadirPersona=document.querySelectorAll(".elegir-director");
+    aAñadirPersona=document.querySelectorAll("#capaAddProduccion .elegir-director");
     for(var i=0;i<aAñadirPersona.length;i++){
     	aAñadirPersona[i].remove();
     }
-    aAñadirPersona=document.querySelectorAll(".nuevo-actor");
+    aAñadirPersona=document.querySelectorAll("#capaAddProduccion .nuevo-actor");
     for(var i=0;i<aAñadirPersona.length;i++){
     	aAñadirPersona[i].remove();
     }
-    aAñadirPersona=document.querySelectorAll(".nuevo-director");
+    aAñadirPersona=document.querySelectorAll("#capaAddProduccion .nuevo-director");
     for(var i=0;i<aAñadirPersona.length;i++){
     	aAñadirPersona[i].remove();
     }
@@ -200,6 +200,7 @@ function ocultarFormularios(){
 	document.querySelector("#frmAddProduccion").reset();
 
 	document.querySelector("#capaModificarProduccion>div").classList.add("d-none");
+	document.querySelector("#frmModificarProduccion").reset();
 }
 
 function crearEnlaceMenuUsuario(sTexto){
