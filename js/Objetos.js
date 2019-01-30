@@ -137,6 +137,15 @@ class Upoflix{
             if(oSerie.aTemporadas[i].iNumTemporada==iNumTemporada)
                 return oSerie.aTemporadas[i];
         }
+        return null;
+    }
+
+    buscarCapitulo(sSerie,iNumTemporada,iNumCapitulo){
+        var oTemporada=this.buscarTemporada(sSerie,iNumTemporada);
+        for(var i=0;i<oTemporada.aCapitulos.length;i++){
+            if(oTemporada.aCapitulos[i].iNumCapitulo==iNumCapitulo)
+                return oTemporada.aCapitulos[i];
+        }
     }
 
     borrarTemporada(sSerie,iNumTemporada){
@@ -268,14 +277,9 @@ class Upoflix{
     
     añadirTemporada(titulo,numTemporada,resumen){
         var oProduccionBuscada=this.buscarProduccion(titulo);
-        var oTemporada=new Temporada(numTemporada,resumen);
-
-        if(oProduccionBuscada instanceof Serie){
-            for(var i=0;i<oProduccionBuscada.aTemporadas.length;i++){
-                if(oProduccionBuscada.aTemporadas[i].iNumTemporada==numTemporada){
-                    return 1;//la temporada ya había sido introducida
-                }
-            }
+        var oTemporada=this.buscarTemporada(titulo,numTemporada);
+        if(oTemporada==null){
+            oTemporada=new Temporada(numTemporada,resumen);
             oProduccionBuscada.aTemporadas.push(oTemporada);
             oProduccionBuscada.aTemporadas.sort(function(a,b){
                 if(b.iNumTemporada<a.iNumTemporada){
@@ -288,10 +292,9 @@ class Upoflix{
                     return 0;
                 }
             });
-            return 2;//temporada introducida
-        }
-        else{
-            return 0;//ha introducida una película
+            return true;
+        }else{
+            return false;
         }
     }
 
@@ -362,9 +365,6 @@ class Upoflix{
         temporada.iNumTemporada=iNuevoNumero;
         temporada.sResumen=sResumen;
     }
-
-
-
     
     añadeActor(aActores,actor){
         for(var i=0;i<aActores.length;i++){

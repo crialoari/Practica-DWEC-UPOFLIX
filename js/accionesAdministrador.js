@@ -87,7 +87,6 @@ function crearSelectTemporadas(oEvento){
 		document.querySelector("input[name=eliminar-temporada").classList.add("d-none");
 		document.querySelector("input[name=nueva-temporada").classList.add("d-none");
 		document.querySelector("input[name=add-temporada").classList.remove("d-none");
-
 	}else{
 		var oLabel=document.createElement("label");
 		oLabel.textContent="Selecciona Temporada:";
@@ -191,12 +190,12 @@ function modificarTemporada(){
 	var oFormulario=document.querySelector("#frmEditarTemporadas");
 	oFormulario.txtNumeroT.classList.remove("bg-warning");
 	oFormulario.txtResumenT.classList.remove("bg-warning");
-	var sSerie=oFormulario.selectSerie.value;
+	var sSerie=oFormulario.selectSerie.value.replace("-", " ");
 	var iNumTemporada=parseInt(oFormulario.selectTemporada.value, 10);
 	var iNuevoNumT=parseInt(oFormulario.txtNumeroT.value,10);
 	var sResumen=oFormulario.txtResumenT.value;
 	var bValido=true;
-	if(iNuevoNumT==""){
+	if(isNaN(iNuevoNumT)){
 		bValido=false;
 		oFormulario.txtNumeroT.classList.add("bg-warning");
 		oFormulario.txtNumeroT.focus();
@@ -237,17 +236,44 @@ function nuevaTemporada(oEvento){
 	document.querySelector("textarea[name=txtResumenT").value="";
 	document.querySelector("input[name=modificar-temporada").classList.add("d-none");
 	document.querySelector("input[name=eliminar-temporada").classList.add("d-none");
+	document.querySelector("#frmEditarTemporadas").txtNumeroT.classList.remove("bg-warning");
+	document.querySelector("#frmEditarTemporadas").txtResumenT.classList.remove("bg-warning");
 }
 
 function añadirTemporada(){
-	alert("deberia añadir temporada");
+	var oFormulario=document.querySelector("#frmEditarTemporadas");
+	oFormulario.txtNumeroT.classList.remove("bg-warning");
+	oFormulario.txtResumenT.classList.remove("bg-warning");
+	var sSerie=oFormulario.selectSerie.value.replace("-", " ");
+	var iNumT=parseInt(oFormulario.txtNumeroT.value,10);
+	var sResumen=oFormulario.txtResumenT.value;
+	var bValido=true;
+	if(isNaN(iNumT)){
+		bValido=false;
+		oFormulario.txtNumeroT.classList.add("bg-warning");
+		oFormulario.txtNumeroT.focus();
+	}
+	if(sResumen==""){
+		oFormulario.txtResumenT.classList.add("bg-warning");
+		if(bValido){
+			bValido=false;
+			oFormulario.txtResumenT.focus();
+		}
+	}
+
+	if(!bValido){
+		alert("Por favor rellena todos los campos");	
+	}else{
+		if(oUpoflix.añadirTemporada(sSerie,iNumT,sResumen)){
+			alert("Datos añadidos.");
+			mostrarEditarTemporadas();
+		}else{
+			alert("Error,pruebe de nuevo.")
+		}
+	}
 }
 
 function crearSelectCapitulos(oEvento){
-	//cambiar datos temporada en capa temporada
-	var oFormulario=oCapaSelectCaptitulo.parentElement;
-	oFormulario.txtNumeroT.value=iNumTemporada;
-	oFormulario.txtResumenT.value=oTemporada.sResumen;
 	//llenar select
 	var oE = oEvento || window.event;
 	var sSerie=oE.target.dataset.serie.replace("-"," ");
@@ -255,6 +281,11 @@ function crearSelectCapitulos(oEvento){
 	var oTemporada=oUpoflix.buscarTemporada(sSerie,iNumTemporada);
 	var oCapaSelectCaptitulo=document.querySelector("#capaSelectCapitulo");
 	oCapaSelectCaptitulo.empty();
+
+	//cambiar datos temporada en capa temporada
+	var oFormulario=document.querySelector("#frmEditarTemporadas");
+	oFormulario.txtNumeroT.value=iNumTemporada;
+	oFormulario.txtResumenT.value=oTemporada.sResumen;
 	
 	if(oTemporada.aCapitulos.length==0){
 		var oTexto=document.createElement("p");
@@ -283,7 +314,7 @@ function crearSelectCapitulos(oEvento){
 		}
 		oSelect.addEventListener("change", cambiarDatosCapitulos);
 		oCapaSelectCaptitulo.appendChild(oSelect);
-		oCapaSelectTemporada.appendChild(getCapaModificarCapitulo());
+		oCapaSelectCaptitulo.appendChild(getCapaModificarCapitulo());
 		var event = new Event('change');
 		document.querySelector("#frmEditarTemporadas").selectCapitulo.dispatchEvent(event);
 	}
@@ -294,14 +325,14 @@ function cambiarDatosCapitulos(oEvento){
 	var sSerie=oE.target.dataset.serie.replace("-"," ");
 	var iNumTemporada=parseInt(oE.target.dataset.temporada, 10);
 	var iNumCapitulo=parseInt(oE.target.value,10);
+	var oCapitulo=oUpoflix.buscarCapitulo(sSerie,iNumTemporada,iNumCapitulo);
 	var oFormulario=document.querySelector("#frmEditarTemporadas");
 	oFormulario.txtNumeroC.value=iNumCapitulo;
-	oFormulario.txtResumenT.value=oTemporada.sResumen;
-
+	oFormulario.txtResumenT.value=oCapitulo.sResumen;
 }
-/*modificar*/
+
 function getCapaModificarCapitulo(){
-var oCapaAdd=document.createElement("div");
+	var oCapaAdd=document.createElement("div");
 	oCapaAdd.classList.add("col-8");
 	oCapaAdd.classList.add("m-3");
 	oLabel=document.createElement("label");
@@ -331,9 +362,9 @@ var oCapaAdd=document.createElement("div");
 	oBoton.classList.add("btn-warning");
 	oBoton.classList.add("mr-1");
 	oBoton.classList.add("mt-1");
-	oBoton.name="modificar-temporada";
+	oBoton.name="modificar-capitulo";
 	oBoton.value="Modificar";
-	oBoton.addEventListener("click", modificarTemporada);
+	oBoton.addEventListener("click", modificarCapitulo);
 	oCapaAdd.appendChild(oBoton);
 			
 	oBoton=document.createElement("INPUT");
@@ -343,9 +374,9 @@ var oCapaAdd=document.createElement("div");
 	oBoton.classList.add("btn-danger");
 	oBoton.classList.add("mr-1");
 	oBoton.classList.add("mt-1");
-	oBoton.name="eliminar-temporada"
+	oBoton.name="eliminar-capitulo"
 	oBoton.value="Eliminar";
-	oBoton.addEventListener("click", eliminarTemporada);
+	oBoton.addEventListener("click", eliminarCapitulo);
 	oCapaAdd.appendChild(oBoton);
 	
 	oBoton=document.createElement("INPUT");
@@ -355,9 +386,9 @@ var oCapaAdd=document.createElement("div");
 	oBoton.classList.add("btn-success");
 	oBoton.classList.add("mr-1");
 	oBoton.classList.add("mt-1");
-	oBoton.name="nueva-temporada"
+	oBoton.name="nueva-capitulo"
 	oBoton.value="Nueva";
-	oBoton.addEventListener("click", nuevaTemporada);
+	oBoton.addEventListener("click", nuevoCapitulo);
 	oCapaAdd.appendChild(oBoton);
 	
 	oBoton=document.createElement("INPUT");
@@ -368,12 +399,100 @@ var oCapaAdd=document.createElement("div");
 	oBoton.classList.add("d-none");
 	oBoton.classList.add("mr-1");
 	oBoton.classList.add("mt-1");
-	oBoton.name="add-temporada";
+	oBoton.name="add-capitulo";
 	oBoton.value="Añadir";
-	oBoton.addEventListener("click", añadirTemporada);
+	oBoton.addEventListener("click", añadirCapitulo);
 	oCapaAdd.appendChild(oBoton);
 
 	return oCapaAdd;
+}
+
+function modificarCapitulo(){
+	var oFormulario=document.querySelector("#frmEditarTemporadas");
+	oFormulario.txtNumeroC.classList.remove("bg-warning");
+	oFormulario.txtResumenC.classList.remove("bg-warning");
+	var sSerie=oFormulario.selectSerie.value.replace("-", " ");
+	var iNumTemporada=parseInt(oFormulario.selectTemporada.value, 10);
+	var iNuevoNumT=parseInt(oFormulario.txtNumeroT.value,10);
+	var sResumen=oFormulario.txtResumenT.value;
+	var bValido=true;
+	if(isNaN(iNuevoNumT)){
+		bValido=false;
+		oFormulario.txtNumeroT.classList.add("bg-warning");
+		oFormulario.txtNumeroT.focus();
+	}
+	if(sResumen==""){
+		oFormulario.txtResumenT.classList.add("bg-warning");
+		if(bValido){
+			bValido=false;
+			oFormulario.txtResumenT.focus();
+		}
+	}
+
+	if(!bValido){
+		alert("Por favor rellena todos los campos");	
+	}else{
+		oUpoflix.modificarTemporada(sSerie,iNumTemporada,iNuevoNumT,sResumen);
+		alert("Datos actualizados.");
+		mostrarEditarTemporadas();
+	}
+}
+
+function eliminarCapitulo(){
+	var oFormulario=document.querySelector("#frmEditarTemporadas");
+	var sSerie=oFormulario.selectSerie.value;
+	var iNumTemporada=parseInt(oFormulario.selectTemporada.value);
+	if(oUpoflix.borrarTemporada(sSerie,iNumTemporada)){
+		alert("Temporada borrada.");
+		mostrarEditarTemporadas();
+	}else{
+		alert("Error, pruebe de nuevo.");
+	}
+}
+
+function nuevoCapitulo(oEvento){
+	var oE = oEvento || window.event;
+	oE.target.nextSibling.classList.remove("d-none");
+	document.querySelector("input[name=txtNumeroC").value="";
+	document.querySelector("textarea[name=txtResumenC").value="";
+	document.querySelector("input[name=modificar-capitulo").classList.add("d-none");
+	document.querySelector("input[name=eliminar-capitulo").classList.add("d-none");
+	document.querySelector("#frmEditarTemporadas").txtNumeroC.classList.remove("bg-warning");
+	document.querySelector("#frmEditarTemporadas").txtResumenC.classList.remove("bg-warning");
+}
+
+function añadirCapitulo(){
+	var oFormulario=document.querySelector("#frmEditarTemporadas");
+	oFormulario.txtNumeroC.classList.remove("bg-warning");
+	oFormulario.txtResumenC.classList.remove("bg-warning");
+	var sSerie=oFormulario.selectSerie.value.replace("-", " ");
+	var
+	var iNumC=parseInt(oFormulario.txtNumeroC.value,10);
+	var sResumen=oFormulario.txtResumenC.value;
+	var bValido=true;
+	if(isNaN(iNumC)){
+		bValido=false;
+		oFormulario.txtNumeroC.classList.add("bg-warning");
+		oFormulario.txtNumeroC.focus();
+	}
+	if(sResumen==""){
+		oFormulario.txtResumenC.classList.add("bg-warning");
+		if(bValido){
+			bValido=false;
+			oFormulario.txtResumenC.focus();
+		}
+	}
+
+	if(!bValido){
+		alert("Por favor rellena todos los campos");	
+	}else{
+		if(oUpoflix.añadirCapitulo(sSerie,numTemporada,numCapitulo,resumen)(sSerie,iNuevoNumT,sResumen)){
+			alert("Datos añadidos.");
+			mostrarEditarTemporadas();
+		}else{
+			alert("Error,pruebe de nuevo.")
+		}
+	}
 }
 
 function getCapaAltaPersona(sMetodo){

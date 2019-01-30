@@ -31,7 +31,7 @@ function cargarDatosPrueba(){
 	oAdmin.aFavoritos.push(serie);
 
 	oUpoflix.añadirTemporada("ccavm",1,"este es mi resumen");
-	oUpoflix.añadirTemporada("ccavm",2,"este es mi resumen 2");
+	//oUpoflix.añadirTemporada("ccavm",2,"este es mi resumen 2");
 
 	var persona=new Persona("Harry James","Potter", new Date());
 	oUpoflix.altaPersona(persona);
