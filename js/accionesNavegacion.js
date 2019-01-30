@@ -1,7 +1,5 @@
-function listarPelis(oEvento){
+function listarPelis(){
 	oCapaContenido.empty();
-	var oE = oEvento || window.event;
-	oE.preventDefault();
 	ocultarFormularios();
 	
 	var oColumnaDatos=document.createElement("div");
@@ -53,7 +51,7 @@ function listarPelis(oEvento){
     	oCelda = oFila.insertCell(-1);
     	oCelda.textContent = aPelis[i].sGenero;
     	oCelda = oFila.insertCell(-1);
-    	oCelda.appendChild(calcularPuntuacion(aPelis[i]));
+    	oCelda.appendChild(crearPuntuacion(aPelis[i]));
     	oCelda = oFila.insertCell(-1);
     	oCelda.appendChild(crearAcciones(aPelis[i]));
 
@@ -166,10 +164,8 @@ function agregarPeliFavNavegacion(oEvento){
 	}
 }
 
-function listarSeries(oEvento){
+function listarSeries(){
 	oCapaContenido.empty();
-	var oE = oEvento || window.event;
-	oE.preventDefault();
 	ocultarFormularios();
 	
 	var oColumnaDatos=document.createElement("div");
@@ -225,7 +221,7 @@ function listarSeries(oEvento){
     	oCelda = oFila.insertCell(-1);
     	oCelda.textContent = aSeries[i].sGenero;
     	oCelda = oFila.insertCell(-1);
-    	oCelda.appendChild(calcularPuntuacion(aSeries[i]));
+    	oCelda.appendChild(crearPuntuacion(aSeries[i]));
     	oCelda = oFila.insertCell(-1);
     	var oBoton=document.createElement("INPUT");
    		oBoton.type="button";
@@ -292,38 +288,28 @@ function agregarSerieFavNavegacion(oEvento){
 	}
 }
 
-function calcularPuntuacion(oProduccion){
+function crearPuntuacion(oProduccion){
 	var oCapaPuntuacion=document.createElement("div");
 	var oPuntuacion=document.createElement("p");
-	var iPuntuaciones=0;
-	for(var i=0;i<oProduccion.aPuntuaciones.length;i++)
-		iPuntuaciones+=oProduccion.aPuntuaciones[i].iNota;
-	var fPuntuacion=(iPuntuaciones/oProduccion.aPuntuaciones.length).toPrecision(2);
-	oPuntuacion.textContent=(oProduccion.aPuntuaciones.length==0 ? "Sin puntuaciones" : fPuntuacion);
+	oPuntuacion.textContent=(oProduccion.fNotaMedia==0 ? "Sin puntuación" : oProduccion.fNotaMedia);
 	var oStar=document.createElement("span");
+	oCapaPuntuacion.appendChild(oStar);
 	oCapaPuntuacion.appendChild(oPuntuacion);
-    oPuntuacion.appendChild(oStar);
 	return oCapaPuntuacion;
 }
 
-function buscar(oEvento){
-	oCapaContenido.empty();
-	var oE = oEvento || window.event;
-	oE.preventDefault();
-
+function buscar(){
 	document.querySelector("#capaResultado").empty();
-
+	var oTitulo=document.createElement("h4");
+	oTitulo.classList.add("text-warning");
+	oTitulo.textContent="Resultados:";
+	document.querySelector("#capaResultado").appendChild(oTitulo);
 	var frmFormulario=document.querySelector("#frmABuscador");
 	var sTipo=document.querySelector("#frmABuscador input:checked").value;
-	//alert(sTipo);
 	var sGenero=frmFormulario.selectGenero.value;
-	//alert(sGenero);
 	var dFechaInicio=(frmFormulario.busqfechaInicio.value=="" ? null : new Date(frmFormulario.busqfechaInicio.value));
-	//alert(dFechaInicio);
 	var dFechaFin=(frmFormulario.busqfechaFin.value=="" ? null : new Date(frmFormulario.busqfechaFin.value));
-	//alert(dFechaFin);
 	var iPuntuacion=(frmFormulario.txtPuntuacionMinima.value=="" ? 0 : parseInt(frmFormulario.txtPuntuacionMinima.value, 10));
-	//alert(iPuntuacion);
 
 	switch (sTipo) {
 		case "all":
@@ -375,12 +361,7 @@ function mostrarResultados(aProducciones){
     oCelda = document.createElement("TH");
     oCelda.textContent = "Género";
     oFila.appendChild(oCelda);
-    oCelda = document.createElement("TH");
-    oCelda.textContent = "Actores";
-    oFila.appendChild(oCelda);
-    oCelda = document.createElement("TH");
-    oCelda.textContent = "Directores";
-    oFila.appendChild(oCelda);
+    
     oCelda = document.createElement("TH");
     oCelda.textContent = "Puntuación";
     oFila.appendChild(oCelda);
@@ -400,31 +381,12 @@ function mostrarResultados(aProducciones){
     	oCelda = oFila.insertCell(-1);
     	oCelda.textContent = aProducciones[i].sGenero;
     	oCelda = oFila.insertCell(-1);
-    	var lista=document.createElement("ul");
-    	for(var j=0; j<aProducciones[i].aActores.length;j++){
-    		var actor=document.createElement("li");
-    		actor.textContent=aProducciones[i].aActores[j];
-    		lista.appendChild(actor);
-    	}
-    	oCelda.appendChild(lista);
-    	oCelda = oFila.insertCell(-1);
-    	lista=document.createElement("ul");
-    	for(var j=0; j<aProducciones[i].aDirectores.length;j++){
-    		var director=document.createElement("li");
-    		director.textContent=aProducciones[i].aDirectores[j];
-    		lista.appendChild(director);
-    	}
-    	oCelda.appendChild(lista);
+    	oCelda.appendChild(crearPuntuacion(aProducciones[i]));
     	oCelda = oFila.insertCell(-1);
     	oCelda.textContent = (aProducciones[i] instanceof Serie ? aProducciones[i].dFechaInicio.getFullYear() : oUpoflix.aProducciones[i].iAñoEstreno);;
-    	oCelda = oFila.insertCell(-1);
-    	oCelda.appendChild(calcularPuntuacion(aProducciones[i]));
+    	//oCelda = oFila.insertCell(-1);
+    	//oCelda.appendChild(crearAcciones(aProducciones[i]));
     }
-
-    // CAPTION
-    var oCaption = oTabla.createCaption();
-    oCaption.textContent = "Resultado de la búsqueda";
-
 	return oTabla;
 }
 

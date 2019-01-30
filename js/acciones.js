@@ -18,22 +18,31 @@ function cargarDatosPrueba(){
 	oUsuario.aFavoritos.push(peli);
 	oAdmin.aFavoritos.push(peli);
 	
-	peli=new Pelicula("glass","Acción",[],[],"hohohafo","", 2013,150);
-	oUpoflix.añadirProduccion(peli);
-	
-	var peli=new Pelicula("el protegido","Acción",["Ted","Barney"],[],"hohohafo","",2014,156);
+	peli=new Pelicula("el protegido","Acción",["Ted","Barney"],[],"hohohafo","",2014,156);
 	oUpoflix.añadirProduccion(peli);
 	oUsuario.aFavoritos.push(peli);
 	oAdmin.aFavoritos.push(peli);
 
-	var serie=new Serie("ccavm","Comedia",["Ted","Barney"],[],"kjsdnfds","",new Date(),new Date(2020));
 
+	var serie=new Serie("ccavm","Comedia",["Ted","Barney"],[],"kjsdnfds","",new Date(),new Date(2020));
+	
 	oUpoflix.añadirProduccion(serie);
 	oUsuario.aFavoritos.push(serie);
 	oAdmin.aFavoritos.push(serie);
 
+	oUpoflix.añadirTemporada("ccavm",1,"este es mi resumen");
+	//oUpoflix.añadirTemporada("ccavm",2,"este es mi resumen 2");
+
 	var persona=new Persona("Harry James","Potter", new Date());
 	oUpoflix.altaPersona(persona);
+	var persona=new Persona("Hermione","Granger", new Date());
+	oUpoflix.altaPersona(persona);
+
+	var serie=new Serie("Dexter","Comedia",[persona],[],"kjsdnfds","",new Date(),new Date(2020));
+	oUpoflix.añadirProduccion(serie);
+
+	peli=new Pelicula("glass","Acción",[persona],[],"hohohafo","", 2013,150);
+	oUpoflix.añadirProduccion(peli);
 }
 
 function cargarMenuUsuario(){
@@ -130,6 +139,7 @@ function mostrarBuscar(){
 	document.querySelector("#capaSelect").appendChild(getSelectGenero());
 	//preparar capa resultados
     document.querySelector("#capaResultado").empty();
+    document.querySelector("#capaBusqueda #capaResultado").classList.remove("d-none");
 	//mostrar capa
     document.querySelector("#capaBusqueda>div").classList.remove("d-none");
     document.querySelector("#capaBusqueda input[type=button]").addEventListener("click", buscar);
@@ -141,6 +151,7 @@ function mostrarAñadirRecurso(){
     ocultarFormularios();
     añadirRecurso();
 }
+
 function mostrarEditarTemporadas(){
 	oCapaContenido.empty();
     ocultarFormularios();
@@ -163,6 +174,7 @@ function ocultarFormularios(){
 	document.querySelector("#frmCrearCuenta").reset();
 
 	document.querySelector("#capaBusqueda>div").classList.add("d-none");
+	document.querySelector("#capaBusqueda #capaResultado").classList.add("d-none");
 	document.querySelector("#frmABuscador").reset();
 	document.querySelector("#radioBusqTodo").checked=true;
 }
