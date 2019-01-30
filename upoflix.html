@@ -12,25 +12,21 @@
     <body>
         <nav class="navbar navbar-expand-sm bg-light navbar-dark" id="cabecera">
             <a class="navbar-brand ml-2 mr-auto" href="#">
-                <img alt="logo" src="images/logo.png" style="height: 50px;">
+                <img alt="logo" src="images/logo.png" style="height: 40px;">
                 </img>
             </a>
-            <ul class="nav mr-3" id="menuUsuario">
-            </ul>
+            <ul class="nav mr-3" id="menuUsuario"></ul>
         </nav>
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-            <!-- Links -->
-            <ul class="navbar-nav" id="menuNavegacion">
-            </ul>
+            <ul class="navbar-nav" id="menuNavegacion"></ul>
         </nav>
         <div class="container p-3">
             <div class="row" id="contenido"></div>
-
+            <div class="row" id="capaAddRecurso"><!--añadir--></div>
             <div class="row" id="capaBusqueda">
-                <div class="col-6 m-auto d-none">
+                <div class="col-4 m-auto d-none">
                     <h4 class="text-warning">Búsqueda avanzada</h4>
                     <form id="frmABuscador">
-                    <h6>Tipo de producción</h6>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="radioTipo" id="radioBusqTodo" value="all">
                         <label class="form-check-label" for="radioBusqTodo">Todos</label>
@@ -46,29 +42,21 @@
                     </div>
                     <hr>
                     <div id="capaCriterios">
-                        <h6>Criterios:</h6>
-                        <div class="form-group" id="capaSelect">
-                            <!--aqui select-->
+                        <div class="form-group" id="capaSelect"></div>
+                        <div class="form-group">
+                          <label>Posterior a:</label>
+                          <input type="date" class="form-control form-control-sm" id="busqfechaInicio" name="busqfechaInicio">
                         </div>
                         <div class="form-group">
-                          <label>Por fecha:</label>
-                          <div class="form-group row">
-                            <label for="busqfechaInicio" class="col-2 col-form-label col-form-label-sm">Inicio:</label>
-                            <div class="col-12 col-sm-4 mb-1">
-                              <input type="date" class="form-control form-control-sm" id="busqfechaInicio" name="busqfechaInicio">
-                            </div>
-                            <label for="busqfechaFin" class="col-2 col-form-label col-form-label-sm">Fin:</label>
-                            <div class="col-12 col-sm-4 mb-1">
-                              <input type="date" class="form-control form-control-sm" id="busqfechaFin" name="busqfechaFin">
-                            </div>
-                          </div>
+                            <label>Anterior a:</label>
+                            <input type="date" class="form-control form-control-sm" id="busqfechaFin" name="busqfechaFin">
                         </div>
                         <div class="form-group">
                           <label for="txtPuntuacionMinima">Puntuación mínima (1-5):</label>
                           <input type="text" class="col-1 form-control form-control-sm" maxlength="1" name="txtPuntuacionMinima" id="txtPuntuacionMinima">
                         </div>
                     </div>
-                    <input type="button" class="btn btn-warning" value="Buscar">
+                    <input type="button" class="btn btn-warning mb-4" value="Buscar">
                     </form>
                 </div>
                 <div class="col-8 m-auto" id="capaResultado"></div>

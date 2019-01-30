@@ -48,7 +48,7 @@ function listarTodo(oEvento){
     	var lista=document.createElement("ul");
     	for(var j=0; j<oUpoflix.aProducciones[i].aActores.length;j++){
     		var actor=document.createElement("li");
-    		actor.textContent=oUpoflix.aProducciones[i].aActores[j];
+    		actor.textContent=oUpoflix.aProducciones[i].aActores[j].sNombre+" "+oUpoflix.aProducciones[i].aActores[j].sApellido;
     		lista.appendChild(actor);
     	}
     	oCelda.appendChild(lista);
@@ -56,7 +56,7 @@ function listarTodo(oEvento){
     	lista=document.createElement("ul");
     	for(var j=0; j<oUpoflix.aProducciones[i].aDirectores.length;j++){
     		var director=document.createElement("li");
-    		director.textContent=oUpoflix.aProducciones[i].aDirectores[j];
+    		director.textContent=oUpoflix.aProducciones[i].aDirectores[j].sNombre+" "+oUpoflix.aProducciones[i].aDirectores[j].sApellido;;
     		lista.appendChild(director);
     	}
     	oCelda.appendChild(lista);

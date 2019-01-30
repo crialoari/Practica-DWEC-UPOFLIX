@@ -267,12 +267,12 @@ function crearCapaMasDatos(oProduccion){
     var oLista=document.createElement("ul");
     for(var j=0; j<oProduccion.aActores.length;j++){
     	var actor=document.createElement("li");
-    	actor.textContent=oProduccion.aActores[j];
+    	actor.textContent=oProduccion.aActores[j].sNombre+" "+oProduccion.aActores[j].sApellido;
     	oLista.appendChild(actor);
     }
 	for(var j=0; j<oProduccion.aDirectores.length;j++){
     	var director=document.createElement("li");
-    	director.textContent=oProduccion.aDirectores[j];
+    	director.textContent=oProduccion.aDirectores[j].sNombre+" "+oProduccion.aDirectores[j].sApellido;
     	oLista.appendChild(director);
     }
     oCapaDatos.appendChild(oLista);
@@ -304,7 +304,7 @@ var oCapaDatos=document.createElement("div");
     	var oListaCap=document.createElement("ul");
     	for(var j=0; j<oSerie.aTemporadas[i].aCapitulos.length;j++){
 			var oLi=document.createElement("li");
-			oLi.textContent="Capítulo "+oSerie.aTemporadas[i].aCapitulos[j].iNumCapitulo+": "+oSerie.aTemporadas[i].aCapitulos[j].sresumen;
+			oLi.textContent="Capítulo "+oSerie.aTemporadas[i].aCapitulos[j].iNumCapitulo+": "+oSerie.aTemporadas[i].aCapitulos[j].sResumen;
 			oListaCap.appendChild(oLi);
     	}
     	oListaTemp.appendChild(oListaCap);

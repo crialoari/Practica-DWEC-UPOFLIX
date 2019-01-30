@@ -1,7 +1,5 @@
-function listarPelis(oEvento){
+function listarPelis(){
 	oCapaContenido.empty();
-	var oE = oEvento || window.event;
-	oE.preventDefault();
 	ocultarFormularios();
 	
 	var oColumnaDatos=document.createElement("div");
@@ -53,7 +51,7 @@ function listarPelis(oEvento){
     	oCelda = oFila.insertCell(-1);
     	oCelda.textContent = aPelis[i].sGenero;
     	oCelda = oFila.insertCell(-1);
-    	oCelda.appendChild(calcularPuntuacion(aPelis[i]));
+    	oCelda.appendChild(crearPuntuacion(aPelis[i]));
     	oCelda = oFila.insertCell(-1);
     	oCelda.appendChild(crearAcciones(aPelis[i]));
 
@@ -166,10 +164,8 @@ function agregarPeliFavNavegacion(oEvento){
 	}
 }
 
-function listarSeries(oEvento){
+function listarSeries(){
 	oCapaContenido.empty();
-	var oE = oEvento || window.event;
-	oE.preventDefault();
 	ocultarFormularios();
 	
 	var oColumnaDatos=document.createElement("div");
@@ -225,7 +221,7 @@ function listarSeries(oEvento){
     	oCelda = oFila.insertCell(-1);
     	oCelda.textContent = aSeries[i].sGenero;
     	oCelda = oFila.insertCell(-1);
-    	oCelda.appendChild(calcularPuntuacion(aSeries[i]));
+    	oCelda.appendChild(crearPuntuacion(aSeries[i]));
     	oCelda = oFila.insertCell(-1);
     	var oBoton=document.createElement("INPUT");
    		oBoton.type="button";
@@ -292,53 +288,55 @@ function agregarSerieFavNavegacion(oEvento){
 	}
 }
 
-function calcularPuntuacion(oProduccion){
+function crearPuntuacion(oProduccion){
 	var oCapaPuntuacion=document.createElement("div");
 	var oPuntuacion=document.createElement("p");
-	var iPuntuaciones=0;
-	for(var i=0;i<oProduccion.aPuntuaciones.length;i++)
-		iPuntuaciones+=oProduccion.aPuntuaciones[i].iNota;
-	var fPuntuacion=(iPuntuaciones/oProduccion.aPuntuaciones.length).toPrecision(2);
-	oPuntuacion.textContent=(oProduccion.aPuntuaciones.length==0 ? "Sin puntuaciones" : fPuntuacion);
+	oPuntuacion.textContent=(oProduccion.fNotaMedia==0 ? "Sin puntuación" : oProduccion.fNotaMedia);
 	var oStar=document.createElement("span");
+	oCapaPuntuacion.appendChild(oStar);
 	oCapaPuntuacion.appendChild(oPuntuacion);
-    oPuntuacion.appendChild(oStar);
 	return oCapaPuntuacion;
 }
 
-function buscar(oEvento){
-	oCapaContenido.empty();
-	var oE = oEvento || window.event;
-	oE.preventDefault();
-
+function buscar(){
 	document.querySelector("#capaResultado").empty();
-
+	var oTitulo=document.createElement("h4");
+	oTitulo.classList.add("text-warning");
+	oTitulo.textContent="Resultados:";
+	document.querySelector("#capaResultado").appendChild(oTitulo);
 	var frmFormulario=document.querySelector("#frmABuscador");
 	var sTipo=document.querySelector("#frmABuscador input:checked").value;
-	//alert(sTipo);
-	var sGenero=frmFormulario.selectGenero.value
-	//alert(sGenero);
+	var sGenero=frmFormulario.selectGenero.value;
 	var dFechaInicio=(frmFormulario.busqfechaInicio.value=="" ? null : new Date(frmFormulario.busqfechaInicio.value));
-	//alert(dFechaInicio);
 	var dFechaFin=(frmFormulario.busqfechaFin.value=="" ? null : new Date(frmFormulario.busqfechaFin.value));
-	//alert(dFechaFin);
-	var iPuntuacion=(frmFormulario.txtPuntuacionMinima.value=="" ? 1 : parseInt(frmFormulario.txtPuntuacionMinima.value, 10));
-	//alert(iPuntuacion);
+	var iPuntuacion=(frmFormulario.txtPuntuacionMinima.value=="" ? 0 : parseInt(frmFormulario.txtPuntuacionMinima.value, 10));
 
 	switch (sTipo) {
 		case "all":
-			var aResultadoPelis=buscarPelicula(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
-			document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
-			var aResultadoSeries=buscarSerie(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
-			document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
+			var aResultadoPelis=oUpoflix.buscarPelicula(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
+			var aResultadoSeries=oUpoflix.buscarSerie(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
+			var aResultado=aResultadoPelis.concat(aResultadoSeries);
+			if(aResultado.length==0){
+				document.querySelector("#capaResultado").textContent="La búsqueda no ha devuelto resultados";
+			}else{
+				document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
+			}
 			break;
 		case "Pelicula":
-			var aResultado=buscarPelicula(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
-			document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
+			var aResultado=oUpoflix.buscarPelicula(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
+			if(aResultado.length==0){
+				document.querySelector("#capaResultado").textContent="La búsqueda no ha devuelto resultados";
+			}else{
+				document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
+			}
 			break;
 		case "Serie":
-			var aResultado=buscarSerie(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
-			document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
+			var aResultado=oUpoflix.buscarSerie(sGenero,dFechaInicio,dFechaFin,iPuntuacion);
+			if(aResultado.length==0){
+				document.querySelector("#capaResultado").textContent="La búsqueda no ha devuelto resultados";
+			}else{
+				document.querySelector("#capaResultado").appendChild(mostrarResultados(aResultado));
+			}
 			break;
 		default:
 			alert("Error desconocido, vuelve a intentarlo");
@@ -346,12 +344,55 @@ function buscar(oEvento){
 	}
 }
 
-function mostrarResultados(){
-return oTable;
+function mostrarResultados(aProducciones){
+	var oTabla = document.createElement("table");
+    oTabla.classList.add("table");
+    oTabla.classList.add("table-sm");
+    oTabla.classList.add("table-hover");
+    // THEAD
+    var oTHead = oTabla.createTHead();
+    var oFila = oTHead.insertRow(-1);
+    var oCelda = document.createElement("TH");
+    oCelda.textContent = "Título";
+    oFila.appendChild(oCelda);
+    oCelda = document.createElement("TH");
+    oCelda.textContent = "Tipo";
+    oFila.appendChild(oCelda);
+    oCelda = document.createElement("TH");
+    oCelda.textContent = "Género";
+    oFila.appendChild(oCelda);
+    
+    oCelda = document.createElement("TH");
+    oCelda.textContent = "Puntuación";
+    oFila.appendChild(oCelda);
+    oCelda = document.createElement("TH");
+    oCelda.textContent = "Año";
+    oFila.appendChild(oCelda);
+    // TBODY
+    var oTBody = document.createElement("TBODY");
+    oTabla.appendChild(oTBody);
+    
+	for(var i=0; i<aProducciones.length;i++){
+        oFila = oTBody.insertRow(-1);
+    	oCelda = oFila.insertCell(-1);
+    	oCelda.textContent = aProducciones[i].sTitulo;
+    	oCelda = oFila.insertCell(-1);
+    	oCelda.textContent = (aProducciones[i] instanceof Serie ? "Serie" : "Película");
+    	oCelda = oFila.insertCell(-1);
+    	oCelda.textContent = aProducciones[i].sGenero;
+    	oCelda = oFila.insertCell(-1);
+    	oCelda.appendChild(crearPuntuacion(aProducciones[i]));
+    	oCelda = oFila.insertCell(-1);
+    	oCelda.textContent = (aProducciones[i] instanceof Serie ? aProducciones[i].dFechaInicio.getFullYear() : oUpoflix.aProducciones[i].iAñoEstreno);;
+    	//oCelda = oFila.insertCell(-1);
+    	//oCelda.appendChild(crearAcciones(aProducciones[i]));
+    }
+	return oTabla;
 }
 
 function getSelectGenero(){
-	var aGeneros=["Aventuras","Comedia","Drama","Terror","Musical","Ciencia ficción","Bélica","Western","Thriller","Infantil"];
+	var aGeneros=["Acción","Aventuras","Comedia","Drama","Terror","Musical","Ciencia ficción","Bélica","Western","Thriller","Infantil"];
+	aGeneros=aGeneros.sort();
 	var oSelect=document.createElement("select");
 	oSelect.classList.add("custom-select");
 	oSelect.classList.add("custom-select-sm");
