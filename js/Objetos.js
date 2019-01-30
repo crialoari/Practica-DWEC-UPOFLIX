@@ -16,7 +16,7 @@ function Produccion(titulo,genero,actores,directores,resumen,urlImagen){
     this.aPuntuaciones=[];
     this.aActores=actores;
     this.aDirectores=directores;
-    this.sresumen=resumen;
+    this.sResumen=resumen;
     this.sUrlImagen=urlImagen;
     this.fNotaMedia=0;
 }
@@ -253,7 +253,6 @@ class Upoflix{
 
     puntuar(nota,titulo){
         var oProduccionBuscada=this.buscarProduccion(titulo);
-
         var oPuntuacion=new Puntuacion(this.oUsuarioActivo,nota);
         var resultado=true;//puntuacion añadida
         var notaTotal=0;
@@ -263,7 +262,6 @@ class Upoflix{
                 resultado= false;//cambiada
             }
         }
-        var oPuntuacion=new Puntuacion(this.oUsuarioActivo,nota);
         oProduccionBuscada.aPuntuaciones.push(oPuntuacion);
 
         for(var i=0;i<oProduccionBuscada.aPuntuaciones.length;i++){
@@ -273,19 +271,25 @@ class Upoflix{
         return resultado;
 
     }
-    /*puntuarSinUsuarioActivo(user,nota,titulo){
+    puntuarSinUsuarioActivo(user,nota,titulo){
         var oProduccionBuscada=this.buscarProduccion(titulo);
         var oUsuarioBuscado=this.buscarUsuario(user);
         var oPuntuacion=new Puntuacion(oUsuarioBuscado,nota);
+        var resultado=true;//puntuacion añadida
+        var notaTotal=0;
         for(var i=0; i<oProduccion.aPuntuaciones.length;i++){
             if(oProduccionBuscada.aPuntuaciones[i].oUsuario.sUser==oUsuarioBuscado.sUser){
                 oProduccionBuscada.aPuntuaciones[i].iNota=nota;
-                return false;//puntuacion cambiada
+                resultado= false;//puntuacion cambiada
             }
         }
         oProduccionBuscada.aPuntuaciones.push(oPuntuacion);
-        return true;//puntuacion añadida
-    }*/
+        for(var i=0;i<oProduccionBuscada.aPuntuaciones.length;i++){
+            notaTotal+=oProduccionBuscada.aPuntuaciones[i].iNota;
+        }
+        oProduccionBuscada.fNotaMedia=(notaTotal/oProduccionBuscada.aPuntuaciones.length).toPrecision(2);
+        return resultado;
+    }
     
     añadirTemporada(titulo,numTemporada,resumen){
         var oProduccionBuscada=this.buscarProduccion(titulo);
@@ -352,11 +356,35 @@ class Upoflix{
         }
     }
 
-    modificarPelicula(){
-
+    modificarPelicula(tituloAntiguo,tituloNuevo,img,genero,resumen,actores,directores,año,duracion){
+        var oPeliculaBuscada=this.buscarProduccion(tituloAntiguo);
+        if(oPeliculaBuscada!=null){
+            oPeliculaBuscada.sTitulo=tituloNuevo;
+            oPeliculaBuscada.sUrlImagen=img;
+            oPeliculaBuscada.sGenero=genero;
+            oPeliculaBuscada.sResumen=resumen;
+            oPeliculaBuscada.aActores=actores;
+            oPeliculaBuscada.aDirectores=directores;
+            oPeliculaBuscada.iAñoEstreno=año;
+            oPeliculaBuscada.iDuracion=duracion;
+            return true; //pelicula modificada
+        }
+        return false;//pelicula no encontrada
     }
-    modificarSerie(){
-
+    modificarSerie(tituloAntiguo,tituloNuevo,img,genero,resumen,actores,directores,fechaInicio,fechaFin){
+        var oSerieBuscada=this.buscarProduccion(tituloAntiguo);
+        if(oSerieBuscada!=null){
+            oSerieBuscada.sTitulo=tituloNuevo;
+            oSerieBuscada.sUrlImagen=img;
+            oSerieBuscada.sGenero=genero;
+            oSerieBuscada.sResumen=resumen;
+            oSerieBuscada.aActores=actores;
+            oSerieBuscada.aDirectores=directores;
+            oSerieBuscada.dFechaInicio=fechaInicio;
+            oSerieBuscada.dFechaFin=fechaFin;
+            return true;//serie modificada
+        }
+        return false;//serie no encontrada
     }
 
     modificarCapitulo(sSerie,iNumTemporada,iNumero,iNuevoNumero,sResumen){
