@@ -149,6 +149,25 @@ function mostrarBuscar(){
 function mostrarAñadirRecurso(){
 	oCapaContenido.empty();
     ocultarFormularios();
+    if(document.querySelector("#genero select")!=null)
+    	document.querySelector("#genero select").remove();
+    var aAñadirPersona=document.querySelectorAll(".elegir-actor");
+    for(var i=0;i<aAñadirPersona.length;i++){
+    	aAñadirPersona[i].remove();
+    }
+
+    aAñadirPersona=document.querySelectorAll(".elegir-director");
+    for(var i=0;i<aAñadirPersona.length;i++){
+    	aAñadirPersona[i].remove();
+    }
+    aAñadirPersona=document.querySelectorAll(".nuevo-actor");
+    for(var i=0;i<aAñadirPersona.length;i++){
+    	aAñadirPersona[i].remove();
+    }
+    aAñadirPersona=document.querySelectorAll(".nuevo-director");
+    for(var i=0;i<aAñadirPersona.length;i++){
+    	aAñadirPersona[i].remove();
+    }
     añadirRecurso();
 }
 
@@ -177,6 +196,9 @@ function ocultarFormularios(){
 	document.querySelector("#capaBusqueda #capaResultado").classList.add("d-none");
 	document.querySelector("#frmABuscador").reset();
 	document.querySelector("#radioBusqTodo").checked=true;
+
+	document.querySelector("#capaAddProduccion>div").classList.add("d-none");
+	document.querySelector("#frmAddProduccion").reset();
 }
 
 function crearEnlaceMenuUsuario(sTexto){

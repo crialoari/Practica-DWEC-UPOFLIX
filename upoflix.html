@@ -22,38 +22,36 @@
         </nav>
         <div class="container p-3">
             <div class="row" id="contenido"></div>
-            <div class="row" id="capaAddRecurso"><!--añadir--></div>
-
-            <div class="row d-none" id="capaAddProduccion">
-                <div class="col-10 col-md-6 m-auto">
+            <div class="row" id="capaAddProduccion">
+                <div class="col-10 col-md-6 m-auto d-none">
                   <form id="frmAddProduccion">
                   <h3 class="text-warning">Añadir Producción</h3>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="radioAdd" id="radioAddPeli" value="Peliculas" >
+                    <input class="form-check-input" type="radio" name="radioAdd" id="radioAddPeli" value="Pelicula" checked="checked">
                     <label class="form-check-label" for="radioAddPeli">Película</label>
                   </div>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="radioAdd" id="radioAddSerie" value="Serie" checked="checked">
+                    <input class="form-check-input" type="radio" name="radioAdd" id="radioAddSerie" value="Serie">
                     <label class="form-check-label" for="radioAddSerie">Serie</label>
                   </div>
                   <hr>
                   <div id="datosComunes">
                     <h5>Datos de la producción</h5>
-                      <div class="form-group">
-                        <label for="txtAddTitulo">Cartel:</label>
-                        <input type="text" class="form-control form-control-sm" maxlength="50" name="txtAddTitulo" id="txtAddTitulo">
-                      </div>
-                      <div class="form-group">
-                        <label for="txtAddTitulo">Título:</label>
-                        <input type="text" class="form-control form-control-sm" maxlength="50" name="txtAddTitulo" id="txtAddTitulo">
-                      </div>
+                    <div class="form-group">
+                      <label for="txtAddTitulo">Cartel: <small>(url)</small></label>
+                      <input type="text" class="form-control form-control-sm" name="txtAddCartel" id="txtAddCartel">
+                    </div>
+                    <div class="form-group">
+                      <label for="txtAddTitulo">Título:</label>
+                      <input type="text" class="form-control form-control-sm" maxlength="50" name="txtAddTitulo" id="txtAddTitulo">
+                    </div>
                       <div class="form-group" id="genero"> 
                         <label for="selectGenero">Género:</label>
-                        
+                        <!--select genero-->
                       </div>
                       <div class="form-group">
-                        <label for="txtAddTitulo">Resumen:</label>
-                        <textarea class="form-control" rows="3" maxlength="220" id="comment"></textarea>
+                        <label>Resumen:</label>
+                        <textarea class="form-control" rows="3" maxlength="220" id="comment" name="txtAddResumen"></textarea>
                       </div>
                       <div id="capaActores">
                         <h5>Actores</h5>
@@ -61,7 +59,7 @@
                           <input type="button" name="btnActorExistente" value="Existente" class="btn btn-outline-warning btn-sm">
                           <input type="button" name="btnActorNuevo" value="Nuevo" class="btn btn-outline-warning btn-sm">
                         </div>
-                        
+                        <!--aqui capa añadir actores-->
                       </div>
                       <div id="capaDirectores">
                         <h5>Directores</h5>
@@ -69,42 +67,38 @@
                           <input type="button" name="btnDirectorExistente" value="Existente" class="btn btn-outline-warning btn-sm">
                           <input type="button" name="btnDirectorNuevo" value="Nuevo" class="btn btn-outline-warning btn-sm">
                         </div>
-                        
-                      </div>
-                  <hr>
-                  <div id="datosSeries" class="">
-                    <h5>series</h5>
-                      <div class="form-group row">
-                        <label for="inputEmail3" class="col-2 col-form-label col-form-label-sm">Inicio:</label>
-                        <div class="col-4 mb-1">
-                          <input type="date" class="form-control form-control-sm" id="fechaCompra" name="fechaCompra">
-                        </div>
-                        <label for="inputEmail3" class="col-2 col-form-label col-form-label-sm">Fin:</label>
-                        <div class="col-4 mb-1">
-                          <input type="date" class="form-control form-control-sm" id="fechaCompra" name="fechaCompra">
-                        </div>
-                      </div>
-                  </div>
-                  <hr>
-                  <div id="datosPelis" class="d-none">
-                    <h5>pelis</h5>
-                      <div class="form-group row">
-                        <label for="inputEmail3" class="col col-form-label col-form-label-sm">Año estreno:</label>
-                        <div class="col">
-                          <input type="text" class="form-control form-control-sm"  maxlength="4" name="txtNNombre" id="txtNNombre">
-                        </div>
-                        <label for="inputEmail3" class="col col-form-label col-form-label-sm">Duración (min):</label>
-                        <div class="col">
-                          <input type="text" class="form-control form-control-sm"  maxlength="4" name="txtNNombre" id="txtNNombre">
-                        </div>
+                        <!--aqui capa añadir directores-->
                       </div>
                     </div>
-                <input type="button" name="btnAñadir" class="btn btn-warning" value="Añadir">
-                </div>
-  
+                  <hr>
+                  <div id="datosSeries" class="d-none">
+                    <div class="form-group row">
+                      <label class="col-2 col-form-label col-form-label-sm">Inicio:</label>
+                      <div class="col-4 mb-1">
+                        <input type="date" class="form-control form-control-sm" id="fechaInicio" name="fechaInicio">
+                      </div>
+                      <label class="col-2 col-form-label col-form-label-sm">Fin:</label>
+                      <div class="col-4 mb-1">
+                        <input type="date" class="form-control form-control-sm" id="fechaFinAdd" name="fechaFinAdd">
+                      </div>
+                    </div>
+                  </div>
+                  <div id="datosPelis">
+                    <div class="form-group row">
+                      <label class="col col-form-label col-form-label-sm">Año estreno:</label>
+                      <div class="col">
+                        <input type="text" class="form-control form-control-sm" maxlength="4" name="txtAddAnio" id="txtAddAnio">
+                      </div>
+                      <label class="col col-form-label col-form-label-sm">Duración (min):</label>
+                      <div class="col">
+                        <input type="text" class="form-control form-control-sm" maxlength="4" name="txtAddDuracion" id="txtAddDuracion">
+                      </div>
+                      </div>
+                    </div>
+                <input type="button" name="btnAñadir" class="btn btn-success" value="Añadir">
               </form>
+              </div>
             </div>
-          </div>
 
             <div class="row" id="capaBusqueda">
                 <div class="col-4 m-auto d-none">
@@ -204,7 +198,8 @@
     <script type="text/javascript" src="js/accionesUsuario.js"></script>
     <script type="text/javascript" src="js/accionesUsuarioProduccion.js"></script>
     <script type="text/javascript" src="js/accionesNavegacion.js"></script>
-    <script type="text/javascript" src="js/accionesAdministrador.js"></script>
+    <script type="text/javascript" src="js/accionesCRUDser-pel.js"></script>
+    <script type="text/javascript" src="js/accionesCRUDtemp-cap-pers.js"></script>
     <script type="text/javascript" src="js/acciones.js"></script>
   </body>
 </html>
