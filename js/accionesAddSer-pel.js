@@ -7,6 +7,8 @@ function añadirRecurso(){
 	document.querySelector("input[name=btnDirectorNuevo]").addEventListener("click",añadirPersonaNuevaDirector);
 	document.querySelector("input[name=btnDirectorExistente]").addEventListener("click",añadirPersonaExistenteDirector);
 	document.querySelector("#capaAddProduccion input[name=btnAñadir]").addEventListener("click",añadirProduccion);
+	document.querySelector("#txtAddAnio").addEventListener("keypress", soloNumeros);
+	document.querySelector("#txtAddAnio").addEventListener("keypress", soloNumeros);
 	document.querySelector("#genero").appendChild(getSelectAddGenero());
 	limpiarErroresAñadir();
 }
@@ -16,34 +18,184 @@ function añadirProduccion(){
 	limpiarErroresAñadir();
 	var bValido=true;
     var sErrores="";
-
 	//validar url
-	oFormulario.txtAddCartel.classList.add("bg-warning");
-
+	var sUrlCartel=oFormulario.txtAddCartel.value.trim();
+    var oExpReg=/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/;
+    if(!oExpReg.test(sUrlCartel)){
+        bValido=false;
+        oFormulario.txtAddCartel.classList.add("bg-warning")
+        oFormulario.txtAddCartel.focus();
+        sErrores+="-El cartel debe ser una url de imagen correcta.";
+    }
 	//validar titulo
-
+	var sTitulo=oFormulario.txtAddTitulo.value.trim();
+    if(sTitulo==""){
+        oFormulario.txtAddTitulo.classList.add("bg-warning");
+        if(bValido){
+            oFormulario.txtAddTitulo.focus();
+            bValido=false;
+        }
+        sErrores+="\n-El campo título no puede estar vacío.";
+    }
 	//recoger genero
-
+	var sGenero=oFormulario.selectGenero.value;
 	//validar resumen
+	var sResumen=oFormulario.txtAddResumen.value.trim();
+    if(sResumen==""){
+        oFormulario.txtAddResumen.classList.add("bg-warning");
+        if(bValido){
+            oFormulario.txtAddResumen.focus();
+            bValido=false;
+        }
+        sErrores+="\n-El campo resumen no puede estar vacío.";
+    }
 
+    var aActoresNuevos=[];
 	//recoger actores nuevos
+	var aAñadirPersona=document.querySelectorAll(".nuevo-actor");
+    for(var i=0;i<aAñadirPersona.length;i++){
+    	var sNombre=aAñadirPersona[i].querySelector("input[name=txtNombre").value.trim();
+    	var sApellido=aAñadirPersona[i].querySelector("input[name=txtApellido").value.trim();
+		//validar actores nuevos
+		var bValido=true;
+		if(sNombre==""){
+			bValido=false;
+			aAñadirPersona[i].querySelector("input[name=txtNombre").classList.add("bg-warning");
+			aAñadirPersona[i].querySelector("input[name=txtNombre").focus();
+		}
+		if(sApellido==""){
+			aAñadirPersona[i].querySelector("input[name=txtApellido").classList.add("bg-warning");
+			if(bValido){
+				bValido=false;
+				aAñadirPersona[i].querySelector("input[name=txtApellido").focus();
+			}
+		}
+		if(bValido){
 
-	//validar actores nuevos
-
+			aActoresNuevos.push(new Persona(sNombre,sApellido));
+		}else{
+			sErrores+="\n-Revisa los datos de nuevos actores.";
+		}
+    }
 	//recoger actores existentes
-	
-	//recoger directores nuevos
-
-	//validar directores nuevos
+	var aActoresExistentes=[];
+	aAñadirPersona=document.querySelectorAll(".elegir-actor select");
+    for(var i=0;i<aAñadirPersona.length;i++){
+    	var actor = aAñadirPersona[i].value.split("_");
+    	var sNombre=actor[0].replace("-"," ");
+    	var sApellido=actor[1].replace("-"," ");
+    	var oActor=oUpoflix.buscarPersona(sNombre,sApellido);
+    	aActoresExistentes.push(oActor);
+    }
 
 	//recoger directores existentes
-
+	var aDirectoresExistentes=[];
+	aAñadirPersona=document.querySelectorAll(".elegir-director select");
+    for(var i=0;i<aAñadirPersona.length;i++){
+    	var director = aAñadirPersona[i].value.split("_");
+    	var sNombre=director[0].replace("-"," ");
+    	var sApellido=director[1].replace("-"," ");
+    	var oDirector=oUpoflix.buscarPersona(sNombre,sApellido);
+    	aDirectoresExistentes.push(oDirector);
+    }
+	//recoger directores nuevos
+	var aDirectoresNuevos=[];
+	aAñadirPersona=document.querySelectorAll(".nuevo-director");
+    for(var i=0;i<aAñadirPersona.length;i++){
+    	var sNombre=aAñadirPersona[i].querySelector("input[name=txtNombre").value.trim();
+    	var sApellido=aAñadirPersona[i].querySelector("input[name=txtApellido").value.trim();
+		//validar directores nuevos
+		var bValido=true;
+		if(sNombre==""){
+			bValido=false;
+			aAñadirPersona[i].querySelector("input[name=txtNombre").classList.add("bg-warning");
+			aAñadirPersona[i].querySelector("input[name=txtNombre").focus();
+		}
+		if(sApellido==""){
+			aAñadirPersona[i].querySelector("input[name=txtApellido").classList.add("bg-warning");
+			if(bValido){
+				bValido=false;
+				aAñadirPersona[i].querySelector("input[name=txtApellido").focus();
+			}
+		}
+		if(bValido){
+			aDirectoresNuevos.push(new Persona(sNombre,sApellido));
+		}else{
+			sErrores+="\n-Revisa los datos de nuevos directores.";
+		}
+    }
 	//si es serie
-
-	//si es peli
+	if(document.getElementById("radioAddSerie").checked){
+		var sDate=Date.parse(oFormulario.fechaInicioAdd.value);
+		var fechaInicio=new Date(Date.parse(oFormulario.fechaInicioAdd.value));
+    	if(isNaN(sDate)){
+	        oFormulario.fechaInicioAdd.classList.add("bg-warning");
+	        if(bValido){
+	            oFormulario.fechaInicioAdd.focus();
+	            bValido=false;
+	        }
+	        sErrores+="\n-La fecha de inicio no es correcta.";
+    	}
+		sDate=Date.parse(oFormulario.fechaFinAdd.value);
+		var fechaFin=new Date(Date.parse(oFormulario.fechaFinAdd.value));
+    	if(isNaN(sDate)){
+	        oFormulario.fechaFinAdd.classList.add("bg-warning");
+	        if(bValido){
+	            oFormulario.fechaFinAdd.focus();
+	            bValido=false;
+	        }
+	        sErrores+="\n-La fecha de fin no es correcta.";
+    	}
+    }
+    else{
+        //es una pelicula
+		var iAnio=parseInt(oFormulario.txtAddAnio.value, 10);;
+    	if(isNaN(iAnio)){
+	        oFormulario.txtAddAnio.classList.add("bg-warning");
+	        if(bValido){
+	            oFormulario.txtAddAnio.focus();
+	            bValido=false;
+	        }
+	        sErrores+="\n-El campo año no puede estar vacío.";
+    	}
+    	var iDuracion=parseInt(oFormulario.txtAddDuracion.value, 10);;
+    	if(isNaN(iDuracion)){
+	        oFormulario.txtAddDuracion.classList.add("bg-warning");
+	        if(bValido){
+	            oFormulario.txtAddDuracion.focus();
+	            bValido=false;
+	        }
+	        sErrores+="\n-El campo duración no puede estar vacío.";
+    	}
+    }
 
 	// si esta todo OK
 	if(bValido){
+		var aActores=[];
+		//añadir los nuevos actores y directores a aPersonas
+		for(var i=0;i<aActoresNuevos.length;i++){
+			if(oUpoflix.altaPersona(aActoresNuevos[i]))
+				aActores.push(aActoresNuevos[i]);
+			else
+				aActores.push(oUpoflix.buscarPersona(aActoresNuevos[i].sNombre,aActoresNuevos[i].sApellido));
+		}
+		aActores = aActoresExistentes.concat(aActores); 
+		
+		var aDirectores=[];
+		for(var i=0;i<aDirectoresNuevos.length;i++){
+			if(oUpoflix.altaPersona(aDirectoresNuevos[i]))
+				aDirectores.push(aDirectoresNuevos[i]);
+			else
+				aDirectores.push(oUpoflix.buscarPersona(aDirectoresNuevos[i].sNombre,aDirectoresNuevos[i].sApellido));
+		}
+		aDirectores = aDirectoresExistentes.concat(aDirectores); 
+		//añadir por fin
+		if(document.getElementById("radioAddSerie").checked){
+			var oProduccion=new Serie(sTitulo,sGenero,aActores,aDirectores,sResumen,sUrlCartel,fechaInicio,fechaFin);
+		}else{
+			var oProduccion=new Pelicula(sTitulo,sGenero,aActores,aDirectores,sResumen,sUrlCartel,iAnio,iDuracion);
+		}
+
 		if(oUpoflix.añadirProduccion (oProduccion)){
             alert("Produccion añadida.");
             listarTodo();

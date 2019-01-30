@@ -184,7 +184,7 @@ function validarDatosUsuario(){
             frmFormulario.txtApellido.focus();
             bValido=false;
         }
-        sErrores+="-El apellido debe ser alfabético entre 3 y 15 caracteres.";
+        sErrores+="\n-El apellido debe ser alfabético entre 3 y 15 caracteres.";
     }
     //validar email
     var sEmail=frmFormulario.txtEmail.value.trim();

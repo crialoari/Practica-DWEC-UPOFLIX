@@ -121,10 +121,7 @@ function crearAcciones(oProduccion){
 		    oBoton.classList.add("btn-sm");
 		    oBoton.classList.add("btn-outline-dark");
 		    oBoton.value="edit";
-		    /*if(oProduccion instanceof Serie)
-		    	oBoton.addEventListener("click", editarSerie);
-		    else
-		    	oBoton.addEventListener("click", editarPeli);*/
+			oBoton.addEventListener("click", editar);
 		    oFormulario.appendChild(oBoton);
 		}
 	}
