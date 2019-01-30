@@ -205,7 +205,6 @@ class Upoflix{
 
     puntuar(nota,titulo){
         var oProduccionBuscada=this.buscarProduccion(titulo);
-
         var oPuntuacion=new Puntuacion(this.oUsuarioActivo,nota);
         var resultado=true;//puntuacion añadida
         var notaTotal=0;
@@ -215,7 +214,6 @@ class Upoflix{
                 resultado= false;//cambiada
             }
         }
-        var oPuntuacion=new Puntuacion(this.oUsuarioActivo,nota);
         oProduccionBuscada.aPuntuaciones.push(oPuntuacion);
 
         for(var i=0;i<oProduccionBuscada.aPuntuaciones.length;i++){
@@ -225,19 +223,25 @@ class Upoflix{
         return resultado;
 
     }
-    /*puntuarSinUsuarioActivo(user,nota,titulo){
+    puntuarSinUsuarioActivo(user,nota,titulo){
         var oProduccionBuscada=this.buscarProduccion(titulo);
         var oUsuarioBuscado=this.buscarUsuario(user);
         var oPuntuacion=new Puntuacion(oUsuarioBuscado,nota);
+        var resultado=true;//puntuacion añadida
+        var notaTotal=0;
         for(var i=0; i<oProduccion.aPuntuaciones.length;i++){
             if(oProduccionBuscada.aPuntuaciones[i].oUsuario.sUser==oUsuarioBuscado.sUser){
                 oProduccionBuscada.aPuntuaciones[i].iNota=nota;
-                return false;//puntuacion cambiada
+                resultado= false;//puntuacion cambiada
             }
         }
         oProduccionBuscada.aPuntuaciones.push(oPuntuacion);
-        return true;//puntuacion añadida
-    }*/
+        for(var i=0;i<oProduccionBuscada.aPuntuaciones.length;i++){
+            notaTotal+=oProduccionBuscada.aPuntuaciones[i].iNota;
+        }
+        oProduccionBuscada.fNotaMedia=(notaTotal/oProduccionBuscada.aPuntuaciones.length).toPrecision(2);
+        return resultado;
+    }
     
     añadirTemporada(titulo,numTemporada,resumen){
         var oProduccionBuscada=this.buscarProduccion(titulo);
@@ -313,18 +317,18 @@ class Upoflix{
 
     }
 
-    modificarPelicula(){
+    modificarPelicula(tituloAntiguo,tituloNuevo,img,genero,resumen,aActores,aDirectores,año,duracion){
 
     }
-    modificarSerie(){
-
-    }
-
-    modificarCapitulo(){
+    modificarSerie(tituloAntiguo,tituloNuevo,img,genero,resumen,aActores,aDirectores,fechaInicio,fechaFin){
 
     }
 
-    modificarTemporada(){
+    modificarCapitulo(tituloSerie,numTemporada,numAntiguoCapitulo,numNuevoCapitulo,resumen){
+
+    }
+
+    modificarTemporada(tituloSerie,numAntiguoTemporada,numNuevoTemporada,resumen){
 
     }
 
