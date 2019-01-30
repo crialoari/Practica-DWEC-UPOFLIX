@@ -156,9 +156,6 @@ function mostrarEditarTemporadas(){
 	oCapaContenido.empty();
     ocultarFormularios();
     editarTemporadas();
-    var event = new Event('change');
-    document.querySelector("#frmEditarTemporadas").selectSerie.dispatchEvent(event);
-    //document.querySelector("#frmEditarTemporadas").selectTemporada.dispatchEvent(event);
 }
 
 function mostrarEditarElenco(){
