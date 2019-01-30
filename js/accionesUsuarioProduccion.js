@@ -304,7 +304,7 @@ var oCapaDatos=document.createElement("div");
     	var oListaCap=document.createElement("ul");
     	for(var j=0; j<oSerie.aTemporadas[i].aCapitulos.length;j++){
 			var oLi=document.createElement("li");
-			oLi.textContent="Capítulo "+oSerie.aTemporadas[i].aCapitulos[j].iNumCapitulo+": "+oSerie.aTemporadas[i].aCapitulos[j].sresumen;
+			oLi.textContent="Capítulo "+oSerie.aTemporadas[i].aCapitulos[j].iNumCapitulo+": "+oSerie.aTemporadas[i].aCapitulos[j].sResumen;
 			oListaCap.appendChild(oLi);
     	}
     	oListaTemp.appendChild(oListaCap);
