@@ -73,5 +73,5 @@ function cargarDatosPrueba(){
                 oCapitulos[i].querySelector("resumen").textContent);
   }
   
-  oUpoflix.iniciarSesion("admin","c123456C");
+  oUpoflix.iniciarSesion("carlos","C4rl0s");
 }
