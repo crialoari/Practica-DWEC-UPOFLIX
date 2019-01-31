@@ -135,7 +135,7 @@ function mostrarSeriesFavoritas(oEvento){
     	oBoton.classList.add("btn-sm");
     	oBoton.classList.add("btn-outline-warning");
     	oBoton.classList.add("mr-1");
-    	oBoton.dataset.produccion=aSeriesFav[i].sTitulo;
+    	oBoton.dataset.produccion=aSeriesFav[i].sTitulo.replace(/ /g,"-");
     	oBoton.value=aSeriesFav[i].aTemporadas.length;
     	oBoton.addEventListener("click", mostrarTemporadas);
     	oCelda.appendChild(oBoton);
@@ -163,7 +163,7 @@ function mostrarSeriesFavoritas(oEvento){
 function crearPuntuar(oProduccion){
 	var oCapaPuntuar=document.createElement("div");
     oCapaPuntuar.classList.add("rating-stars");
-    oCapaPuntuar.dataset.produccion=oProduccion.sTitulo.replace(" ", "-");
+    oCapaPuntuar.dataset.produccion=oProduccion.sTitulo.replace(/ /g, "-");
 
     var oStar=document.createElement("span");
     oStar.title="Malísima";
@@ -215,7 +215,7 @@ function crearPuntuar(oProduccion){
 
 function puntuarProduccion(oEvento){
 	var oE = oEvento || window.event;
-	var sTitulo=oE.target.parentElement.dataset.produccion.replace("-", " ");
+	var sTitulo=oE.target.parentElement.dataset.produccion.replace(/-/g, " ");
     var iNota=parseInt(oE.target.dataset.value,10);
     var ancho=iNota*20;
     var oCapaTapar=oE.target.parentElement.lastElementChild;
@@ -228,7 +228,7 @@ function puntuarProduccion(oEvento){
 
 function crearAccionesFav(oProduccion){
 	var oFormulario=document.createElement("form");
-    oFormulario.dataset.produccion=oProduccion.sTitulo.replace(" ", "-");
+    oFormulario.dataset.produccion=oProduccion.sTitulo.replace(/ /g, "-");
 
     var oBoton=document.createElement("INPUT");
     oBoton.type="button";
@@ -257,7 +257,7 @@ function crearAccionesFav(oProduccion){
 
 function crearCapaMasDatos(oProduccion){
 	var oCapaDatos=document.createElement("div");
-    oCapaDatos.id=oProduccion.sTitulo.replace(" ", "-");
+    oCapaDatos.id=oProduccion.sTitulo.replace(/ /g, "-");
     oCapaDatos.classList.add("d-none");
     
     var oResumen=document.createElement("p");
@@ -293,7 +293,7 @@ function mostrarMasDatos(oEvento){
 
 function crearCapaTemporadas(oSerie){
 var oCapaDatos=document.createElement("div");
-    oCapaDatos.id="temp"+oSerie.sTitulo.replace(" ", "-");
+    oCapaDatos.id="temp"+oSerie.sTitulo.replace(/ /g, "-");
     oCapaDatos.classList.add("d-none");
     var oTitulo=document.createElement("h6");
     oTitulo.textContent="Temporadas:";
@@ -324,7 +324,7 @@ function mostrarTemporadas(oEvento){
 function eliminarPeliFavUsuario(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-    if(oUpoflix.eliminarFavorito(sTitulo.replace("-", " "))){
+    if(oUpoflix.eliminarFavorito(sTitulo.replace(/-/g, " "))){
         alert("Película eliminada de favoritos");
         mostrarPelisFavoritas();
     }else{
@@ -335,7 +335,7 @@ function eliminarPeliFavUsuario(oEvento){
 function eliminarSerieFavUsuario(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	if(oUpoflix.eliminarFavorito(sTitulo.replace("-", " "))){
+	if(oUpoflix.eliminarFavorito(sTitulo.replace(/-/g, " "))){
         alert("Serie eliminada de favoritos");
         mostrarSeriesFavoritas();
     }else{

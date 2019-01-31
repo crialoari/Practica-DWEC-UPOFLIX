@@ -48,7 +48,7 @@ function editar(oEvento){
 
 function cargarDatos(){
 	var oFormulario=document.querySelector("#frmModificarProduccion");
-	var sTituloAntiguo=oFormulario.dataset.titulo.replace("-"," ");
+	var sTituloAntiguo=oFormulario.dataset.titulo.replace(/-/g, " ");
 	var oProduccionModificar=oUpoflix.buscarProduccion(sTituloAntiguo);
 	//cambiar datos
 	oFormulario.txtModCartel.value=oProduccionModificar.sUrlImagen;
@@ -100,7 +100,7 @@ function cargarDatos(){
 
 function cancelarModificacion(){
 	var oFormulario=document.querySelector("#frmModificarProduccion");
-	var sTituloAntiguo=oFormulario.dataset.titulo.replace("-"," ");
+	var sTituloAntiguo=oFormulario.dataset.titulo.replace(/-/g, " ");
 	var oProduccionModificar=oUpoflix.buscarProduccion(sTituloAntiguo);
 	if(oProduccionModificar instanceof Serie)
 		listarSeries();
@@ -110,7 +110,7 @@ function cancelarModificacion(){
 
 function editarProduccion(){
 	var oFormulario=document.querySelector("#frmModificarProduccion");
-	var sTituloAntiguo=oFormulario.dataset.titulo.replace("-"," ");
+	var sTituloAntiguo=oFormulario.dataset.titulo.replace(/-/g, " ");
 	//var oProduccionModificar=oUpoflix.buscarProduccion(sTituloAntiguo);
 	limpiarErroresModificar();
 	//validar formulario
@@ -181,8 +181,8 @@ function editarProduccion(){
 	aAñadirPersona=document.querySelectorAll("#capaActoresMod .elegir-actor select");
     for(var i=0;i<aAñadirPersona.length;i++){
     	var actor = aAñadirPersona[i].value.split("_");
-    	var sNombre=actor[0].replace("-"," ");
-    	var sApellido=actor[1].replace("-"," ");
+    	var sNombre=actor[0].replace(/-/g, " ");
+    	var sApellido=actor[1].replace(/-/g, " ");
     	var oActor=oUpoflix.buscarPersona(sNombre,sApellido);
     	añadirPerNoRep(aActoresExistentes,oActor);
     }
@@ -192,8 +192,8 @@ function editarProduccion(){
 	aAñadirPersona=document.querySelectorAll("#capaDirectoresMod .elegir-director select");
     for(var i=0;i<aAñadirPersona.length;i++){
     	var director = aAñadirPersona[i].value.split("_");
-    	var sNombre=director[0].replace("-"," ");
-    	var sApellido=director[1].replace("-"," ");
+    	var sNombre=director[0].replace(/-/g, " ");
+    	var sApellido=director[1].replace(/-/g, " ");
     	var oDirector=oUpoflix.buscarPersona(sNombre,sApellido);
     	añadirPerNoRep(aDirectoresExistentes,oDirector);
     }

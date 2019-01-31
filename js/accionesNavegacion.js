@@ -68,7 +68,7 @@ function listarPelis(){
 
 function crearAcciones(oProduccion){
 	var oFormulario=document.createElement("form");
-    oFormulario.dataset.produccion=oProduccion.sTitulo.replace(" ", "-");
+    oFormulario.dataset.produccion=oProduccion.sTitulo.replace(/ /g, "-");
 
     var oBoton=document.createElement("INPUT");
     oBoton.type="button";
@@ -131,7 +131,7 @@ function crearAcciones(oProduccion){
 function eliminarPeli(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	if(oUpoflix.bajaProduccion(sTitulo.replace("-", " "))){
+	if(oUpoflix.bajaProduccion(sTitulo.replace(/-/g, " "))){
 		alert("Película eliminada de recursos.");
 		listarPelis();
 	}else{
@@ -142,7 +142,7 @@ function eliminarPeli(oEvento){
 function eliminarPeliFavNavegacion(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	if(oUpoflix.eliminarFavorito(sTitulo.replace("-", " "))){
+	if(oUpoflix.eliminarFavorito(sTitulo.replace(/-/g, " "))){
 		alert("Película eliminada de favoritos");
 		listarPelis();
 	}else{
@@ -153,7 +153,7 @@ function eliminarPeliFavNavegacion(oEvento){
 function agregarPeliFavNavegacion(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	if(oUpoflix.añadirFavorito(sTitulo.replace("-", " "))){
+	if(oUpoflix.añadirFavorito(sTitulo.replace(/-/g, " "))){
 		alert("Película agregada a favoritos");
 		listarPelis();
 	}else{
@@ -226,7 +226,7 @@ function listarSeries(){
     	oBoton.classList.add("btn-sm");
     	oBoton.classList.add("btn-outline-warning");
     	oBoton.classList.add("mr-1");
-    	oBoton.dataset.produccion=aSeries[i].sTitulo;
+    	oBoton.dataset.produccion=aSeries[i].sTitulo.replace(/ /g,"-");;
     	oBoton.value=aSeries[i].aTemporadas.length;
     	oBoton.addEventListener("click", mostrarTemporadas);
     	oCelda.appendChild(oBoton);
@@ -255,7 +255,7 @@ function listarSeries(){
 function eliminarSerie(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	if(oUpoflix.bajaProduccion(sTitulo.replace("-", " "))){
+	if(oUpoflix.bajaProduccion(sTitulo.replace(/-/g, " "))){
 		alert("Serie eliminada de recursos.");
 		listarSeries();
 	}else{
@@ -266,7 +266,7 @@ function eliminarSerie(oEvento){
 function eliminarSerieFavNavegacion(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	if(oUpoflix.eliminarFavorito(sTitulo.replace("-", " "))){
+	if(oUpoflix.eliminarFavorito(sTitulo.replace(/-/g, " "))){
 		alert("Serie eliminada de favoritos");
 		listarSeries();
 	}else{
@@ -277,7 +277,7 @@ function eliminarSerieFavNavegacion(oEvento){
 function agregarSerieFavNavegacion(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	if(oUpoflix.añadirFavorito(sTitulo.replace("-", " "))){
+	if(oUpoflix.añadirFavorito(sTitulo.replace(/-/g, " "))){
 		alert("Serie agregada a favoritos");
 		listarSeries();
 	}else{
@@ -394,7 +394,7 @@ function mostrarResultados(aProducciones){
 
 function crearAccionesBusqueda(oProduccion){
 var oFormulario=document.createElement("form");
-    oFormulario.dataset.produccion=oProduccion.sTitulo.replace(" ", "-");
+    oFormulario.dataset.produccion=oProduccion.sTitulo.replace(/ /g, "-");
    
     if(oUpoflix.oUsuarioActivo!=null){
 		var oBoton=document.createElement("INPUT");

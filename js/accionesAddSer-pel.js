@@ -84,8 +84,8 @@ function añadirProduccion(){
 	aAñadirPersona=document.querySelectorAll("#capaActores .elegir-actor select");
     for(var i=0;i<aAñadirPersona.length;i++){
     	var actor = aAñadirPersona[i].value.split("_");
-    	var sNombre=actor[0].replace("-"," ");
-    	var sApellido=actor[1].replace("-"," ");
+    	var sNombre=actor[0].replace(/-/g, " ");
+    	var sApellido=actor[1].replace(/-/g," ");
     	var oActor=oUpoflix.buscarPersona(sNombre,sApellido);
     	aActoresExistentes.push(oActor);
     }
@@ -95,8 +95,8 @@ function añadirProduccion(){
 	aAñadirPersona=document.querySelectorAll("#capaDirectores .elegir-director select");
     for(var i=0;i<aAñadirPersona.length;i++){
     	var director = aAñadirPersona[i].value.split("_");
-    	var sNombre=director[0].replace("-"," ");
-    	var sApellido=director[1].replace("-"," ");
+    	var sNombre=director[0].replace(/-/g, " ");
+    	var sApellido=director[1].replace(/-/g, " ");
     	var oDirector=oUpoflix.buscarPersona(sNombre,sApellido);
     	aDirectoresExistentes.push(oDirector);
     }
@@ -416,7 +416,7 @@ function getSelectPersona(){
 	oSelect.name="selectPersona";
 	for(var i=0;i<aPersonas.length;i++){
 		var oOption=document.createElement("option");
-		oOption.value=aPersonas[i].sNombre.replace(" ", "-")+"_"+aPersonas[i].sApellido.replace(" ", "-");
+		oOption.value=aPersonas[i].sNombre.replace(/ /g, "-")+"_"+aPersonas[i].sApellido.replace(/ /g, "-");
 		oOption.textContent=aPersonas[i].sNombre+" "+aPersonas[i].sApellido;
 		oSelect.appendChild(oOption);
 	}

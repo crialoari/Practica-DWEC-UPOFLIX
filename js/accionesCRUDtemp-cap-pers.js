@@ -61,7 +61,7 @@ function getSelectSeries(aSeries){
 	oSelect.name="selectSerie";
 	for(var i=0;i<aSeries.length;i++){
 		var oOption=document.createElement("option");
-		oOption.value=aSeries[i].sTitulo.replace(" ","-");
+		oOption.value=aSeries[i].sTitulo.replace(/ /g, "-");
 		oOption.textContent=aSeries[i].sTitulo;
 		oSelect.appendChild(oOption);
 	}
@@ -188,7 +188,7 @@ function modificarTemporada(){
 	var oFormulario=document.querySelector("#frmEditarTemporadas");
 	oFormulario.txtNumeroT.classList.remove("bg-warning");
 	oFormulario.txtResumenT.classList.remove("bg-warning");
-	var sSerie=oFormulario.selectSerie.value.replace("-", " ");
+	var sSerie=oFormulario.selectSerie.value.replace(/-/g, " ");
 	var iNumTemporada=parseInt(oFormulario.selectTemporada.value, 10);
 	var iNuevoNumT=parseInt(oFormulario.txtNumeroT.value,10);
 	var sResumen=oFormulario.txtResumenT.value;
@@ -242,7 +242,7 @@ function añadirTemporada(){
 	var oFormulario=document.querySelector("#frmEditarTemporadas");
 	oFormulario.txtNumeroT.classList.remove("bg-warning");
 	oFormulario.txtResumenT.classList.remove("bg-warning");
-	var sSerie=oFormulario.selectSerie.value.replace("-", " ");
+	var sSerie=oFormulario.selectSerie.value.replace(/-/g, " ");
 	var iNumT=parseInt(oFormulario.txtNumeroT.value,10);
 	var sResumen=oFormulario.txtResumenT.value;
 	var bValido=true;
@@ -274,7 +274,7 @@ function añadirTemporada(){
 function crearSelectCapitulos(oEvento){
 	//llenar select
 	var oE = oEvento || window.event;
-	var sSerie=oE.target.dataset.serie.replace("-"," ");
+	var sSerie=oE.target.dataset.serie.replace(/-/g, " ");
 	var iNumTemporada=parseInt(oE.target.value, 10);
 	var oTemporada=oUpoflix.buscarTemporada(sSerie,iNumTemporada);
 	var oCapaSelectCaptitulo=document.querySelector("#capaSelectCapitulo");
@@ -319,7 +319,7 @@ function crearSelectCapitulos(oEvento){
 
 function cambiarDatosCapitulos(oEvento){
 	var oE = oEvento || window.event;
-	var sSerie=oE.target.dataset.serie.replace("-"," ");
+	var sSerie=oE.target.dataset.serie.replace(/-/g, " ");
 	var iNumTemporada=parseInt(oE.target.dataset.temporada, 10);
 	var iNumCapitulo=parseInt(oE.target.value,10);
 	var oCapitulo=oUpoflix.buscarCapitulo(sSerie,iNumTemporada,iNumCapitulo);
@@ -410,7 +410,7 @@ function modificarCapitulo(){
 	var oFormulario=document.querySelector("#frmEditarTemporadas");
 	oFormulario.txtNumeroC.classList.remove("bg-warning");
 	oFormulario.txtResumenC.classList.remove("bg-warning");
-	var sSerie=oFormulario.selectSerie.value.replace("-", " ");
+	var sSerie=oFormulario.selectSerie.value.replace(/-/g, " ");
 	var iNumTemporada=parseInt(oFormulario.selectTemporada.value, 10);
 	var iNumC=parseInt(oFormulario.selectCapitulo.value, 10);
 	var iNuevoNumC=parseInt(oFormulario.txtNumeroC.value,10);
@@ -466,7 +466,7 @@ function añadirCapitulo(){
 	var oFormulario=document.querySelector("#frmEditarTemporadas");
 	oFormulario.txtNumeroC.classList.remove("bg-warning");
 	oFormulario.txtResumenC.classList.remove("bg-warning");
-	var sSerie=oFormulario.selectSerie.value.replace("-", " ");
+	var sSerie=oFormulario.selectSerie.value.replace(/-/g, " ");
 	var iNumTemporada=parseInt(oFormulario.selectTemporada.value,10);
 	var iNumC=parseInt(oFormulario.txtNumeroC.value,10);
 	var sResumen=oFormulario.txtResumenC.value;
@@ -603,8 +603,8 @@ function editarElenco(){
 		capaPersona.classList.add("col");
 		var oFormulario=document.createElement("form");
     	oFormulario.classList.add="frmDatosPersona";
-    	oFormulario.dataset.nombre=aElenco[i].sNombre.replace(" ", "-");
-		oFormulario.dataset.apellido=aElenco[i].sApellido.replace(" ", "-");
+    	oFormulario.dataset.nombre=aElenco[i].sNombre.replace(/ /g, "-");
+		oFormulario.dataset.apellido=aElenco[i].sApellido.replace(/ /g, "-");
 		var capaFrm = document.createElement("div");
 		capaFrm.classList.add("form-group");
 		
@@ -708,8 +708,8 @@ function añadirFormularioAltaPersona(){
 function eliminarPersona(oEvento){
 	var oE = oEvento || window.event;
 	var oFormularioPadre=oE.target.parentElement.parentElement;
-	var sNombre=oFormularioPadre.dataset.nombre.replace("-", " ");
-	var sApellido=oFormularioPadre.dataset.apellido.replace("-", " ");
+	var sNombre=oFormularioPadre.dataset.nombre.replace(/-/g, " ");
+	var sApellido=oFormularioPadre.dataset.apellido.replace(/-/g, " ");
 	if(oUpoflix.bajaPersona(sNombre,sApellido)){
 		alert("Persona borrada.");
 		mostrarEditarElenco();
@@ -757,8 +757,8 @@ function aceptarEditarPersona(oEvento){
 	if(!bValido){
 		alert("Por favor rellena todos los campos");	
 	}else{
-		var sNombre=oFormularioPadre.dataset.nombre.replace("-", " ");
-		var sApellido=oFormularioPadre.dataset.apellido.replace("-", " ");
+		var sNombre=oFormularioPadre.dataset.nombre.replace(/-/g, " ");
+		var sApellido=oFormularioPadre.dataset.apellido.replace(/-/g, " ");
 		
 		var oPersona=oUpoflix.buscarPersona(sNombre,sApellido);
 		if(oPersona==null){
