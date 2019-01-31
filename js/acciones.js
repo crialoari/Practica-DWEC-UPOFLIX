@@ -4,45 +4,82 @@ cargarMenuUsuario();
 cargarMenuNavegacion();
 cargarContenidoBienvenida();
 
+function loadXMLDoc(filename){
+		if (window.XMLHttpRequest)
+		  {
+		  xhttp=new XMLHttpRequest();
+		  }
+		else // code for IE5 and IE6
+		  {
+		  xhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		  }
+		xhttp.open("GET",filename,false);
+		
+		xhttp.send();
+		
+		return xhttp.responseXML;
+} 
+
 function cargarDatosPrueba(){
-	var oUsuario=new Usuario("crialoari","Cristina","Alonso","crisaloari@gmail.com","c123456C",new Date(),"user");
-	var oAdmin=new Usuario("admin","Administrador","Administrador","admin@gmail.com","c123456C",new Date(),"admin");
-
-	oUpoflix.altaUsuario(oUsuario);
-	oUpoflix.altaUsuario(oAdmin);
+	var oXML=loadXMLDoc("js/datos.xml");
+	var oSeries=oXML.getElementsByTagName("serie");
+	var oPeliculas=oXML.getElementsByTagName("pelicula");
+	var oUsuarios=oXML.getElementsByTagName("usuario");
+	var oPersonas=oXML.getElementsByTagName("persona");
+	var oTemporadas=oXML.getElementsByTagName("temporada");
+	var oCapitulos=oXML.getElementsByTagName("capitulo");
 	
-	oUpoflix.oUsuarioActivo=oAdmin;
-
-	var peli=new Pelicula("múltiple","Acción",["Ted","Barney"],[],"hohohafo","",2013,150);
-	oUpoflix.añadirProduccion(peli);
-	oUsuario.aFavoritos.push(peli);
-	oAdmin.aFavoritos.push(peli);
+	for(var i=0;i<oUsuarios.length;i++){
+		oUpoflix.altaUsuario(new Usuario(oUsuarios[i].querySelector("user").textContent,
+							oUsuarios[i].querySelector("nombre").textContent,
+							oUsuarios[i].querySelector("apellido").textContent,
+							oUsuarios[i].querySelector("email").textContent,
+							oUsuarios[i].querySelector("contraseña").textContent,
+							new Date(oUsuarios[i].querySelector("fechaRegistro").textContent),
+							oUsuarios[i].querySelector("rol").textContent));
+	}
 	
-	peli=new Pelicula("el protegido","Acción",["Ted","Barney"],[],"hohohafo","",2014,156);
-	oUpoflix.añadirProduccion(peli);
-	oUsuario.aFavoritos.push(peli);
-	oAdmin.aFavoritos.push(peli);
+	for(var i=0;i<oSeries.length;i++){
+		oUpoflix.añadirProduccion(new Serie(oSeries[i].querySelector("titulo").textContent,
+								oSeries[i].querySelector("genero").textContent,
+								[],
+								[],
+								oSeries[i].querySelector("resumen").textContent,
+								oSeries[i].querySelector("urlImagen").textContent,
+								new Date(oSeries[i].querySelector("fechaInicio").textContent),
+								new Date(oSeries[i].querySelector("fechaFin").textContent)));
+	}
 
-
-	var serie=new Serie("ccavm","Comedia",["Ted","Barney"],[],"kjsdnfds","",new Date(),new Date(2020));
+	for(var i=0;i<oPeliculas.length;i++){
+		oUpoflix.añadirProduccion(new Pelicula(oPeliculas[i].querySelector("titulo").textContent,
+								oPeliculas[i].querySelector("genero").textContent,
+								[],
+								[],
+								oPeliculas[i].querySelector("resumen").textContent,
+								oPeliculas[i].querySelector("urlImagen").textContent,
+								parseInt(oPeliculas[i].querySelector("añoEstreno").textContent),
+								parseInt(oPeliculas[i].querySelector("duracion").textContent)));
+	}
 	
-	oUpoflix.añadirProduccion(serie);
-	oUsuario.aFavoritos.push(serie);
-	oAdmin.aFavoritos.push(serie);
-
-	oUpoflix.añadirTemporada("ccavm",1,"este es mi resumen");
-	//oUpoflix.añadirTemporada("ccavm",2,"este es mi resumen 2");
-
-	var persona=new Persona("Harry James","Potter", new Date());
-	oUpoflix.altaPersona(persona);
-	var persona=new Persona("Hermione","Granger", new Date());
-	oUpoflix.altaPersona(persona);
-
-	var serie=new Serie("Dexter","Comedia",[persona],[],"kjsdnfds","",new Date(),new Date(2020));
-	oUpoflix.añadirProduccion(serie);
-
-	peli=new Pelicula("glass","Acción",["Ted","Barney"],[],"hohohafo","",2014,156);
-	oUpoflix.añadirProduccion(peli);
+	for(var i=0;i<oPersonas.length;i++){
+		oUpoflix.altaPersona(new Persona(oPersonas[i].querySelector("nombre").textContent,
+							oPersonas[i].querySelector("apellido").textContent));
+	}
+	
+	for(var i=0;i<oTemporadas.length;i++){
+		oUpoflix.añadirTemporada(oTemporadas[i].querySelector("tituloSerie").textContent,
+								oTemporadas[i].querySelector("numTemporada").textContent,
+								oTemporadas[i].querySelector("resumen").textContent);
+	}
+	
+	for(var i=0;i<oCapitulos.length;i++){
+		oUpoflix.añadirCapitulo(oCapitulos[i].querySelector("tituloSerie").textContent,
+								oCapitulos[i].querySelector("numTemporada").textContent,
+								oCapitulos[i].querySelector("numCapitulo").textContent,
+								oCapitulos[i].querySelector("resumen").textContent);
+	}
+	
+	this.oUpoflix.iniciarSesion("admin","c123456C");
 }
 
 function cargarMenuUsuario(){

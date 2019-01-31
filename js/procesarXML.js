@@ -24,7 +24,6 @@ var oUsuarios=oXML.getElementsByTagName("usuario");
 var oPersonas=oXML.getElementsByTagName("persona");
 var oTemporadas=oXML.getElementsByTagName("temporada");
 var oCapitulos=oXML.getElementsByTagName("capitulo");
-var oPuntuaciones=oXML.getElementsByTagName("puntuacion");
 
 for(var i=0;i<oUsuarios.length;i++){
     oUpoflix.altaUsuario(new Usuario(oUsuarios[i].querySelector("user").textContent,
@@ -39,10 +38,10 @@ for(var i=0;i<oUsuarios.length;i++){
 for(var i=0;i<oSeries.length;i++){
     oUpoflix.añadirProduccion(new Serie(oSeries[i].querySelector("titulo").textContent,
                             oSeries[i].querySelector("genero").textContent,
-                            oSeries[i].querySelector("actores").textContent,
-                            oSeries[i].querySelector("directores").textContent,
-                            oSeries[i].querySelector("paises").textContent,
+                            [],
+                            [],
                             oSeries[i].querySelector("resumen").textContent,
+                            oSeries[i].querySelector("urlImagen").textContent,
                             new Date(oSeries[i].querySelector("fechaInicio").textContent),
                             new Date(oSeries[i].querySelector("fechaFin").textContent)));
 }
@@ -50,19 +49,17 @@ for(var i=0;i<oSeries.length;i++){
 for(var i=0;i<oPeliculas.length;i++){
     oUpoflix.añadirProduccion(new Pelicula(oPeliculas[i].querySelector("titulo").textContent,
                             oPeliculas[i].querySelector("genero").textContent,
-                            oPeliculas[i].querySelector("actores").textContent,
-                            oPeliculas[i].querySelector("directores").textContent,
-                            oPeliculas[i].querySelector("paises").textContent,
+                            [],
+                            [],
                             oPeliculas[i].querySelector("resumen").textContent,
+                            oPeliculas[i].querySelector("urlImagen").textContent,
                             parseInt(oPeliculas[i].querySelector("añoEstreno").textContent),
                             parseInt(oPeliculas[i].querySelector("duracion").textContent)));
 }
 
 for(var i=0;i<oPersonas.length;i++){
     oUpoflix.altaPersona(new Persona(oPersonas[i].querySelector("nombre").textContent,
-                        oPersonas[i].querySelector("apellido").textContent,
-                        oPersonas[i].querySelector("pais").textContent,
-                        new Date(oPersonas[i].querySelector("pais").textContent)));
+                        oPersonas[i].querySelector("apellido").textContent));
 }
 
 for(var i=0;i<oTemporadas.length;i++){
@@ -78,8 +75,4 @@ for(var i=0;i<oCapitulos.length;i++){
                             oCapitulos[i].querySelector("resumen").textContent);
 }
 
-for(var i=0;i<oPuntuaciones.length;i++){
-    oUpoflix.puntuarSinUsuarioActivo(oPuntuaciones[i].querySelector("user").textContent,
-                                    oPuntuaciones[i].querySelector("nota").textContent,
-                                    oPuntuaciones[i].querySelector("titulo").textContent);
-}
+

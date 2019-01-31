@@ -2,67 +2,91 @@
 <Upoflix>
     <usuarios>
         <usuario>
-            <user></user>
-            <nombre></nombre>
+            <user>cristina</user>
+            <nombre>Cristina</nombre>
+            <apellido>Alonso</apellido>
+            <email>cristina@gmail.com</email>
+            <contraseña>c123456C</contraseña>
+            <fechaRegistro>""</fechaRegistro>
+            <rol>user</rol>
+        </usuario>
+        <usuario>
+            <user>admin</user>
+            <nombre>Administrador</nombre>
             <apellido></apellido>
-            <email></email>
-            <contraseña></contraseña>
-            <fechaRegistro></fechaRegistro>
-            <rol></rol>
+            <email>admin@gmail.com</email>
+            <contraseña>c123456C</contraseña>
+            <fechaRegistro>""</fechaRegistro>
+            <rol>admin</rol>
         </usuario>
     </usuarios>
     <series>
         <serie>
-            <titulo></titulo>
-            <genero></genero>
-            <actores></actores>
-            <directores></directores>
-            <paises></paises>
-            <resumen></resumen>
-            <fechaInicio></fechaInicio>
-            <fechaFin></fechaFin>
+            <titulo>ccvm</titulo>
+            <genero>comedia</genero>
+            <resumen>afgnajsdfngkjadn</resumen>
+            <urlImagen></urlImagen>
+            <fechaInicio>12/12/2019</fechaInicio>
+            <fechaFin>2020</fechaFin>
         </serie>
     </series>
     <peliculas>
         <pelicula>
-            <titulo></titulo>
-            <genero></genero>
-            <actores></actores>
-            <directores></directores>
-            <paises></paises>
-            <resumen></resumen>
-            <añoEstreno></añoEstreno>
-            <duracion></duracion>
+            <titulo>el protegido</titulo>
+            <genero>accion</genero>
+            <resumen>askgmsakdfnglkan</resumen>
+            <urlImagen></urlImagen>
+            <añoEstreno>1998</añoEstreno>
+            <duracion>150</duracion>
+        </pelicula>
+        <pelicula>
+            <titulo>mútiple</titulo>
+            <genero>accion</genero>
+            <resumen>askgmsakdfnglkan</resumen>
+            <urlImagen></urlImagen>
+            <añoEstreno>1995</añoEstreno>
+            <duracion>148</duracion>
+        </pelicula>
+        <pelicula>
+            <titulo>glass</titulo>
+            <genero>accion</genero>
+            <resumen>askgmsakdfnglkan</resumen>
+            <urlImagen></urlImagen>
+            <añoEstreno>2000</añoEstreno>
+            <duracion>160</duracion>
         </pelicula>
     </peliculas>
     <personas>
         <persona>
-            <nombre></nombre>
-            <apellido></apellido>
-            <pais></pais>
-            <nacimiento></nacimiento>
+            <nombre>Michael</nombre>
+            <apellido>Jackson</apellido>
+        </persona>
+        <persona>
+            <nombre>Ted</nombre>
+            <apellido>Mosby</apellido>
+        </persona>
+        <persona>
+            <nombre>Ted</nombre>
+            <apellido>Jackson</apellido>
+        </persona>
+        <persona>
+            <nombre>Barney</nombre>
+            <apellido>Stilson</apellido>
         </persona>
     </personas>
     <temporadas>
         <temporada>
-            <tituloSerie></tituloSerie>
-            <numTemporada></numTemporada>
-            <resumen></resumen>
+            <tituloSerie>ccvm</tituloSerie>
+            <numTemporada>1</numTemporada>
+            <resumen>dfajsdnfajksn</resumen>
         </temporada>
     </temporadas>
     <capitulos>
         <capitulo>
-            <tituloSerie></tituloSerie>
-            <numTemporada></numTemporada>
-            <numCapitulo></numCapitulo>
-            <resumen></resumen>
+            <tituloSerie>ccvm</tituloSerie>
+            <numTemporada>1</numTemporada>
+            <numCapitulo>1</numCapitulo>
+            <resumen>asdfbhsafsajkbf</resumen>
         </capitulo>
     </capitulos>
-    <puntuaciones>
-        <puntuacion>
-            <user></user>
-            <nota></nota>
-            <titulo></titulo>
-        </puntuacion>
-    </puntuaciones>
 </Upoflix>
