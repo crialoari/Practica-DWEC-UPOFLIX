@@ -429,10 +429,10 @@ class Upoflix{
             resultado=aSeries;
         }
         if(fechaInicio!=null){
-            resultado=resultado.filter(Serie=>Serie.dFechaInicio>=fechaInicio);
+            resultado=resultado.filter(Serie=>Serie.dFechaInicio.getTime()>=fechaInicio.getTime());
         }
         if(fechaFin!=null){
-            resultado=resultado.filter(Serie=>Serie.dFechaFin<=fechaFin);
+            resultado=resultado.filter(Serie=>Serie.dFechaFin.getTime()<=fechaFin.getTime());
         }
         if(puntuacion>0){
             resultado=resultado.filter(Serie=>Serie.fNotaMedia>=puntuacion);
