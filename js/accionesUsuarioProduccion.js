@@ -261,7 +261,7 @@ function crearCapaMasDatos(oProduccion){
     oCapaDatos.classList.add("d-none");
     
     var oResumen=document.createElement("p");
-    oResumen.textContent=oProduccion.sresumen;
+    oResumen.textContent=oProduccion.sResumen;
    	oCapaDatos.appendChild(oResumen);
     
     var oLista=document.createElement("ul");
@@ -270,6 +270,8 @@ function crearCapaMasDatos(oProduccion){
     	actor.textContent=oProduccion.aActores[j].sNombre+" "+oProduccion.aActores[j].sApellido;
     	oLista.appendChild(actor);
     }
+    oCapaDatos.appendChild(oLista);
+    oLista=document.createElement("ul");
 	for(var j=0; j<oProduccion.aDirectores.length;j++){
     	var director=document.createElement("li");
     	director.textContent=oProduccion.aDirectores[j].sNombre+" "+oProduccion.aDirectores[j].sApellido;

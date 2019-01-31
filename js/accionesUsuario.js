@@ -1,5 +1,6 @@
 function mostrarDatosUsuario(){
 	oCapaContenido.empty();
+    ocultarFormularios();
 	var oUsuario=oUpoflix.oUsuarioActivo;
 	//capa de datos
 	var oColumnaDatos=document.createElement("div");
@@ -184,7 +185,7 @@ function validarDatosUsuario(){
             frmFormulario.txtApellido.focus();
             bValido=false;
         }
-        sErrores+="-El apellido debe ser alfabético entre 3 y 15 caracteres.";
+        sErrores+="\n-El apellido debe ser alfabético entre 3 y 15 caracteres.";
     }
     //validar email
     var sEmail=frmFormulario.txtEmail.value.trim();

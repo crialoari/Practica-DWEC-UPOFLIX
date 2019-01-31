@@ -1,7 +1,3 @@
-function añadirRecurso(){
-alert("recursos");
-}
-
 function editarTemporadas(){
 	var event = new Event('change');
 	var oColumnaDatos=document.createElement("div");
@@ -283,7 +279,6 @@ function crearSelectCapitulos(oEvento){
 	var oTemporada=oUpoflix.buscarTemporada(sSerie,iNumTemporada);
 	var oCapaSelectCaptitulo=document.querySelector("#capaSelectCapitulo");
 	oCapaSelectCaptitulo.empty();
-
 	//cambiar datos temporada en capa temporada
 	var oFormulario=document.querySelector("#frmEditarTemporadas");
 	oFormulario.txtNumeroT.value=iNumTemporada;
@@ -588,7 +583,6 @@ function añadirPersonaDesdeElenco(oEvento){
 		alert("Debe rellenar todos los campos.");
 	}
 }
-
 
 function editarElenco(){
 	var oColumnaDatos=document.createElement("div");
