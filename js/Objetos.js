@@ -7,7 +7,6 @@ function Usuario(user,nombre,apellido,email,contraseña,fechaRegistro,rol){
     this.dFechaRegistro=fechaRegistro;
     this.aFavoritos=[];
     this.sRol=rol;
-   
 }
 
 function Produccion(titulo,genero,actores,directores,resumen,urlImagen){
@@ -41,8 +40,8 @@ Pelicula.prototype=Object.create(Produccion.prototype);
 Pelicula.prototype.constructor=Produccion;
 
 function Persona(nombre,apellido){
-    this.sApellido=apellido;
     this.sNombre=nombre;
+    this.sApellido=apellido;
 }
 
 function Temporada(numTemporada,resumen){
@@ -69,41 +68,18 @@ class Upoflix{
         this.aPersonas=[];
     }
 
-    iniciarSesion(sUsuario,contraseña){
-        var oUsuario=this.buscarUsuario(sUsuario);
-        if(oUsuario==null){
-            return 0;//usuario incorrecto
-        }
-        else{
-            if(oUsuario.sContraseña==contraseña){
-                this.oUsuarioActivo=oUsuario;
-                return 2;//sesion iniciada
-            }
-            else
-                return 1;//contraseña incorrecta
-        }
-    }
-
-    cerrarSesion(){
-        this.oUsuarioActivo=null;
-        return true;//sesion cerrada
-    }
-
     añadirProduccion (produccion){
         var array=this.aProducciones.filter(Produccion => Produccion.sTitulo==produccion.sTitulo);
-
         if(array.length>0)
             return false;//la producción ya estaba
         else{
             this.aProducciones.push(produccion);
             return true;//producción introducida
         }
-        
     }
 
     altaUsuario(usuario){
         var array=this.aUsuarios.filter(Usuario=>Usuario.sUser==usuario.sUser);
-
         if(array.length>0)
             return false;//usuario ya estaba
         else{
@@ -114,7 +90,6 @@ class Upoflix{
 
     altaPersona(persona){
         var array=this.aPersonas.filter(Persona=>Persona.sNombre==persona.sNombre && Persona.sApellido==persona.sApellido);
-
         if(array.length>0)
             return false;//la persona ya estaba
         else{
@@ -123,174 +98,6 @@ class Upoflix{
         }
     }
 
-    buscarPersona(sNombre,sApellido){
-        var array=this.aPersonas.filter(Persona=>Persona.sNombre==sNombre && Persona.sApellido==sApellido);
-        if(array.length>0)
-            return array[0];
-        else
-            return null;  
-    }
-
-    buscarTemporada(sSerie,iNumTemporada){
-        var oSerie=this.buscarProduccion(sSerie);
-        for(var i=0;i<oSerie.aTemporadas.length;i++){
-            if(oSerie.aTemporadas[i].iNumTemporada==iNumTemporada)
-                return oSerie.aTemporadas[i];
-        }
-        return null;
-    }
-
-    buscarCapitulo(sSerie,iNumTemporada,iNumCapitulo){
-        var oTemporada=this.buscarTemporada(sSerie,iNumTemporada);
-        for(var i=0;i<oTemporada.aCapitulos.length;i++){
-            if(oTemporada.aCapitulos[i].iNumCapitulo==iNumCapitulo)
-                return oTemporada.aCapitulos[i];
-        }
-        return null;
-    }
-
-    borrarTemporada(sSerie,iNumTemporada){
-        var oSerie=this.buscarProduccion(sSerie);
-        for(var i=0; i<oSerie.aTemporadas.length;i++){
-            if(oSerie.aTemporadas[i].iNumTemporada==iNumTemporada){
-                oSerie.aTemporadas.splice(i,1);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    borrarCapitulo(sSerie,iNumTemporada,iNumCapitulo){
-        var oTemporada=this.buscarTemporada(sSerie,iNumTemporada);
-        for(var i=0; i<oTemporada.aCapitulos.length;i++){
-            if(oTemporada.aCapitulos[i].iNumCapitulo==iNumCapitulo){
-                oTemporada.aCapitulos.splice(i,1);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    bajaUsuario(sUsuario){
-        for(var i=0; i<this.aUsuarios.length;i++){
-            if(this.aUsuarios[i].sUser==sUsuario){
-                this.aUsuarios.splice(i,1);
-                return true;//usuario eliminado
-            }
-        }
-        return false;//usuario no encontrado
-    }
-
-    bajaProduccion(titulo){
-        for(var i=0; i<this.aProducciones.length;i++){
-            if(this.aProducciones[i].sTitulo==titulo){
-                for(var j=0;j<this.aUsuarios.length;j++){
-                    for(var k=0;k<this.aUsuarios[j].aFavoritos.length;k++){
-                        if(this.aUsuarios[j].aFavoritos[k].sTitulo==titulo){
-                            this.aUsuarios[j].aFavoritos.splice(k,1);
-                        }
-                    }
-                }
-                this.aProducciones.splice(i,1);
-                return true;//producción eliminada
-            }
-        }
-        return false;//produccion no encontrada
-    }
-
-    bajaPersona(nombre,apellido){
-        for(var i=0; i<this.aPersonas.length;i++){
-            if(this.aPersonas[i].sNombre==nombre && this.aPersonas[i].sApellido==apellido){
-                for(var j=0;j<this.aProducciones.length;j++){
-                    for(var k=0;k<this.aProducciones[j].aActores.length;k++){
-                        if(this.aProducciones[j].aActores[k].sNombre==nombre && this.aProducciones[j].aActores[k].sApellido==apellido){
-                            this.aProducciones[j].aActores.splice(k,1);
-                        } 
-                    }
-                    for(var k=0;k<this.aProducciones[j].aDirectores.length;k++){
-                        if(this.aProducciones[j].aDirectores[k].sNombre==nombre && this.aProducciones[j].aDirectores[k].sApellido==apellido){
-                            this.aProducciones[j].aDirectores.splice(k,1);
-                        } 
-                    }
-                }
-                this.aPersonas.splice(i,1);
-                return true;//persona eliminada
-            }
-        }
-        return false;//persona no encontrada
-    }
-    
-    buscarUsuario(sUsuario){
-        var array=this.aUsuarios.filter(Usuario=>Usuario.sUser==sUsuario);
-        if(array.length>0)
-            return array[0];
-        else
-            return null;
-    }
-
-    buscarProduccion(titulo){
-        var array=this.aProducciones.filter(Produccion=>Produccion.sTitulo==titulo);
-        if(array.length>0)
-            return array[0];
-        else
-            return null;
-    }
-    añadirFavorito(titulo){
-        var oProduccion=this.buscarProduccion(titulo);
-        this.oUsuarioActivo.aFavoritos.push(oProduccion);
-        return true;//produccion añadida a favoritos
-    }
-
-    eliminarFavorito(titulo){
-        for(var i=0;i<this.oUsuarioActivo.aFavoritos.length;i++){
-            if(this.oUsuarioActivo.aFavoritos[i].sTitulo==titulo){
-                this.oUsuarioActivo.aFavoritos.splice(i,1);
-                return true;//favorito eliminado
-            }
-        }
-        return false;//favorito no encontrado
-    }
-
-    puntuar(nota,titulo){
-        var oProduccionBuscada=this.buscarProduccion(titulo);
-        var oPuntuacion=new Puntuacion(this.oUsuarioActivo,nota);
-        var resultado=true;//puntuacion añadida
-        var notaTotal=0;
-        for(var i=0; i<oProduccionBuscada.aPuntuaciones.length;i++){
-            if(oProduccionBuscada.aPuntuaciones[i].oUsuario.sUser==this.oUsuarioActivo.sUser){
-                oProduccionBuscada.aPuntuaciones[i].iNota=nota;
-                resultado= false;//cambiada
-            }
-        }
-        oProduccionBuscada.aPuntuaciones.push(oPuntuacion);
-
-        for(var i=0;i<oProduccionBuscada.aPuntuaciones.length;i++){
-            notaTotal+=oProduccionBuscada.aPuntuaciones[i].iNota;
-        }
-        oProduccionBuscada.fNotaMedia=(notaTotal/oProduccionBuscada.aPuntuaciones.length).toPrecision(2);
-        return resultado;
-
-    }
-    puntuarSinUsuarioActivo(user,nota,titulo){
-        var oProduccionBuscada=this.buscarProduccion(titulo);
-        var oUsuarioBuscado=this.buscarUsuario(user);
-        var oPuntuacion=new Puntuacion(oUsuarioBuscado,nota);
-        var resultado=true;//puntuacion añadida
-        var notaTotal=0;
-        for(var i=0; i<oProduccion.aPuntuaciones.length;i++){
-            if(oProduccionBuscada.aPuntuaciones[i].oUsuario.sUser==oUsuarioBuscado.sUser){
-                oProduccionBuscada.aPuntuaciones[i].iNota=nota;
-                resultado= false;//puntuacion cambiada
-            }
-        }
-        oProduccionBuscada.aPuntuaciones.push(oPuntuacion);
-        for(var i=0;i<oProduccionBuscada.aPuntuaciones.length;i++){
-            notaTotal+=oProduccionBuscada.aPuntuaciones[i].iNota;
-        }
-        oProduccionBuscada.fNotaMedia=(notaTotal/oProduccionBuscada.aPuntuaciones.length).toPrecision(2);
-        return resultado;
-    }
-    
     añadirTemporada(titulo,numTemporada,resumen){
         var oProduccionBuscada=this.buscarProduccion(titulo);
         var oTemporada=this.buscarTemporada(titulo,numTemporada);
@@ -336,7 +143,191 @@ class Upoflix{
             return false;
         }
     }
+
+    puntuar(nota,titulo){
+        var oProduccionBuscada=this.buscarProduccion(titulo);
+        var oPuntuacion=new Puntuacion(this.oUsuarioActivo,nota);
+        var resultado=true;//puntuacion añadida
+        var notaTotal=0;
+        for(var i=0; i<oProduccionBuscada.aPuntuaciones.length;i++){
+            if(oProduccionBuscada.aPuntuaciones[i].oUsuario.sUser==this.oUsuarioActivo.sUser){
+                oProduccionBuscada.aPuntuaciones[i].iNota=nota;
+                resultado= false;//cambiada
+            }
+        }
+        oProduccionBuscada.aPuntuaciones.push(oPuntuacion);
+
+        for(var i=0;i<oProduccionBuscada.aPuntuaciones.length;i++){
+            notaTotal+=oProduccionBuscada.aPuntuaciones[i].iNota;
+        }
+        oProduccionBuscada.fNotaMedia=(notaTotal/oProduccionBuscada.aPuntuaciones.length).toPrecision(2);
+        return resultado;
+
+    }
     
+    puntuarSinUsuarioActivo(user,nota,titulo){
+        var oProduccionBuscada=this.buscarProduccion(titulo);
+        var oUsuarioBuscado=this.buscarUsuario(user);
+        var oPuntuacion=new Puntuacion(oUsuarioBuscado,nota);
+        var resultado=true;//puntuacion añadida
+        var notaTotal=0;
+        for(var i=0; i<oProduccion.aPuntuaciones.length;i++){
+            if(oProduccionBuscada.aPuntuaciones[i].oUsuario.sUser==oUsuarioBuscado.sUser){
+                oProduccionBuscada.aPuntuaciones[i].iNota=nota;
+                resultado= false;//puntuacion cambiada
+            }
+        }
+        oProduccionBuscada.aPuntuaciones.push(oPuntuacion);
+        for(var i=0;i<oProduccionBuscada.aPuntuaciones.length;i++){
+            notaTotal+=oProduccionBuscada.aPuntuaciones[i].iNota;
+        }
+        oProduccionBuscada.fNotaMedia=(notaTotal/oProduccionBuscada.aPuntuaciones.length).toPrecision(2);
+        return resultado;
+    }
+
+    añadeActor(aActores,actor){
+        for(var i=0;i<aActores.length;i++){
+            if(aActores[i].sNombre==actor.sNombre && aActores[i].sApellido==actor.sApellido){
+                return aActores;
+            }
+        }
+        return aActores.push(actor);
+    }
+
+    añadeDirector(aDirectores,director){
+        for(var i=0;i<aDirectores.length;i++){
+            if(aDirectores[i].sNombre==director.sNombre && aDirectores[i].sApellido==director.sApellido){
+                return aDirectores;
+            }
+        }
+        return aDirectores.push(director);
+    }
+
+    añadirFavorito(titulo){
+        var oProduccion=this.buscarProduccion(titulo);
+        this.oUsuarioActivo.aFavoritos.push(oProduccion);
+        return true;//produccion añadida a favoritos
+    }
+
+    buscarProduccion(titulo){
+        var array=this.aProducciones.filter(Produccion=>Produccion.sTitulo==titulo);
+        if(array.length>0)
+            return array[0];
+        else
+            return null;
+    }
+
+    buscarSerie(genero,fechaInicio,fechaFin,puntuacion){
+        var aSeries=this.aProducciones.filter(Produccion=>Produccion instanceof Serie);
+        var resultado=[];
+        if(genero!="cualquiera"){
+            resultado=aSeries.filter(Serie=>Serie.sGenero==genero);
+        }else{
+            resultado=aSeries;
+        }
+        if(fechaInicio!=null){
+            resultado=resultado.filter(Serie=>Serie.dFechaInicio.getTime()>=fechaInicio.getTime());
+        }
+        if(fechaFin!=null){
+            resultado=resultado.filter(Serie=>Serie.dFechaFin.getTime()<=fechaFin.getTime());
+        }
+        if(puntuacion>0){
+            resultado=resultado.filter(Serie=>Serie.fNotaMedia>=puntuacion);
+        }
+        return resultado;
+    }
+        
+    buscarPelicula(genero,dAñoInicio,dAñoFin,puntuacion){
+        var aPeliculas=this.aProducciones.filter(Produccion=>Produccion instanceof Pelicula);
+        var resultado=[];
+        var añoInicio=0;
+        var añoFin=0;
+        if(dAñoInicio!=null){añoInicio=dAñoInicio.getFullYear();}
+        if(dAñoFin!=null){añoFin=dAñoFin.getFullYear();}
+        
+        if(genero!="cualquiera"){
+            resultado=aPeliculas.filter(Pelicula=>Pelicula.sGenero==genero);
+        }else{
+            resultado=aPeliculas;
+        }
+        if(añoInicio!=0){
+            resultado=resultado.filter(Pelicula=>Pelicula.iAñoEstreno>=añoInicio);
+        }
+        if(añoFin!=0){
+            resultado=resultado.filter(Pelicula=>Pelicula.iAñoEstreno<=añoFin);
+        }
+        if(puntuacion>0){
+            resultado=resultado.filter(Pelicula=>Pelicula.fNotaMedia>=puntuacion);
+        }
+        return resultado;
+    }
+
+    buscarUsuario(sUsuario){
+        var array=this.aUsuarios.filter(Usuario=>Usuario.sUser==sUsuario);
+        if(array.length>0)
+            return array[0];
+        else
+            return null;
+    }
+
+    buscarPersona(sNombre,sApellido){
+        var array=this.aPersonas.filter(Persona=>Persona.sNombre==sNombre && Persona.sApellido==sApellido);
+        if(array.length>0)
+            return array[0];
+        else
+            return null;  
+    }
+
+    buscarTemporada(sSerie,iNumTemporada){
+        var oSerie=this.buscarProduccion(sSerie);
+        for(var i=0;i<oSerie.aTemporadas.length;i++){
+            if(oSerie.aTemporadas[i].iNumTemporada==iNumTemporada)
+                return oSerie.aTemporadas[i];
+        }
+        return null;
+    }
+
+    buscarCapitulo(sSerie,iNumTemporada,iNumCapitulo){
+        var oTemporada=this.buscarTemporada(sSerie,iNumTemporada);
+        for(var i=0;i<oTemporada.aCapitulos.length;i++){
+            if(oTemporada.aCapitulos[i].iNumCapitulo==iNumCapitulo)
+                return oTemporada.aCapitulos[i];
+        }
+        return null;
+    }
+
+    modificarSerie(tituloAntiguo,tituloNuevo,img,genero,resumen,actores,directores,fechaInicio,fechaFin){
+        var oSerieBuscada=this.buscarProduccion(tituloAntiguo);
+        if(oSerieBuscada!=null){
+            oSerieBuscada.sTitulo=tituloNuevo;
+            oSerieBuscada.sUrlImagen=img;
+            oSerieBuscada.sGenero=genero;
+            oSerieBuscada.sResumen=resumen;
+            oSerieBuscada.aActores=actores;
+            oSerieBuscada.aDirectores=directores;
+            oSerieBuscada.dFechaInicio=fechaInicio;
+            oSerieBuscada.dFechaFin=fechaFin;
+            return true;//serie modificada
+        }
+        return false;//serie no encontrada
+    }
+
+    modificarPelicula(tituloAntiguo,tituloNuevo,img,genero,resumen,actores,directores,año,duracion){
+        var oPeliculaBuscada=this.buscarProduccion(tituloAntiguo);
+        if(oPeliculaBuscada!=null){
+            oPeliculaBuscada.sTitulo=tituloNuevo;
+            oPeliculaBuscada.sUrlImagen=img;
+            oPeliculaBuscada.sGenero=genero;
+            oPeliculaBuscada.sResumen=resumen;
+            oPeliculaBuscada.aActores=actores;
+            oPeliculaBuscada.aDirectores=directores;
+            oPeliculaBuscada.iAñoEstreno=año;
+            oPeliculaBuscada.iDuracion=duracion;
+            return true; //pelicula modificada
+        }
+        return false;//pelicula no encontrada
+    }
+
     modificarUsuario(nombre,apellido,email,contraseña,rol){
         this.oUsuarioActivo.sNombre=nombre;
         this.oUsuarioActivo.sApellido=apellido;
@@ -356,35 +347,10 @@ class Upoflix{
         }
     }
 
-    modificarPelicula(tituloAntiguo,tituloNuevo,img,genero,resumen,actores,directores,año,duracion){
-        var oPeliculaBuscada=this.buscarProduccion(tituloAntiguo);
-        if(oPeliculaBuscada!=null){
-            oPeliculaBuscada.sTitulo=tituloNuevo;
-            oPeliculaBuscada.sUrlImagen=img;
-            oPeliculaBuscada.sGenero=genero;
-            oPeliculaBuscada.sResumen=resumen;
-            oPeliculaBuscada.aActores=actores;
-            oPeliculaBuscada.aDirectores=directores;
-            oPeliculaBuscada.iAñoEstreno=año;
-            oPeliculaBuscada.iDuracion=duracion;
-            return true; //pelicula modificada
-        }
-        return false;//pelicula no encontrada
-    }
-    modificarSerie(tituloAntiguo,tituloNuevo,img,genero,resumen,actores,directores,fechaInicio,fechaFin){
-        var oSerieBuscada=this.buscarProduccion(tituloAntiguo);
-        if(oSerieBuscada!=null){
-            oSerieBuscada.sTitulo=tituloNuevo;
-            oSerieBuscada.sUrlImagen=img;
-            oSerieBuscada.sGenero=genero;
-            oSerieBuscada.sResumen=resumen;
-            oSerieBuscada.aActores=actores;
-            oSerieBuscada.aDirectores=directores;
-            oSerieBuscada.dFechaInicio=fechaInicio;
-            oSerieBuscada.dFechaFin=fechaFin;
-            return true;//serie modificada
-        }
-        return false;//serie no encontrada
+    modificarTemporada(sSerie,iNumTemporada,iNuevoNumero,sResumen){
+        var temporada=this.buscarTemporada(sSerie,iNumTemporada);
+        temporada.iNumTemporada=iNuevoNumero;
+        temporada.sResumen=sResumen;
     }
 
     modificarCapitulo(sSerie,iNumTemporada,iNumero,iNuevoNumero,sResumen){
@@ -393,78 +359,104 @@ class Upoflix{
         oCapitulo.sResumen=sResumen;
     }
 
-    modificarTemporada(sSerie,iNumTemporada,iNuevoNumero,sResumen){
-        var temporada=this.buscarTemporada(sSerie,iNumTemporada);
-        temporada.iNumTemporada=iNuevoNumero;
-        temporada.sResumen=sResumen;
-    }
-    
-    añadeActor(aActores,actor){
-        for(var i=0;i<aActores.length;i++){
-            if(aActores[i].sNombre==actor.sNombre && aActores[i].sApellido==actor.sApellido){
-                return aActores;
+    bajaProduccion(titulo){
+        for(var i=0; i<this.aProducciones.length;i++){
+            if(this.aProducciones[i].sTitulo==titulo){
+                for(var j=0;j<this.aUsuarios.length;j++){
+                    for(var k=0;k<this.aUsuarios[j].aFavoritos.length;k++){
+                        if(this.aUsuarios[j].aFavoritos[k].sTitulo==titulo){
+                            this.aUsuarios[j].aFavoritos.splice(k,1);
+                        }
+                    }
+                }
+                this.aProducciones.splice(i,1);
+                return true;//producción eliminada
             }
         }
-        return aActores.push(actor);
+        return false;//produccion no encontrada
     }
 
-    añadeDirector(aDirectores,director){
-        for(var i=0;i<aDirectores.length;i++){
-            if(aDirectores[i].sNombre==director.sNombre && aDirectores[i].sApellido==director.sApellido){
-                return aDirectores;
+    bajaUsuario(sUsuario){
+        for(var i=0; i<this.aUsuarios.length;i++){
+            if(this.aUsuarios[i].sUser==sUsuario){
+                this.aUsuarios.splice(i,1);
+                return true;//usuario eliminado
             }
         }
-
-        return aDirectores.push(director);
+        return false;//usuario no encontrado
     }
 
-    
-    buscarSerie(genero,fechaInicio,fechaFin,puntuacion){
-        var aSeries=this.aProducciones.filter(Produccion=>Produccion instanceof Serie);
-        var resultado=[];
-        if(genero!="cualquiera"){
-            resultado=aSeries.filter(Serie=>Serie.sGenero==genero);
+    bajaPersona(nombre,apellido){
+        for(var i=0; i<this.aPersonas.length;i++){
+            if(this.aPersonas[i].sNombre==nombre && this.aPersonas[i].sApellido==apellido){
+                for(var j=0;j<this.aProducciones.length;j++){
+                    for(var k=0;k<this.aProducciones[j].aActores.length;k++){
+                        if(this.aProducciones[j].aActores[k].sNombre==nombre && this.aProducciones[j].aActores[k].sApellido==apellido){
+                            this.aProducciones[j].aActores.splice(k,1);
+                        } 
+                    }
+                    for(var k=0;k<this.aProducciones[j].aDirectores.length;k++){
+                        if(this.aProducciones[j].aDirectores[k].sNombre==nombre && this.aProducciones[j].aDirectores[k].sApellido==apellido){
+                            this.aProducciones[j].aDirectores.splice(k,1);
+                        } 
+                    }
+                }
+                this.aPersonas.splice(i,1);
+                return true;//persona eliminada
+            }
         }
-        else{
-            resultado=aSeries;
-        }
-        if(fechaInicio!=null){
-            resultado=resultado.filter(Serie=>Serie.dFechaInicio.getTime()>=fechaInicio.getTime());
-        }
-        if(fechaFin!=null){
-            resultado=resultado.filter(Serie=>Serie.dFechaFin.getTime()<=fechaFin.getTime());
-        }
-        if(puntuacion>0){
-            resultado=resultado.filter(Serie=>Serie.fNotaMedia>=puntuacion);
-        }
-        return resultado;
-
-        }
-        
-    buscarPelicula(genero,dAñoInicio,dAñoFin,puntuacion){
-        var aPeliculas=this.aProducciones.filter(Produccion=>Produccion instanceof Pelicula);
-        var resultado=[];
-        var añoInicio=0;
-        var añoFin=0;
-        if(dAñoInicio!=null){añoInicio=dAñoInicio.getFullYear();}
-        if(dAñoFin!=null){añoFin=dAñoFin.getFullYear();}
-        
-        if(genero!="cualquiera"){
-            resultado=aPeliculas.filter(Pelicula=>Pelicula.sGenero==genero);
-        }
-        else{
-            resultado=aPeliculas;
-        }
-        if(añoInicio!=0){
-            resultado=resultado.filter(Pelicula=>Pelicula.iAñoEstreno>=añoInicio);
-        }
-        if(añoFin!=0){
-            resultado=resultado.filter(Pelicula=>Pelicula.iAñoEstreno<=añoFin);
-        }
-        if(puntuacion>0){
-            resultado=resultado.filter(Pelicula=>Pelicula.fNotaMedia>=puntuacion);
-        }
-        return resultado;
+        return false;//persona no encontrada
     }
-    
+
+    borrarTemporada(sSerie,iNumTemporada){
+        var oSerie=this.buscarProduccion(sSerie);
+        for(var i=0; i<oSerie.aTemporadas.length;i++){
+            if(oSerie.aTemporadas[i].iNumTemporada==iNumTemporada){
+                oSerie.aTemporadas.splice(i,1);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    borrarCapitulo(sSerie,iNumTemporada,iNumCapitulo){
+        var oTemporada=this.buscarTemporada(sSerie,iNumTemporada);
+        for(var i=0; i<oTemporada.aCapitulos.length;i++){
+            if(oTemporada.aCapitulos[i].iNumCapitulo==iNumCapitulo){
+                oTemporada.aCapitulos.splice(i,1);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    eliminarFavorito(titulo){
+        for(var i=0;i<this.oUsuarioActivo.aFavoritos.length;i++){
+            if(this.oUsuarioActivo.aFavoritos[i].sTitulo==titulo){
+                this.oUsuarioActivo.aFavoritos.splice(i,1);
+                return true;//favorito eliminado
+            }
+        }
+        return false;//favorito no encontrado
+    }
+
+    iniciarSesion(sUsuario,contraseña){
+        var oUsuario=this.buscarUsuario(sUsuario);
+        if(oUsuario==null){
+            return 0;//usuario incorrecto
+        }
+        else{
+            if(oUsuario.sContraseña==contraseña){
+                this.oUsuarioActivo=oUsuario;
+                return 2;//sesion iniciada
+            }
+            else
+                return 1;//contraseña incorrecta
+        }
+    }
+
+    cerrarSesion(){
+        this.oUsuarioActivo=null;
+        return true;//sesion cerrada
+    }
 }

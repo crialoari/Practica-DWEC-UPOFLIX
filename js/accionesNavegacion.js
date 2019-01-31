@@ -68,7 +68,7 @@ function listarPelis(){
 
 function crearAcciones(oProduccion){
 	var oFormulario=document.createElement("form");
-    oFormulario.dataset.produccion=oProduccion.sTitulo.replace(" ", "-");
+    oFormulario.dataset.produccion=oProduccion.sTitulo.replace(/ /g, "-");
 
     var oBoton=document.createElement("INPUT");
     oBoton.type="button";
@@ -121,10 +121,7 @@ function crearAcciones(oProduccion){
 		    oBoton.classList.add("btn-sm");
 		    oBoton.classList.add("btn-outline-dark");
 		    oBoton.value="edit";
-		    /*if(oProduccion instanceof Serie)
-		    	oBoton.addEventListener("click", editarSerie);
-		    else
-		    	oBoton.addEventListener("click", editarPeli);*/
+			oBoton.addEventListener("click", editar);
 		    oFormulario.appendChild(oBoton);
 		}
 	}
@@ -134,7 +131,7 @@ function crearAcciones(oProduccion){
 function eliminarPeli(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	if(oUpoflix.bajaProduccion(sTitulo.replace("-", " "))){
+	if(oUpoflix.bajaProduccion(sTitulo.replace(/-/g, " "))){
 		alert("Película eliminada de recursos.");
 		listarPelis();
 	}else{
@@ -145,7 +142,7 @@ function eliminarPeli(oEvento){
 function eliminarPeliFavNavegacion(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	if(oUpoflix.eliminarFavorito(sTitulo.replace("-", " "))){
+	if(oUpoflix.eliminarFavorito(sTitulo.replace(/-/g, " "))){
 		alert("Película eliminada de favoritos");
 		listarPelis();
 	}else{
@@ -156,7 +153,7 @@ function eliminarPeliFavNavegacion(oEvento){
 function agregarPeliFavNavegacion(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	if(oUpoflix.añadirFavorito(sTitulo.replace("-", " "))){
+	if(oUpoflix.añadirFavorito(sTitulo.replace(/-/g, " "))){
 		alert("Película agregada a favoritos");
 		listarPelis();
 	}else{
@@ -229,7 +226,7 @@ function listarSeries(){
     	oBoton.classList.add("btn-sm");
     	oBoton.classList.add("btn-outline-warning");
     	oBoton.classList.add("mr-1");
-    	oBoton.dataset.produccion=aSeries[i].sTitulo;
+    	oBoton.dataset.produccion=aSeries[i].sTitulo.replace(/ /g,"-");;
     	oBoton.value=aSeries[i].aTemporadas.length;
     	oBoton.addEventListener("click", mostrarTemporadas);
     	oCelda.appendChild(oBoton);
@@ -258,7 +255,7 @@ function listarSeries(){
 function eliminarSerie(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	if(oUpoflix.bajaProduccion(sTitulo.replace("-", " "))){
+	if(oUpoflix.bajaProduccion(sTitulo.replace(/-/g, " "))){
 		alert("Serie eliminada de recursos.");
 		listarSeries();
 	}else{
@@ -269,7 +266,7 @@ function eliminarSerie(oEvento){
 function eliminarSerieFavNavegacion(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	if(oUpoflix.eliminarFavorito(sTitulo.replace("-", " "))){
+	if(oUpoflix.eliminarFavorito(sTitulo.replace(/-/g, " "))){
 		alert("Serie eliminada de favoritos");
 		listarSeries();
 	}else{
@@ -280,7 +277,7 @@ function eliminarSerieFavNavegacion(oEvento){
 function agregarSerieFavNavegacion(oEvento){
 	var oE = oEvento || window.event;
 	var sTitulo=oE.target.parentElement.dataset.produccion;
-	if(oUpoflix.añadirFavorito(sTitulo.replace("-", " "))){
+	if(oUpoflix.añadirFavorito(sTitulo.replace(/-/g, " "))){
 		alert("Serie agregada a favoritos");
 		listarSeries();
 	}else{
@@ -307,8 +304,10 @@ function buscar(){
 	var frmFormulario=document.querySelector("#frmABuscador");
 	var sTipo=document.querySelector("#frmABuscador input:checked").value;
 	var sGenero=frmFormulario.selectGenero.value;
-	var dFechaInicio=(frmFormulario.busqfechaInicio.value=="" ? null : new Date(frmFormulario.busqfechaInicio.value));
-	var dFechaFin=(frmFormulario.busqfechaFin.value=="" ? null : new Date(frmFormulario.busqfechaFin.value));
+	var sDate=Date.parse(frmFormulario.busqfechaInicio.value);
+	var dFechaInicio=(isNaN(sDate) ? null : new Date(sDate));
+	sDate=Date.parse(frmFormulario.busqfechaFin.value);
+	var dFechaFin=(isNaN(sDate) ? null : new Date(sDate));
 	var iPuntuacion=(frmFormulario.txtPuntuacionMinima.value=="" ? 0 : parseInt(frmFormulario.txtPuntuacionMinima.value, 10));
 
 	switch (sTipo) {
@@ -368,6 +367,9 @@ function mostrarResultados(aProducciones){
     oCelda = document.createElement("TH");
     oCelda.textContent = "Año";
     oFila.appendChild(oCelda);
+    oCelda = document.createElement("TH");
+    oCelda.textContent = "Acciones";
+    oFila.appendChild(oCelda);
     // TBODY
     var oTBody = document.createElement("TBODY");
     oTabla.appendChild(oTBody);
@@ -383,11 +385,64 @@ function mostrarResultados(aProducciones){
     	oCelda = oFila.insertCell(-1);
     	oCelda.appendChild(crearPuntuacion(aProducciones[i]));
     	oCelda = oFila.insertCell(-1);
-    	oCelda.textContent = (aProducciones[i] instanceof Serie ? aProducciones[i].dFechaInicio.getFullYear() : oUpoflix.aProducciones[i].iAñoEstreno);;
-    	//oCelda = oFila.insertCell(-1);
-    	//oCelda.appendChild(crearAcciones(aProducciones[i]));
+    	oCelda.textContent = (aProducciones[i] instanceof Serie ? aProducciones[i].dFechaInicio.getFullYear()+"-"+aProducciones[i].dFechaFin.getFullYear() : aProducciones[i].iAñoEstreno);
+    	oCelda = oFila.insertCell(-1);
+    	oCelda.appendChild(crearAccionesBusqueda(aProducciones[i]));
     }
 	return oTabla;
+}
+
+function crearAccionesBusqueda(oProduccion){
+var oFormulario=document.createElement("form");
+    oFormulario.dataset.produccion=oProduccion.sTitulo.replace(/ /g, "-");
+   
+    if(oUpoflix.oUsuarioActivo!=null){
+		var oBoton=document.createElement("INPUT");
+	    oBoton.type="button";
+	    oBoton.classList.add("btn");
+	    oBoton.classList.add("btn-sm");
+	    var aFavs=oUpoflix.oUsuarioActivo.aFavoritos.filter(Produccion => Produccion==oProduccion);
+	    if(aFavs.length>0){
+	    	oBoton.classList.add("btn-danger");
+	    	if(oProduccion instanceof Serie)
+		    	oBoton.addEventListener("click", eliminarSerieFavNavegacion);
+		    else
+		    	oBoton.addEventListener("click", eliminarPeliFavNavegacion);
+	    }else{
+			oBoton.classList.add("btn-outline-danger");
+	    	if(oProduccion instanceof Serie)
+		    	oBoton.addEventListener("click", agregarSerieFavNavegacion);
+		    else
+		    	oBoton.addEventListener("click", agregarPeliFavNavegacion);
+	    }
+	    oBoton.classList.add("mr-1");
+	    oBoton.value="❤";
+	    oFormulario.appendChild(oBoton);
+	    if(oUpoflix.oUsuarioActivo.sRol=="admin"){
+			oBoton=document.createElement("INPUT");
+		    oBoton.type="button";
+		    oBoton.classList.add("btn");
+		    oBoton.classList.add("btn-sm");
+		    oBoton.classList.add("btn-outline-dark");
+		    oBoton.classList.add("mr-1");
+		    oBoton.value="X";
+		    if(oProduccion instanceof Serie)
+		    	oBoton.addEventListener("click", eliminarSerie);
+		    else
+		    	oBoton.addEventListener("click", eliminarPeli);
+		    oFormulario.appendChild(oBoton);
+
+			oBoton=document.createElement("INPUT");
+		    oBoton.type="button";
+		    oBoton.classList.add("btn");
+		    oBoton.classList.add("btn-sm");
+		    oBoton.classList.add("btn-outline-dark");
+		    oBoton.value="edit";
+			oBoton.addEventListener("click", editar);
+		    oFormulario.appendChild(oBoton);
+		}
+	}
+    return oFormulario;
 }
 
 function getSelectGenero(){

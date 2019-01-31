@@ -1,221 +1,3 @@
-function añadirRecurso(){
-	document.querySelector("#capaAddProduccion").classList.remove("d-none");	
-	document.querySelector("#radioAddPeli").addEventListener("click", tipoProduccion);
-	document.querySelector("#radioAddSerie").addEventListener("click",tipoProduccion);
-	document.querySelector("input[name=btnActorNuevo]").addEventListener("click",añadirPersonaNuevaActor);
-	document.querySelector("input[name=btnActorExistente]").addEventListener("click",añadirPersonaExistenteActor);
-	document.querySelector("input[name=btnDirectorNuevo]").addEventListener("click",añadirPersonaNuevaDirector);
-	document.querySelector("input[name=btnDirectorExistente]").addEventListener("click",añadirPersonaExistenteDirector);
-	document.querySelector("#capaAddProducion input[name=btnAñadir]").addEventListener("click",añadirProduccion);
-	document.querySelector("#genero").appendChild(getSelectGenero());
-}
-function tipoProduccion(){
-	if(document.getElementById("radioAddSerie").checked){
-        document.getElementById("datosSeries").classList.remove("d-none");
-        document.getElementById("datosPelis").classList.add("d-none");
-    }
-    else{
-        document.getElementById("datosPelis").classList.remove("d-none");
-        document.getElementById("datosSeries").classList.add("d-none");
-    }
-}
-
-function añadirPersonaNuevaActor(){
-	//crear capa
-	var oCapa=document.createElement("div");
-	oCapa.classList.add("nuevo-actor");
-	//crear formulario
-	var oCapaFormulario=document.createElement("div");
-	oCapaFormulario.classList.add("form-group");
-	oCapaFormulario.classList.add("row");
-	//crear columna
-	var oCapaColumna=document.createElement("div");
-	oCapaColumna.classList.add("col-5");
-	//crear input
-	var oInput=document.createElement("input");
-	oInput.setAttribute("type","text");
-	oInput.classList.add("form-control");
-	oInput.classList.add("form-control-sm");
-	oInput.setAttribute("maxlength","20");
-	//input nombre
-	oInput.setAttribute("name","txtNombre");
-	oInput.setAttribute("id","txtNombre");
-	oInput.setAttribute("placeholder","Nombre");
-	oCapaColumna.appendChild(oInput);
-	oCapaFormulario.appendChild(oCapaColumna);
-	//input apellido
-	oCapaColumna=document.createElement("div");
-	oCapaColumna.classList.add("col-5");
-	oInput=document.createElement("input");
-	oInput.setAttribute("type","text");
-	oInput.classList.add("form-control");
-	oInput.classList.add("form-control-sm");
-	oInput.setAttribute("maxlength","20");
-	oInput.setAttribute("name","txtApellido");
-	oInput.setAttribute("id","txtApellido");
-	oInput.setAttribute("placeholder","Apellido");
-	oCapaColumna.appendChild(oInput);
-	oCapaFormulario.appendChild(oCapaColumna);
-	//boton
-	oCapaColumna=document.createElement("div");
-	oCapaColumna.classList.add("col");
-	var oBoton=document.createElement("input");
-	oBoton.setAttribute("type","button");
-	oBoton.setAttribute("name","btnBorrarActorNuevo");
-	oBoton.setAttribute("value","x");
-	oBoton.classList.add("btn");
-	oBoton.classList.add("btn-danger");
-	oBoton.classList.add("btn-sm");
-	oBoton.addEventListener("click",eliminarCapa);//evento boton
-	oCapaColumna.appendChild(oBoton);
-	oCapaFormulario.appendChild(oCapaColumna);
-	
-	
-	//introducir todo
-	oCapa.appendChild(oCapaFormulario);
-	document.getElementById("capaActores").appendChild(oCapa);
-}
-function añadirPersonaNuevaDirector(){
-	//crear capa
-	var oCapa=document.createElement("div");
-	oCapa.classList.add("nuevo-director");
-	//crear formulario
-	var oCapaFormulario=document.createElement("div");
-	oCapaFormulario.classList.add("form-group");
-	oCapaFormulario.classList.add("row");
-	//crear columna
-	var oCapaColumna=document.createElement("div");
-	oCapaColumna.classList.add("col-5");
-	//crear input
-	var oInput=document.createElement("input");
-	oInput.setAttribute("type","text");
-	oInput.classList.add("form-control");
-	oInput.classList.add("form-control-sm");
-	oInput.setAttribute("maxlength","20");
-	//input nombre
-	oInput.setAttribute("name","txtNombre");
-	oInput.setAttribute("id","txtNombre");
-	oInput.setAttribute("placeholder","Nombre");
-	oCapaColumna.appendChild(oInput);
-	oCapaFormulario.appendChild(oCapaColumna);
-	//input apellido
-	oCapaColumna=document.createElement("div");
-	oCapaColumna.classList.add("col-5");
-	oInput=document.createElement("input");
-	oInput.setAttribute("type","text");
-	oInput.classList.add("form-control");
-	oInput.classList.add("form-control-sm");
-	oInput.setAttribute("maxlength","20");
-	oInput.setAttribute("name","txtApellido");
-	oInput.setAttribute("id","txtApellido");
-	oInput.setAttribute("placeholder","Apellido");
-	oCapaColumna.appendChild(oInput);
-	oCapaFormulario.appendChild(oCapaColumna);
-	//boton
-	oCapaColumna=document.createElement("div");
-	oCapaColumna.classList.add("col");
-	var oBoton=document.createElement("input");
-	oBoton.setAttribute("type","button");
-	oBoton.setAttribute("name","btnBorrarDirectorNuevo");
-	oBoton.setAttribute("value","x");
-	oBoton.classList.add("btn");
-	oBoton.classList.add("btn-danger");
-	oBoton.classList.add("btn-sm");
-	oBoton.addEventListener("click",eliminarCapa);//evento boton
-	oCapaColumna.appendChild(oBoton);
-	oCapaFormulario.appendChild(oCapaColumna);
-
-	//introducir todo
-	oCapa.appendChild(oCapaFormulario);
-	document.getElementById("capaDirectores").appendChild(oCapa);
-}
-
-function añadirPersonaExistenteActor(){
-	var oCapa=document.createElement("div");
-	oCapa.classList.add("elegir-actor");
-	var oCapaFormulario=document.createElement("div");
-	oCapaFormulario.classList.add("form-group");
-	oCapaFormulario.classList.add("row");
-	var oColumna=document.createElement("div");
-	oColumna.classList.add("col-10");
-	oColumna.appendChild(getSelectPersona());
-	oCapaFormulario.appendChild(oColumna);
-	oColumna=document.createElement("div");
-	oColumna.classList.add("col");
-	var oBoton=document.createElement("input");
-	oBoton.setAttribute("type","button");
-	oBoton.setAttribute("name","btnBorrarActorExistente");
-	oBoton.setAttribute("value","x");
-	oBoton.classList.add("btn");
-	oBoton.classList.add("btn-danger");
-	oBoton.classList.add("btn-sm");
-	oBoton.addEventListener("click",eliminarCapa);
-	oColumna.appendChild(oBoton);
-	oCapaFormulario.appendChild(oColumna);
-	oCapa.appendChild(oCapaFormulario);
-	document.getElementById("capaActores").appendChild(oCapa);
-
-}
-function añadirPersonaExistenteDirector(){
-	var oCapa=document.createElement("div");
-	oCapa.classList.add("elegir-director");
-	var oCapaFormulario=document.createElement("div");
-	oCapaFormulario.classList.add("form-group");
-	oCapaFormulario.classList.add("row");
-	var oColumna=document.createElement("div");
-	oColumna.classList.add("col-10");
-	oColumna.appendChild(getSelectPersona());
-	oCapaFormulario.appendChild(oColumna);
-	oColumna=document.createElement("div");
-	oColumna.classList.add("col");
-	var oBoton=document.createElement("input");
-	oBoton.setAttribute("type","button");
-	oBoton.setAttribute("name","btnBorrarDirectorExistente");
-	oBoton.setAttribute("value","x");
-	oBoton.classList.add("btn");
-	oBoton.classList.add("btn-danger");
-	oBoton.classList.add("btn-sm");
-	oBoton.addEventListener("click",eliminarCapa);
-	oColumna.appendChild(oBoton);
-	oCapaFormulario.appendChild(oColumna);
-	oCapa.appendChild(oCapaFormulario);
-	document.getElementById("capaDirectores").appendChild(oCapa);
-
-}
-
-function eliminarCapa(oEvento){
-	var oE=oEvento || window.event;
-	var div=oE.target.parentElement.parentElement.parentElement;
-
-	if(div !== null){
-        while (div.hasChildNodes()){
-            div.removeChild(div.lastChild);
-		}
-		div.remove();
-	}
-
-}
-
-function getSelectPersona(){
-	var aPersonas=oUpoflix.aPersonas;
-	var oSelect=document.createElement("select");
-	oSelect.classList.add("custom-select");
-	oSelect.classList.add("custom-select-sm");
-	oSelect.name="selectPersona";
-	var oOption=document.createElement("option");
-	oOption.value="cualquiera";
-	oOption.textContent="Todos las personas";
-	oSelect.appendChild(oOption);
-	for(var i=0;i<aPersonas.length;i++){
-		oOption=document.createElement("option");
-		oOption.value=aPersonas[i];
-		oOption.textContent=aPersonas[i];
-		oSelect.appendChild(oOption);
-	}
-	return oSelect;
-}
-
-
 function editarTemporadas(){
 	var event = new Event('change');
 	var oColumnaDatos=document.createElement("div");
@@ -279,7 +61,7 @@ function getSelectSeries(aSeries){
 	oSelect.name="selectSerie";
 	for(var i=0;i<aSeries.length;i++){
 		var oOption=document.createElement("option");
-		oOption.value=aSeries[i].sTitulo.replace(" ","-");
+		oOption.value=aSeries[i].sTitulo.replace(/ /g, "-");
 		oOption.textContent=aSeries[i].sTitulo;
 		oSelect.appendChild(oOption);
 	}
@@ -406,7 +188,7 @@ function modificarTemporada(){
 	var oFormulario=document.querySelector("#frmEditarTemporadas");
 	oFormulario.txtNumeroT.classList.remove("bg-warning");
 	oFormulario.txtResumenT.classList.remove("bg-warning");
-	var sSerie=oFormulario.selectSerie.value.replace("-", " ");
+	var sSerie=oFormulario.selectSerie.value.replace(/-/g, " ");
 	var iNumTemporada=parseInt(oFormulario.selectTemporada.value, 10);
 	var iNuevoNumT=parseInt(oFormulario.txtNumeroT.value,10);
 	var sResumen=oFormulario.txtResumenT.value;
@@ -460,7 +242,7 @@ function añadirTemporada(){
 	var oFormulario=document.querySelector("#frmEditarTemporadas");
 	oFormulario.txtNumeroT.classList.remove("bg-warning");
 	oFormulario.txtResumenT.classList.remove("bg-warning");
-	var sSerie=oFormulario.selectSerie.value.replace("-", " ");
+	var sSerie=oFormulario.selectSerie.value.replace(/-/g, " ");
 	var iNumT=parseInt(oFormulario.txtNumeroT.value,10);
 	var sResumen=oFormulario.txtResumenT.value;
 	var bValido=true;
@@ -492,7 +274,7 @@ function añadirTemporada(){
 function crearSelectCapitulos(oEvento){
 	//llenar select
 	var oE = oEvento || window.event;
-	var sSerie=oE.target.dataset.serie.replace("-"," ");
+	var sSerie=oE.target.dataset.serie.replace(/-/g, " ");
 	var iNumTemporada=parseInt(oE.target.value, 10);
 	var oTemporada=oUpoflix.buscarTemporada(sSerie,iNumTemporada);
 	var oCapaSelectCaptitulo=document.querySelector("#capaSelectCapitulo");
@@ -537,7 +319,7 @@ function crearSelectCapitulos(oEvento){
 
 function cambiarDatosCapitulos(oEvento){
 	var oE = oEvento || window.event;
-	var sSerie=oE.target.dataset.serie.replace("-"," ");
+	var sSerie=oE.target.dataset.serie.replace(/-/g, " ");
 	var iNumTemporada=parseInt(oE.target.dataset.temporada, 10);
 	var iNumCapitulo=parseInt(oE.target.value,10);
 	var oCapitulo=oUpoflix.buscarCapitulo(sSerie,iNumTemporada,iNumCapitulo);
@@ -628,7 +410,7 @@ function modificarCapitulo(){
 	var oFormulario=document.querySelector("#frmEditarTemporadas");
 	oFormulario.txtNumeroC.classList.remove("bg-warning");
 	oFormulario.txtResumenC.classList.remove("bg-warning");
-	var sSerie=oFormulario.selectSerie.value.replace("-", " ");
+	var sSerie=oFormulario.selectSerie.value.replace(/-/g, " ");
 	var iNumTemporada=parseInt(oFormulario.selectTemporada.value, 10);
 	var iNumC=parseInt(oFormulario.selectCapitulo.value, 10);
 	var iNuevoNumC=parseInt(oFormulario.txtNumeroC.value,10);
@@ -684,7 +466,7 @@ function añadirCapitulo(){
 	var oFormulario=document.querySelector("#frmEditarTemporadas");
 	oFormulario.txtNumeroC.classList.remove("bg-warning");
 	oFormulario.txtResumenC.classList.remove("bg-warning");
-	var sSerie=oFormulario.selectSerie.value.replace("-", " ");
+	var sSerie=oFormulario.selectSerie.value.replace(/-/g, " ");
 	var iNumTemporada=parseInt(oFormulario.selectTemporada.value,10);
 	var iNumC=parseInt(oFormulario.txtNumeroC.value,10);
 	var sResumen=oFormulario.txtResumenC.value;
@@ -802,7 +584,6 @@ function añadirPersonaDesdeElenco(oEvento){
 	}
 }
 
-
 function editarElenco(){
 	var oColumnaDatos=document.createElement("div");
 	oColumnaDatos.classList.add("col-8");
@@ -822,8 +603,8 @@ function editarElenco(){
 		capaPersona.classList.add("col");
 		var oFormulario=document.createElement("form");
     	oFormulario.classList.add="frmDatosPersona";
-    	oFormulario.dataset.nombre=aElenco[i].sNombre.replace(" ", "-");
-		oFormulario.dataset.apellido=aElenco[i].sApellido.replace(" ", "-");
+    	oFormulario.dataset.nombre=aElenco[i].sNombre.replace(/ /g, "-");
+		oFormulario.dataset.apellido=aElenco[i].sApellido.replace(/ /g, "-");
 		var capaFrm = document.createElement("div");
 		capaFrm.classList.add("form-group");
 		
@@ -927,8 +708,8 @@ function añadirFormularioAltaPersona(){
 function eliminarPersona(oEvento){
 	var oE = oEvento || window.event;
 	var oFormularioPadre=oE.target.parentElement.parentElement;
-	var sNombre=oFormularioPadre.dataset.nombre.replace("-", " ");
-	var sApellido=oFormularioPadre.dataset.apellido.replace("-", " ");
+	var sNombre=oFormularioPadre.dataset.nombre.replace(/-/g, " ");
+	var sApellido=oFormularioPadre.dataset.apellido.replace(/-/g, " ");
 	if(oUpoflix.bajaPersona(sNombre,sApellido)){
 		alert("Persona borrada.");
 		mostrarEditarElenco();
@@ -976,8 +757,8 @@ function aceptarEditarPersona(oEvento){
 	if(!bValido){
 		alert("Por favor rellena todos los campos");	
 	}else{
-		var sNombre=oFormularioPadre.dataset.nombre.replace("-", " ");
-		var sApellido=oFormularioPadre.dataset.apellido.replace("-", " ");
+		var sNombre=oFormularioPadre.dataset.nombre.replace(/-/g, " ");
+		var sApellido=oFormularioPadre.dataset.apellido.replace(/-/g, " ");
 		
 		var oPersona=oUpoflix.buscarPersona(sNombre,sApellido);
 		if(oPersona==null){
