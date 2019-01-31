@@ -280,7 +280,7 @@ function crearCapaMasDatos(oProduccion){
     oCapaDatos.appendChild(oLista);
 
 	var oAnio=document.createElement("p");
-	oAnio.textContent=(oProduccion instanceof Serie ? oProduccion.dFechaInicio.getFullYear() : oProduccion.iAñoEstreno);
+	oAnio.textContent=(oProduccion instanceof Serie ? oProduccion.dFechaInicio.getFullYear()+"-"+oProduccion.dFechaFin.getFullYear() : oProduccion.iAñoEstreno);
 	oCapaDatos.appendChild(oAnio);
 	return oCapaDatos;
 }

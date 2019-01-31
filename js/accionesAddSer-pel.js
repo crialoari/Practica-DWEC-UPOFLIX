@@ -20,13 +20,15 @@ function añadirProduccion(){
     var sErrores="";
 	//validar url
 	var sUrlCartel=oFormulario.txtAddCartel.value.trim();
-    var oExpReg=/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/;
-    if(!oExpReg.test(sUrlCartel)){
-        bValido=false;
-        oFormulario.txtAddCartel.classList.add("bg-warning")
-        oFormulario.txtAddCartel.focus();
-        sErrores+="-El cartel debe ser una url de imagen correcta.";
-    }
+	if(sUrlCartel!=""){
+	    var oExpReg=/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/;
+	    if(!oExpReg.test(sUrlCartel)){
+	        bValido=false;
+	        oFormulario.txtAddCartel.classList.add("bg-warning")
+	        oFormulario.txtAddCartel.focus();
+	        sErrores+="-El cartel debe ser una url de imagen correcta.";
+	    }
+	}
 	//validar titulo
 	var sTitulo=oFormulario.txtAddTitulo.value.trim();
     if(sTitulo==""){
@@ -127,7 +129,7 @@ function añadirProduccion(){
 	//si es serie
 	if(document.getElementById("radioAddSerie").checked){
 		var sDate=Date.parse(oFormulario.fechaInicioAdd.value);
-		var fechaInicio=new Date(Date.parse(oFormulario.fechaInicioAdd.value));
+		var fechaInicio=new Date(sDate);
     	if(isNaN(sDate)){
 	        oFormulario.fechaInicioAdd.classList.add("bg-warning");
 	        if(bValido){
@@ -137,7 +139,7 @@ function añadirProduccion(){
 	        sErrores+="\n-La fecha de inicio no es correcta.";
     	}
 		sDate=Date.parse(oFormulario.fechaFinAdd.value);
-		var fechaFin=new Date(Date.parse(oFormulario.fechaFinAdd.value));
+		var fechaFin=new Date(sDate);
     	if(isNaN(sDate)){
 	        oFormulario.fechaFinAdd.classList.add("bg-warning");
 	        if(bValido){
@@ -146,6 +148,16 @@ function añadirProduccion(){
 	        }
 	        sErrores+="\n-La fecha de fin no es correcta.";
     	}
+		//comparar fechas
+		if(fechaInicio.getTime()>fechaFin.getTime()){
+			oFormulario.fechaInicioAdd.classList.add("bg-warning");
+			oFormulario.fechaFinAdd.classList.add("bg-warning");
+			if(bValido){
+	            oFormulario.fechaFinAdd.focus();
+	            bValido=false;
+	        }
+	        sErrores+="\n-La fecha de fin no debe ser posterior a la de fin.";
+		}
     }
     else{
         //es una pelicula
@@ -425,4 +437,10 @@ function getSelectAddGenero(){
 		oSelect.appendChild(oOption);
 	}
 	return oSelect;
+}
+
+function añadirPerNoRep(aArray,oPersona){
+    var array=aArray.filter(Persona=>Persona.sNombre==oPersona.sNombre && Persona.sApellido==oPersona.sApellido);
+    if(array.length==0)
+	aArray.push(oPersona);
 }

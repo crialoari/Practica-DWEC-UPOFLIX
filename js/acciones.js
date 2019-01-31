@@ -143,7 +143,7 @@ function mostrarBuscar(){
 	//mostrar capa
     document.querySelector("#capaBusqueda>div").classList.remove("d-none");
     document.querySelector("#capaBusqueda input[type=button]").addEventListener("click", buscar);
-    document.querySelector("#txtPuntuacionMinima"),addEventListener("keypress", soloPuntuacion);
+    document.querySelector("input#txtPuntuacionMinima").addEventListener("keypress", soloPuntuacion);
 }
 
 function mostrarAñadirRecurso(){
